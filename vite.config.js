@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     envPrefix: 'LSA_APPS_',
-    base: env.LSA_APPS_ADMIN_BASE,
+    base: env.LSA_APPS_REGISTRATION_BASE,
     resolve: {
       alias: {
         '@': fileURLToPath(new URL('./src', import.meta.url))
