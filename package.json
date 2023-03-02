@@ -1,10 +1,11 @@
 {
-  "name": "lsa-calculator-registration",
+  "name": "lsa-registration",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "node app.js",
     "build": "vite build",
     "preview": "vite preview",
     "cypress": "npx cypress open"
