@@ -5,10 +5,15 @@
  * MIT Licensed
  */
 
-require('dotenv').config();
-const winston = require('winston');
+// init env variables
+import dotenv from 'dotenv';
+dotenv.config();
 
-const logger = winston.createLogger({
+import winston from 'winston';
+
+export default null;
+
+export const logger = winston.createLogger({
     level: 'info',
     format: winston.format.json(),
     defaultMeta: { service: 'user-service' },
@@ -34,9 +39,7 @@ if (process.env.NODE_ENV !== 'production') {
     }));
 }
 
-exports.logger = logger;
-
-exports.requestLogger = function (req, res, next) {
+export const requestLogger = function (req, res, next) {
     const d = new Date();
     logger.info(`[${process.env.NODE_ENV}] - ${req.originalUrl} - ${req.method} - ${req.ip}`, d);
     next();

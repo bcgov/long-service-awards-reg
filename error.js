@@ -8,7 +8,9 @@
 'use strict';
 
 // global logger
-const {logger} = require('./logger');
+import {logger} from './logger.js';
+
+export default null;
 
 // error codes/messages
 const errors = {
@@ -199,7 +201,7 @@ function decodeError(err = null) {
  * @param next
  */
 
-exports.globalHandler = function (err, req, res, next) {
+export const globalHandler = function (err, req, res, next) {
   const e = decodeError(err);
   // send response
   res.status(e.status).json(
@@ -225,7 +227,7 @@ exports.globalHandler = function (err, req, res, next) {
  * @param res
  */
 
-exports.notFoundHandler = function (req, res) {
+export const notFoundHandler = function (req, res) {
   res.status(404).json(
       {
         view: 'notFound',

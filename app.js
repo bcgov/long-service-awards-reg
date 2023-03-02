@@ -7,14 +7,22 @@
 
 'use strict';
 
-const express = require('express');
-const history = require('connect-history-api-fallback');
-const path = require('path');
-const cors = require('cors');
-const {notFoundHandler, globalHandler} = require('./error');
-const cookieParser = require('cookie-parser');
-const {requestLogger} = require('./logger');
-require('dotenv').config();
+import express from 'express';
+import history from 'connect-history-api-fallback';
+import path from 'path';
+import cors from 'cors';
+import {notFoundHandler, globalHandler} from './error.js';
+import cookieParser from 'cookie-parser';
+import {requestLogger} from './logger.js';
+
+// replace __dirname for E6
+import { dirname } from 'path';
+import { fileURLToPath } from 'url';
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// init env variables
+import dotenv from 'dotenv';
+dotenv.config()
 
 /**
  * Express Security Middleware
@@ -37,8 +45,8 @@ require('dotenv').config();
 // initialization settings
 const nodeENV = process.env.NODE_ENV;
 const baseURL = process.env.LSA_APPS_BASE_URL;
-const appPort = process.env.LSA_APPS_ADMIN_PORT || 3000;
 const apiURL = process.env.LSA_APPS_API_URL;
+const appPort = process.env.LSA_APPS_REGISTRATION_PORT || 5173;
 const appURL = process.env.LSA_APPS_REGISTRATION_URL;
 
 // configure CORS allowed hostnames
@@ -99,4 +107,4 @@ app.listen(appPort, () => {
 });
 
 // expose application
-exports.app = app;
+export default app;
