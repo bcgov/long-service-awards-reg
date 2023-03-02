@@ -1,0 +1,31 @@
+{
+  "user1": {
+    "guid": "123456789ABCDEFGHIJKLMNOPQRSTU01",
+    "idir": "01testuser",
+    "email": "01test@test.gov.bc.ca"
+  },
+
+  "user2": {
+    "guid": "123456789ABCDEFGHIJKLMNOPQRSTU02",
+    "idir": "02testuser",
+    "email": "02test@test.gov.bc.ca"
+  },
+
+  "user3": {
+    "guid": "123456789ABCDEFGHIJKLMNOPQRSTU03",
+    "idir": "03testuser",
+    "email": "03test@test.gov.bc.ca"
+  },
+
+  "user4": {
+    "guid": "123456789ABCDEFGHIJKLMNOPQRSTU04",
+    "idir": "04testuser",
+    "email": "04test@test.gov.bc.ca"
+  },
+
+  "user5": {
+    "guid": "123456789ABCDEFGHIJKLMNOPQRSTU05",
+    "idir": "05testuserinactive",
+    "email": "05testinactive@test.gov.bc.ca"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "employee_number": 203948,
+  "idir": "TEST_USER",
+  "guid": "TESTGUID",
+  "user": null,
+  "branch": "some branch",
+  "organization": 1,
+  "retirement_date": "2023-01-30T21:58:00.089Z",
+  "bcgeu": false,
+  "confirmed": false,
+  "ceremony_opt_out": false,
+  "survey_participation": true,
+  "notes": "",
+  "contact": {
+    "first_name": "testapifirst_name",
+    "last_name": "testlast_name",
+    "office_email": "testemail@gov.bc.ca",
+    "office_phone": "(604) 525-2525",
+    "office_address": {
+      "pobox": "",
+      "street1": "",
+      "street2": "",
+      "postal_code": "",
+      "community": "",
+      "province": "",
+      "country": ""
+    },
+    "personal_email": "testemail@outlook.com",
+    "personal_phone": "(604) 777-7777",
+    "personal_address": {
+      "pobox": "",
+      "street1": "",
+      "street2": "",
+      "postal_code": "",
+      "community": "",
+      "province": "",
+      "country": ""
+    }
+  },
+  "supervisor": {
+    "first_name": "testapifirst_name",
+    "last_name": "testlast_name",
+    "office_email": "testemail@gov.bc.ca",
+    "office_phone": "(604) 525-2525",
+    "office_address": {
+      "pobox": "",
+      "street1": "",
+      "street2": "",
+      "postal_code": "",
+      "community": "",
+      "province": "",
+      "country": ""
+    }
+  },
+  "awards": [
+    {
+      "award": {
+        "id": 13,
+        "type": "bracelet",
+        "milestone": 35,
+        "label": "Sterling silver bracelet",
+        "description": "This sterling silver bracelet is handcrafted by B.C. artists Nancy Dawson and Vincent Henson of Silver Eagles Design Studio, in Alert Bay. It comes in a box with, \"In recognition of thirty five years of service\"",
+        "image_url": "wp-content/uploads/2022/03/bracelet-compass.jpg",
+        "award_options": [
+          {
+            "type": "sizes",
+            "name": "size-a",
+            "value": "size-a",
+            "customizable": false,
+            "label": "Size A",
+            "description": "Fits 6 1/2\" - 7 1/2\""
+          }
+        ]
+      },
+      "milestone": 35,
+      "qualifying_year": 2023
+    }
+  ],
+  "service_pins": [
+    {
+      "milestone": 35,
+      "qualifying_year": 2023
+    }
+  ]
+}

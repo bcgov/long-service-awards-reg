@@ -1,0 +1,11 @@
+{
+  "basic": {
+    "personal-first_name": "testapifirst_name",
+    "personal-last_name": "testlast_name",
+    "personal-governmentemail": "testemail@test.com",
+    "personal-governmentphone": "(604) 525-2525",
+    "personal-employeenumber": "2138adse12",
+    "personal-ministryorganization": "org-10",
+    "personal-branch": "testbranch"
+  }
+}

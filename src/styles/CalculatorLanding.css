@@ -1,0 +1,10 @@
+.calculator-splash {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.p-button {
+    width: fit-content;
+    align-self: center;
+}

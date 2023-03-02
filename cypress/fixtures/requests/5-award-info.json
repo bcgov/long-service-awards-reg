@@ -1,0 +1,15 @@
+{
+  "award": {
+    "awardID": "1001",
+    "awarddescription": "A magnificent painting of a Whale Tail",
+    "awardname": "Whale Tail Painting",
+    "awardoptions": [
+      {
+        "inscription": "testing",
+        "paintingtype": "oil",
+        "whaletype": "orca",
+        "paintingtools": ["fork", "brush", "spoon"]
+      }
+    ]
+  }
+}

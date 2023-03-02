@@ -1,0 +1,62 @@
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+.service-calculator-component {
+    text-align: left;
+    border: 1px solid #5e1d3d;
+    border-radius: 2px;
+    background: #FFFFFF;
+    padding: .5rem;
+    margin: .5rem;
+}
+
+.service-calculator-header {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    justify-content: space-between;
+}
+
+.service-calculator-fields {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.year-calculation-column {
+    width: fit-content;
+}
+
+.service-calculator-component ul li:first-child .service-calculator-delete-column {
+    width: 118.083px; 
+}
+
+.service-calculator-delete-column {
+    align-self:center;
+}
+
+.total-years-counter {
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    justify-content: center;
+    font-size: x-large;
+}
+
+.add-service-row-button {
+    display: flex;
+    justify-content: center;
+}
+
+.service-calculator-reset{
+    display: flex;
+    justify-content: flex-end;
+}
+
+.years-of-service-calculator-final {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}

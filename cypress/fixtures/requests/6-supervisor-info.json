@@ -1,0 +1,12 @@
+{
+  "supervisor": {
+    "supervisor-first_name": "testingSuperFirst",
+    "supervisor-last_name": "testingSuperLast",
+    "supervisor-governmentemail": "superemail@test.com",
+    "supervisorstreetaddress": "123 Fake Street",
+    "supervisorstreetaddress2": "Apartment 2",
+    "supervisorcitycommunity": "Victoria",
+    "supervisorpostalcode": "V8T0R2",
+    "supervisorpobox": "98563"
+  }
+}

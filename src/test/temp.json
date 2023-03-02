@@ -1,0 +1,74 @@
+{
+  "employee_number": 495857,
+  "confirmed": false,
+  "organization": "org-10",
+  "branch": "testbranch",
+  "retirement_date": 1683702000000,
+  "retiring_current_year": true,
+  "bcgeu": true,
+  "ceremony_opt_out": true,
+  "survey_participation": false,
+  "contact": {
+    "first_name": "testapifirst_name",
+    "last_name": "testlast_name",
+    "office_email": "testemail@test.com",
+    "office_phone": "(604) 525-2525",
+    "personal_email": "personalEmail@test.com",
+    "personal_phone": "(778) 525-2525",
+    "office_address": {
+      "pobox": "",
+      "street1": "855 Broadview Avenue",
+      "street2": "",
+      "postal_code": "M4K 2P9",
+      "community": "Toronto",
+      "province": "Ontario",
+      "country": "Canada"
+    },
+    "personal_address": {
+      "pobox": "",
+      "street1": "785 East El Camino Real",
+      "street2": "",
+      "postal_code": "94086-2919",
+      "community": "Sunnyvale",
+      "province": "California",
+      "country": "United States"
+    }
+  },
+  "supervisor": {
+    "first_name": "testingSuperFirst",
+    "last_name": "testingSuperLast",
+    "office_email": "superemail@test.com",
+    "office_address": {
+      "pobox": "98563",
+      "street1": "123 Fake Street",
+      "street2": "Apartment 2",
+      "postal_code": "V8T0R2",
+      "community": "Victoria"
+    }
+  },
+  "awards": [
+    {
+      "award": {
+        "id": 1001,
+        "label": "Whale Tail Painting",
+        "description": "A magnificent painting of a Whale Tail",
+        "image_url": "wp-content/uploads/2022/03/bracelet-compass.jpg",
+        "award_options": [
+          {
+            "inscription": "testing",
+            "paintingtype": "oil",
+            "whaletype": "orca",
+            "paintingtools": ["fork", "brush", "spoon"]
+          }
+        ]
+      },
+      "milestone": 35,
+      "qualifying_year": 2023
+    }
+  ],
+
+  "milestone": 25,
+  "prior_milestones": [20, 15],
+  "qualifying_year": 2023,
+  "service_years": 25
+}

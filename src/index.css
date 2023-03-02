@@ -1,0 +1,106 @@
+:root {
+  font-family: Noto Sans, Helvetica, Arial, sans-serif !important;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0 !important
+}
+
+.content {
+  margin: 3px;
+  padding: 1em;
+}
+
+.form-field-container {
+  flex-direction: column;
+  display: flex;
+  text-align: start;
+}
+
+.radio-toggle .p-button {
+  background: #FFFFFF !important;
+  border: 1px solid #4e555b !important;
+  color: #4e555b !important;
+}
+
+.radio-toggle .p-button.p-highlight {
+  background: #4e555b !important;
+  border-color: #4e555b !important;
+  color: #ffffff !important;
+}
+
+.error {
+  color: #B91C1C;
+  padding: 1px;
+  margin: 1px;
+}
+
+
+.p-toast {
+  position: fixed;
+  top:50vh !important;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999 !important;
+  margin: auto;
+  height: fit-content;
+  width: fit-content;
+}
+
+.p-toast-top-right {
+  --toast-indent: 20px;
+  top: 5vh !important;
+}
+
+/* Autocomplete input */
+.p-autocomplete-input {
+  width: 100%;
+}
+
+/* Progress spinner overlay */
+.overlay {
+  position: fixed;
+  z-index: 9999;
+  height: 8em;
+  width: 8em;
+  overflow: visible;
+  margin: auto;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: transparent;
+}
+
+.p-card {
+  border: none;
+}
+
+.page-header .p-card-title {
+  font-size: 2em !important;
+}
+
+.step-incomplete, .step-completed .p-steps-title {
+  font-weight: bold;
+}
+.step-incomplete .p-steps-number {
+  font-weight: bold;
+}
+.step-completed, .step-completed .p-steps-title {
+  font-weight: bold;
+}
+.step-completed .p-steps-number {
+  background-color: forestgreen!important;
+  color: white !important;
+  font-weight: bold;
+}

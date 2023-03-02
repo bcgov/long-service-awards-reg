@@ -1,0 +1,8 @@
+{
+  "message": { "msg": "Login successful!", "type": "success" },
+  "user": {
+    "guid": "123456789ABCDEFGHIJKLMNOPQRSTU01",
+    "idir": "01testuser",
+    "email": "01test@gov.bc.ca"
+  }
+}
