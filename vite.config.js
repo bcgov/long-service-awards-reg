@@ -10,17 +10,6 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), 'LSA_APPS_');
   console.log('ENV Vars:', env)
 
-  // const htmlPlugin = () => {
-  //   return {
-  //     name: "html-transform",
-  //     transformIndexHtml(html) {
-  //       return html.replace(/%(.*?)%/g, function (match) {
-  //         return env[match.slice(1, -1)];
-  //       });
-  //     },
-  //   };
-  // };
-
   return {
     envPrefix: 'LSA_APPS_',
     base: env.LSA_APPS_ADMIN_BASE,
