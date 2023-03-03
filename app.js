@@ -46,7 +46,7 @@ dotenv.config()
 const nodeENV = process.env.NODE_ENV;
 const baseURL = process.env.LSA_APPS_BASE_URL;
 const apiURL = process.env.LSA_APPS_API_URL;
-const appPort = process.env.LSA_APPS_REGISTRATION_PORT || 5173;
+const appPort = process.env.LSA_APPS_REGISTRATION_PORT || 3000;
 const appURL = process.env.LSA_APPS_REGISTRATION_URL;
 
 // configure CORS allowed hostnames
