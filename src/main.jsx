@@ -59,7 +59,7 @@ const router = createBrowserRouter([
       },
     ],
   },
-]);
+],{ basename: import.meta.env.LSA_APPS_REGISTRATION_BASE });
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
