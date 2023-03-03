@@ -36,7 +36,7 @@ export default function EngravingInput({award, control, setValue }) {
         // get options for selected award
         const { id, options } = award || {};
         // get engraving size options for item
-        const engravingSizes = (options || []).filter(({type}) => type === 'engraving');
+        const engravingSizes = (options || []).filter(({award, type}) => type === 'engraving' && award === id);
         const selectedEngravingOption = (engravingSizes || [])
             .find(({name}) => name === currentItemSize);
         // select the corresponding engraving size for selected item size
@@ -50,6 +50,7 @@ export default function EngravingInput({award, control, setValue }) {
                 && selectedEngravingOption
                 && selectedEngravingOption.type === 'engraving'
                 && selectedEngravingOption.id === award_option.id
+                && selectedEngravingOption.value === award_option.value
             ) || {};
         // set current message to custom value
         setValue('engraving', custom_value);

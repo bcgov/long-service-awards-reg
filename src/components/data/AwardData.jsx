@@ -40,19 +40,28 @@ export default function AwardData() {
                                             const {award_option} = selection || {};
                                             return award_option.id === id;
                                         }) || {};
-                                    const {value, label} = award_option || {};
+                                    const {value, label, type, description} = award_option || {};
                                     return <div className={'grid'} key={`award-option-${id}`}>
-                                        <div className={'col-6'}>{label}</div>
                                         {
-                                            pecsf_charity && <div className={'col-6'}>
-                                                {pecsf_charity.label} ({pecsf_charity.region})</div>
+                                            pecsf_charity && <>
+                                                <div className={'col-6'}>{label}</div>
+                                                    <div className={'col-6'}>
+                                                        {pecsf_charity.label} ({pecsf_charity.region})
+                                                    </div>
+                                                </>
                                         }
                                         {
-                                            !pecsf_charity && !customizable && <div className={'col-6'}>{value}</div>
+                                            !pecsf_charity && !customizable && <>
+                                                <div className={'col-6'}>{label}</div>
+                                                <div className={'col-6'}>{description}</div>
+
+                                            </>
                                         }
                                         {
-                                            !pecsf_charity && customizable &&
-                                            <div className={'col-6'}>{custom_value}</div>
+                                            !pecsf_charity && customizable && <>
+                                                <div className={'col-6'}>{description}</div>
+                                                <div className={'col-6'}>{custom_value}</div>
+                                            </>
                                         }
                                     </div>
                                 })
