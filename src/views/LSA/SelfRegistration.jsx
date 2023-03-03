@@ -23,23 +23,27 @@ import {Button} from "primereact/button";
 export default function SelfRegistration() {
   const toast = useContext(ToastContext);
   const navigate = useNavigate();
-  const {step, setCompleted, confirmed, setConfirmed, registration, setRegistration} = useContext(RegistrationContext);
-  const {setLoading} = useContext(LoadingContext);
+  const {
+    step, setCompleted, confirmed, setConfirmed, registration, setRegistration
+  } = useContext(RegistrationContext);
+  const {loading, setLoading} = useContext(LoadingContext);
 
   // get the registration steps template schema
   const steps = formServices.get("registration_steps");
 
-  // check if registration is completed / confirmed
-  useEffect(()=>{
-    const { service } = registration || {};
+  // set form status
+  const _setStatus = (data) => {
+    // set form status
+    const { service } = data || {};
     const { confirmed } = service || {};
-    console.log(registration)
+    // form confirmation status
     setConfirmed(confirmed);
+    // form completion status: validate every step except confirmation
     setCompleted(steps
         .filter(step => step.key !== 'confirmation')
-        .every(step => step.validate(registration))
+        .every(step => step.validate(data))
     );
-  }, [registration]);
+  }
 
   // create new registration
   const _handleCreateRegistration = async () => {
@@ -48,11 +52,11 @@ export default function SelfRegistration() {
       toast.current.show(formServices.lookup("messages", "create"));
       const [error, result] = await createSelfRegistration();
       toast.current.replace(formServices.lookup("messages", error || !result ? "createError" : "createSuccess"));
-      if (!error && result) {
-        setRegistration(result);
-        // navigate to initial registration step
-        navigate("/register/milestone");
-      }
+      if (!error && result) setRegistration(result);
+      _setStatus(result)
+      // navigate to initial registration step
+      // navigate("/register/milestone");
+      // }
     } catch (error) {
       toast.current.replace(formServices.lookup("messages", "saveError"));
     } finally {
@@ -64,9 +68,17 @@ export default function SelfRegistration() {
   const _handleSaveRegistration = async (data) => {
     try {
       setLoading(true);
+      const {service} = data || {};
+      const {confirmed} = service || {};
       const [error, result] = await saveSelfRegistration(data);
       toast.current.replace(formServices.lookup("messages", error || !result ? "saveError" : "saveSuccess"));
-      if (!error && result) setRegistration(result);
+      if (!error && result) {
+        setRegistration(result);
+        _setStatus(result)
+        // show confirmation message if registration completed
+        if (confirmed)
+          toast.current.replace(formServices.lookup("messages", "confirmRegistration"));
+      }
       return result;
     } catch (error) {
       toast.current.replace(formServices.lookup("messages", "saveError"));
@@ -78,16 +90,13 @@ export default function SelfRegistration() {
   // Initialize registration form
   useEffect(() => {
     // check for existing registration
-    getSelfRegistration().then(data => {
+    getSelfRegistration().then((data) => {
       // create new registration if none exists
-      if (!data) _handleCreateRegistration().catch(console.error);
-      // check if registration is completed
-      setCompleted(steps.every(step => step.validate(registration)));
+      if (!data && !loading) _handleCreateRegistration().catch(console.error)
     }).catch(err => {
       console.error(err)
       toast.current.replace(formServices.lookup("messages", "createError"));
     })
-
   }, []);
 
   //redirects to confirmation page if registration is confirmed
@@ -98,7 +107,10 @@ export default function SelfRegistration() {
   // overlay template for blocked form panels
   const BlockUITemplate = () => {
     return <div>
-      <Button onClick={()=>{navigate("/register/confirmation")}} icon={'pi pi-lock'} label={'Go To Confirmation Step'}/>
+      <Button
+          onClick={()=>{navigate("/register/confirmation")}}
+          icon={'pi pi-lock'}
+          label={'View Submitted Registration'}/>
     </div>
   }
 
@@ -108,7 +120,7 @@ export default function SelfRegistration() {
     {
         confirmed && step && step.key !== "confirmation" && <InfoRegistrationStatus/>
     }
-    <BlockUI blocked={confirmed} template={BlockUITemplate}>
+    <BlockUI blocked={confirmed && step && step.key !== "confirmation"} template={BlockUITemplate}>
       <Outlet context={[_handleSaveRegistration]}/>
     </BlockUI>
   </>

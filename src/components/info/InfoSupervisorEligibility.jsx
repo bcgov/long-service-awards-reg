@@ -5,7 +5,7 @@
  * MIT Licensed
  */
 
-import AppPanel from "@/components/common/AppPanel.jsx";
+import {Panel} from "primereact/panel";
 
 /**
  * Info Panel: Supervisor Eligibility
@@ -13,7 +13,7 @@ import AppPanel from "@/components/common/AppPanel.jsx";
  */
 
 export default function InfoSupervisorEligibility() {
-  return <AppPanel header="Supervisors: Employee Eligibility and Registration" toggleable collapsed={true}>
+  return <Panel header="Supervisors: Employee Eligibility and Registration" toggleable collapsed={true}>
       <div className="information-only-panel">
           <p>
               Supervisors may use this tool to calculate their employee’s
@@ -30,5 +30,5 @@ export default function InfoSupervisorEligibility() {
               and Award Selection.
           </p>
       </div>
-  </AppPanel>
+  </Panel>
 }

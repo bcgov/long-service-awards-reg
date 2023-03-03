@@ -14,7 +14,7 @@ export default defineConfig(({ mode }) => {
     envPrefix: 'LSA_APPS_',
     base: env.LSA_APPS_REGISTRATION_BASE,
     server: {
-      port: 3000
+      port: env.LSA_APPS_REGISTRATION_PORT || 3000
     },
     resolve: {
       alias: {

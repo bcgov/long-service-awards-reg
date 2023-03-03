@@ -26,8 +26,8 @@ import {removeNull} from "@/services/validation.services.js";
 
 export default function FormStep({previous=null, current, next=null, children}) {
 
-    const navigate = useNavigate();
     // get context / hooks
+    const navigate = useNavigate();
     const { loading } = useContext(LoadingContext);
     const [saveRegistration] = useOutletContext();
     const { setStep, confirmed, registration } = useContext(RegistrationContext);
@@ -90,14 +90,14 @@ export default function FormStep({previous=null, current, next=null, children}) 
             : <Button
                 onClick={()=>{navigate(previous.route)}}
                 icon={'pi pi-lock'}
-                label={'Complete the Previous Step'}
+                label={'Form Locked'}
             />
     }
 
     return <FormProvider {...methods}>
         <form>
             <BlockUI
-                blocked={!loading && (confirmed || !previousComplete)}
+                blocked={(next && confirmed) || loading || !previousComplete}
                 template={<BlockUITemplate />}
             >
                 {children}

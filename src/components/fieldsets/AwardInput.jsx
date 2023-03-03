@@ -76,9 +76,9 @@ export default function AwardInput() {
         setValue('service.id', currentServiceID);
         setValue('service.awards.award', selectedAward);
         setValue('service.awards.selections', selectedOptions);
+        deselectAward();
         await saveRegistration(getValues());
         toast.current.show(formServices.lookup("messages", "confirmAward"));
-        deselectAward();
     };
 
     /**
@@ -213,7 +213,7 @@ export default function AwardInput() {
      * */
 
     const gridItem = (item) => {
-        return <div className="col-12 sm:col-6 lg:col-12 xl:col-4 p-2">
+        return <div className="col-12 sm:col-6 lg:col-4 xl:col-4 p-2">
             <div className="p-4 border-1 surface-border surface-card border-round">
                 <div className="flex flex-wrap align-items-center justify-content-between gap-2">
                     <div className="flex align-items-center gap-2">
@@ -296,7 +296,6 @@ export default function AwardInput() {
                     maximizable
                     modal
                     style={{ minWidth: "fit-content", width: "50vw" }}
-                    breakpoints={{ "960px": "75vw" }}
                 >
                     <AwardOptionsInput
                         regControl={control}

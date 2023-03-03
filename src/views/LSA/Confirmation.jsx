@@ -14,13 +14,13 @@ import {BlockUI} from "primereact/blockui";
 import {Button} from "primereact/button";
 import {useNavigate} from "react-router-dom";
 import {Message} from "primereact/message";
-import MilestoneData from "@/components/display/MilestoneData";
+import MilestoneData from "@/components/data/MilestoneData";
 import {Panel} from "primereact/panel";
-import FormData from "@/components/display/FormData.jsx";
-import ProfileData from "@/components/display/ProfileData.jsx";
-import ContactData from "@/components/display/ContactData";
-import AwardData from "@/components/display/AwardData.jsx";
-import SupervisorData from "@/components/display/SupervisorData";
+import FormData from "@/components/data/FormData.jsx";
+import ProfileData from "@/components/data/ProfileData.jsx";
+import ContactData from "@/components/data/ContactData";
+import AwardData from "@/components/data/AwardData.jsx";
+import SupervisorData from "@/components/data/SupervisorData";
 
 /**
  * Recipient Profile form.

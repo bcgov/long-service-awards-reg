@@ -39,8 +39,6 @@ export default function PecsfInput({control, setValue }) {
     useEffect( () => {
         const currentAward = getValues('service.awards');
         const { selections, award } = currentAward || {};
-        console.log(selections)
-
         const { id } = award || {};
         // filter selections by current award selection
         return (selections || [])
@@ -48,7 +46,7 @@ export default function PecsfInput({control, setValue }) {
             .forEach(({award_option, pecsf_charity}) => {
             const {name} = award_option || {};
             // if charities are selected, update states and PECSF form data
-            if (name.includes('pecsf-charity')) {
+            if (pecsf_charity) {
                 // set PECSF donation type to non-pool
                 setPool(false);
                 setValue('donation', 'charities')
@@ -159,6 +157,7 @@ export default function PecsfInput({control, setValue }) {
                                     id={field.name}
                                     inputId={field.name}
                                     value={field.value}
+                                    filter
                                     onChange={(e) => {
                                         setSelectedRegion1(e.target.value)
                                         field.onChange(e.target.value)
@@ -189,6 +188,7 @@ export default function PecsfInput({control, setValue }) {
                                     id={field.name}
                                     inputId={field.name}
                                     value={field.value || ''}
+                                    filter
                                     onChange={(e) => field.onChange(e.target.value)}
                                     aria-describedby={`pecsf-charity-1-options-help`}
                                     options={filteredCharities1}
@@ -216,6 +216,7 @@ export default function PecsfInput({control, setValue }) {
                                     id={field.name}
                                     inputId={field.name}
                                     value={field.value}
+                                    filter
                                     onChange={(e) => {
                                         setSelectedRegion2(e.target.value)
                                         field.onChange(e.target.value)
@@ -245,6 +246,7 @@ export default function PecsfInput({control, setValue }) {
                                     id={field.name}
                                     inputId={field.name}
                                     value={field.value || ''}
+                                    filter
                                     onChange={(e) => field.onChange(e.target.value)}
                                     aria-describedby={`pecsf-charity-2-options-help`}
                                     options={filteredCharities2}

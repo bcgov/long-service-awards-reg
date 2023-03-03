@@ -6,7 +6,7 @@
  */
 
 import {useContext, useEffect, useState} from "react";
-import ServiceCalculator from "../calculator/ServiceCalculator.jsx";
+import ServiceCalculator from "../common/ServiceCalculator.jsx";
 import {Controller, useFormContext} from "react-hook-form";
 import { Dropdown } from "primereact/dropdown";
 import { InputNumber } from "primereact/inputnumber";
@@ -20,7 +20,7 @@ import {getMilestones, getQualifyingYears} from "@/services/api.routes.js";
 /**
  * Milestones reusable component.
  * @param {object} props
- * @returns {React.JSX.Element} years of service, current milestone, qualifying year, prior milestones
+ * @returns {JSX.Element} years of service, current milestone, qualifying year, prior milestones
  */
 
 export default function MilestoneInput({ threshold=25 }) {
