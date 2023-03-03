@@ -5,26 +5,22 @@
  * MIT Licensed
  */
 
-import { useContext, useRef } from "react";
+import { useRef } from "react";
 import { useNavigate } from "react-router";
-import AppButton from "@/components/common/AppButton.jsx";
-import AppPanel from "@/components/common/AppPanel.jsx";
 import PageHeader from "@/components/common/PageHeader.jsx";
-import ServiceCalculator from "@/components/calculator/ServiceCalculator.jsx";
-import "@/styles/CalculatorPersonal.css";
-import {CalculatorContext} from "@/AppContext.js";
+import ServiceCalculator from "@/components/common/ServiceCalculator.jsx";
 import InfoEligibility from "@/components/info/InfoEligibility.jsx";
 import InfoCalculateService from "@/components/info/InfoCalculateService.jsx";
+import {Panel} from "primereact/panel";
 
 /**
  * Self CalculatorSelector Page. Allows individuals to calculate eligibility.
  * Carries forward eligibility calculation into application if they choose to apply.
  */
 
-export default function CalculatorSelf() {
+export default function SelfServicePins() {
 
   // service data context
-  const { eligible } = useContext(CalculatorContext);
   const threshold = 5;
   const messageRef = useRef(null);
 
@@ -45,18 +41,18 @@ export default function CalculatorSelf() {
     <>
       <InfoEligibility />
       <InfoCalculateService />
-      <AppPanel fullwidth header={<PageHeader title="Years of Service" singleLine gradient3 />}>
+      <Panel fullwidth header={<PageHeader title="Years of Service" singleLine gradient3 />}>
         <ServiceCalculator formSubmit={isEligible} threshold={threshold} />
-      </AppPanel>
+      </Panel>
         <div ref={messageRef}>
             {
                 eligible &&
-                  <AppPanel fullwidth header={<PageHeader title="Congratulations" singleLine gradient3 />}>
+                  <Panel fullwidth header={<PageHeader title="Congratulations" singleLine gradient3 />}>
                   Based on the input in the calculator above, you may be eligible for
                   registration for recognition under the Service Pin program. You can
                   continue registration by clicking on “Register” below.{" "}
-                  <AppButton onClick={startRegistration}>Register</AppButton>
-                </AppPanel>
+                  <Button onClick={startRegistration}>Register</Button>
+                </Panel>
             }
         </div>
     </>

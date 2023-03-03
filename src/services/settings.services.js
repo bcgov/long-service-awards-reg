@@ -271,6 +271,15 @@ const schemaData = {
       },
     },
     {
+      value: "delete",
+      text: {
+        severity: "success",
+        summary: "Registration Deleted",
+        detail: "Registration was removed.",
+        life: 3000
+      },
+    },
+    {
       value: "createSuccess",
       text: {
         severity: "success",
@@ -326,6 +335,15 @@ const schemaData = {
         severity: "success",
         summary: "Award Selected!",
         detail: "Award options confirmed.",
+        life: 3000
+      },
+    },
+    {
+      value: "confirmRegistration",
+      text: {
+        severity: "info",
+        summary: "Registration Complete",
+        detail: "Thank you we have received your registration.",
         life: 3000
       },
     },

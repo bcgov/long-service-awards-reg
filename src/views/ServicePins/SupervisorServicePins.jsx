@@ -9,8 +9,6 @@ import React, {useState, useContext, useEffect} from "react";
 import {useForm, FormProvider, useFormContext, useFieldArray} from "react-hook-form";
 import { RegistrationContext, ToastContext } from "@/AppContext.js";
 import formServices from "@/services/settings.services.js";
-import AppButton from "@/components/common/AppButton.jsx";
-import AppPanel from "@/components/common/AppPanel.jsx";
 import InfoToolTip from "@/components/common/InfoToolTip.jsx";
 import DataDisplay from "@/components/common/DataDisplay.jsx";
 import AddressInput from "@/components/fieldsets/AddressInput.jsx";
@@ -22,12 +20,14 @@ import SupervisorContactInput from "@/components/fieldsets/SupervisorContactInpu
 import ProfileInput from "@/components/fieldsets/ProfileInput.jsx";
 import MilestoneInput from "@/components/fieldsets/MilestoneInput.jsx";
 import {confirmPopup, ConfirmPopup} from "primereact/confirmpopup";
+import {Panel} from "primereact/panel";
+import {Button} from "primereact/button";
 
 /**
  * Delegated Calculator Page. Allows users to submit delegated applications for LSA/Service Pin registration.
  */
 
-export default function SupervisorRegistration() {
+export default function SupervisorServicePins() {
   const { setRegistration } = useContext(RegistrationContext);
 
   // const defaultValues = {
@@ -217,13 +217,13 @@ export default function SupervisorRegistration() {
         <InfoSupervisorRegistrations />
         <FormProvider {...methods}>
           <form onSubmit={methods.handleSubmit(confirm)}>
-            <AppPanel header="Supervisor Contact Details">
+            <Panel header="Supervisor Contact Details">
               <SupervisorContactInput panelName="supervisor" errors={errors} />
-            </AppPanel>
-            <AppPanel header="Supervisor Address">
+            </Panel>
+            <Panel header="Supervisor Address">
               <AddressInput pobox addressIdentifier="office" errors={errors} contactType="supervisor"/>
-            </AppPanel>
-            <AppPanel
+            </Panel>
+            <Panel
                 header={
                 <span>
                   Register Employees
@@ -240,12 +240,12 @@ export default function SupervisorRegistration() {
                     fields?.map((item, index) => {
                       return (
                           <li key={item.id}>
-                            <AppPanel
+                            <Panel
                                 header={
                                   <div className="employee-header-bar">
                                     <span className="employee-header-text">Employee {index + 1}</span>
                                     {index !== 0 ? (
-                                        <AppButton
+                                        <Button
                                             className="employee-add-delete-button"
                                             passClass="p-button-raised p-button-rounded"
                                             icon="pi pi-times-circle"
@@ -255,20 +255,20 @@ export default function SupervisorRegistration() {
                                               setEmployeeCount((state) => state - 1);
                                               remove(index);
                                             }}
-                                        ></AppButton>
+                                        ></Button>
                                     ) : null}
                                   </div>
                                 }
                             >
                               <ProfileInput itemNumber={index + 1} errors={errors} />
                               <MilestoneInput itemNumber={index + 1} errors={errors} />
-                            </AppPanel>
+                            </Panel>
                           </li>
                       );
                     })}
                 </ul>
                 <div className="employee-list-options">
-                  <AppButton
+                  <Button
                       info
                       disabled={employeeCount >= 5}
                       onClick={(e) => {
@@ -288,15 +288,15 @@ export default function SupervisorRegistration() {
                       }}
                   >
                     Add Employee
-                  </AppButton>
+                  </Button>
                   <ConfirmPopup />
-                  <AppButton danger onClick={(e) => { e.preventDefault(); confirmReset(e) }}>
+                  <Button danger onClick={(e) => { e.preventDefault(); confirmReset(e) }}>
                     Reset Form
-                  </AppButton>
+                  </Button>
                 </div>
               </>
-              <AppButton type="submit" onClick={ handleSubmit(confirm) }>Confirm Submission</AppButton>
-            </AppPanel>
+              <Button type="submit" onClick={ handleSubmit(confirm) }>Confirm Submission</Button>
+            </Panel>
           </form>
         </FormProvider>
 

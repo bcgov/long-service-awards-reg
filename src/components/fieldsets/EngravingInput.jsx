@@ -22,7 +22,6 @@ export default function EngravingInput({award, control, setValue }) {
 
     // initialize engraving local states
     const [engravingOption, setEngravingOption] = useState(null);
-    const [currentMessage, setCurrentMessage] = useState('');
 
     // monitor item size
     const currentItemSize = useWatch({control, name: "sizes"});
@@ -38,38 +37,28 @@ export default function EngravingInput({award, control, setValue }) {
         const { id, options } = award || {};
         // get engraving size options for item
         const engravingSizes = (options || []).filter(({type}) => type === 'engraving');
-        const selectedEngravingOption = (engravingSizes || []).find(({name}) => name === currentItemSize);
+        const selectedEngravingOption = (engravingSizes || [])
+            .find(({name}) => name === currentItemSize);
         // select the corresponding engraving size for selected item size
         // - engraving option name is the key for the item size
         setEngravingOption(selectedEngravingOption);
         // filter selections by current award selection and engraving type
-        return (selections || [])
-            .filter(({award_option}) =>
+        // - engraving option is selected by item size
+        const {custom_value} = (selections || [])
+            .find(({award_option}) =>
                 award_option.award === id
                 && selectedEngravingOption
-                && selectedEngravingOption.name === 'engraving'
-            )
-            .forEach(({award_option}) => {
-                console.log(award_option)
-
-            });
+                && selectedEngravingOption.type === 'engraving'
+                && selectedEngravingOption.id === award_option.id
+            ) || {};
+        // set current message to custom value
+        setValue('engraving', custom_value);
     }, [currentItemSize]);
-
-
-    /**
-     * Set engraving size based on item size
-     * */
-
-    useEffect(() => {
-
-    }, []);
-
 
     return <>
         <h4>Engraving</h4>
         <label htmlFor={'engraving'}>{ '' }</label>
         <Controller
-            defaultValue={''}
             name={'engraving'}
             control={control}
             render={({ field, fieldState: {invalid, error} }) => (

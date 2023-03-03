@@ -70,7 +70,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
             .filter(({type, name, value, customizable}) => {
                 // filter available options by selected ones
                 return (selectedOptions.hasOwnProperty(type) && customizable )
-                (selectedOptions.hasOwnProperty(type) && selectedOptions[type] === value)
+                    || (selectedOptions.hasOwnProperty(type) && selectedOptions[type] === value)
                     || (type === 'pecsf-charity' && selectedOptions.hasOwnProperty(name))
                     || (type === 'pecsf-certificate' && selectedOptions.hasOwnProperty(name))
             })
@@ -81,11 +81,13 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
                     award_option: option,
                     custom_value: customizable && selectedOptions[name]
                         ? selectedOptions[name]
-                        : value,
+                        : type === 'engraving' && selectedOptions.hasOwnProperty('engraving')
+                            ? selectedOptions['engraving']
+                            : value,
                     pecsf_charity: type === 'pecsf-charity' ? selectedOptions[name] : null
                 }
             });
-        console.log('OPTIONS:', selectedOptions, filteredOptions)
+        // confirm award option updates
         confirm(filteredOptions);
     }
 
@@ -93,7 +95,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
      * Check if option has existing value in registration form context
      * */
 
-    const getCurrentValue = (field) => {
+    const getCurrentValue = (field, key) => {
         // get current award ID
         const currentAward = getValues('service.awards.award') || {};
         // get option selections
@@ -102,8 +104,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
         // filter award option selections to match award option schema
         const {custom_value, award_option} = (award && award.id) === (currentAward && currentAward.id)
         && selections.find(({award_option}) => {
-            const {name} = award_option || {};
-            return name === field;
+            return award_option.hasOwnProperty(key) && field === award_option[key];
         }) || {};
         const {customizable} = award_option || {};
         return customizable ? custom_value : award_option && award_option.value;
@@ -131,7 +132,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
     const OptionInputTemplate = () => {
         const templates = {
             textInput: (option) => {
-                const currentMessage = getCurrentValue(option.name);
+                const currentMessage = getCurrentValue(option.name, 'name');
                 return <>
                     <h4>{option.label}</h4>
                     {currentMessage && <p style={{fontWeight: 'bold'}}>Current Message: "{currentMessage}" </p>}
@@ -168,7 +169,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
                             {award && award.label}: {options[0].type.toUpperCase()}
                         </label>
                         <Controller
-                            defaultValue={getCurrentValue(options[0].type)}
+                            defaultValue={getCurrentValue(options[0].type, 'type')}
                             name={options[0].type}
                             control={control}
                             rules={{

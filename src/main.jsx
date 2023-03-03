@@ -18,17 +18,18 @@ import "primereact/resources/themes/bootstrap4-light-blue/theme.css";
 import Error from "./views/Error.jsx";
 
 // Load view components
-import CalculatorSelector from "./views/Calculator/CalculatorSelector.jsx";
-import CalculatorSelf from "./components/calculator/CalculatorSelf.jsx";
-// import SupervisorRegistration from "./views/ServicePins/SupervisorRegistration.jsx";
+import ServicePins from "./views/ServicePins/ServicePins.jsx";
+import SelfServicePins from "./views/ServicePins/SelfServicePins.jsx";
+import SupervisorServicePins from "./views/ServicePins/SupervisorServicePins.jsx";
 import Home from "./views/Home.jsx";
-import Profile from "./views/SelfRegistration/Profile.jsx";
-import Milestone from "./views/SelfRegistration/Milestone.jsx";
-import Contact from "./views/SelfRegistration/Contact.jsx";
-import Award from "./views/SelfRegistration/Award";
-import Supervisor from "./views/SelfRegistration/Supervisor";
-import Confirmation from "./views/SelfRegistration/Confirmation";
-import SelfRegistration from "./views/SelfRegistration/SelfRegistration.jsx";
+import Profile from "./views/LSA/Profile.jsx";
+import Milestone from "./views/LSA/Milestone.jsx";
+import Contact from "./views/LSA/Contact.jsx";
+import Award from "./views/LSA/Award";
+import Supervisor from "./views/LSA/Supervisor";
+import Confirmation from "./views/LSA/Confirmation";
+import SelfRegistration from "./views/LSA/SelfRegistration.jsx";
+
 
 const router = createBrowserRouter([
   {
@@ -38,12 +39,12 @@ const router = createBrowserRouter([
     children: [
       { index: true, element: <Home /> },
       {
-        path: "calculate",
-        element: <CalculatorSelector />,
+        path: "service-pins",
+        element: <ServicePins />,
         children: [
-          { path: "supervisor", element: <SelfRegistration /> },
-          { path: "self", element: <CalculatorSelf /> },
-        ],
+          { path: "supervisor", element: <SupervisorServicePins /> },
+          { path: "self", element: <SelfServicePins /> },
+        ]
       },
       {
         path: "register",

@@ -1,13 +1,15 @@
 /*!
- * Submit Button Wrapper component
+ * Submit Form Button component
  * File: SubmitStep.js
  * Copyright(c) 2023 BC Gov
  * MIT Licensed
  */
 
 import { Button } from "primereact/button";
-import {useFormContext} from "react-hook-form";
+import {useFormContext, useWatch} from "react-hook-form";
 import {Panel} from "primereact/panel";
+import {useContext} from "react";
+import {RegistrationContext} from "@/AppContext.js";
 
 /**
  * common button component to submit registration step
@@ -16,13 +18,17 @@ import {Panel} from "primereact/panel";
  */
 
 export default function FormSubmit({submit, save, disabled, confirmation=false}) {
-    const { formState: {errors} } = useFormContext();
+    const { formState: {errors}, control } = useFormContext();
+    const { completed, confirmed } = useContext(RegistrationContext);
+    const confirmSelected = useWatch({control, name: 'service.confirmed'});
     const header = confirmation
         ? "Submit Your Award Registration"
         : "Save Current Form / Continue to Next Step";
+
     const icon = confirmation
         ? 'pi pi-upload'
         : 'pi pi-save';
+
     return <Panel icons={<i className={icon} />} header={header}>
         <div className="container m-3">
             {
@@ -38,9 +44,9 @@ export default function FormSubmit({submit, save, disabled, confirmation=false})
                                 icon={'p-arrow-right'}
                                 type="submit"
                                 onClick={submit}
-                                disabled={disabled}
+                                disabled={!confirmSelected || !completed || confirmed}
                             >
-                                Submit Registration
+                                {confirmed ? 'Registration Submitted' : 'Submit Registration'}
                             </Button>
                         </div>
                         :<>

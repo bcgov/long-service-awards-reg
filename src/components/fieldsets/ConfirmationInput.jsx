@@ -8,6 +8,8 @@
 import { Controller, useFormContext } from "react-hook-form";
 import {Checkbox} from "primereact/checkbox";
 import {Panel} from "primereact/panel";
+import {useContext} from "react";
+import {RegistrationContext} from "@/AppContext.js";
 
 /**
  * Registration confirmation input component.
@@ -18,6 +20,7 @@ export default function ConfirmationInput() {
 
   // set local states
   const { control } = useFormContext();
+  const { confirmed } = useContext(RegistrationContext);
 
   return <Panel className={'mb-3'} header={'Declaration'}>
     <div className="container">
@@ -46,6 +49,7 @@ export default function ConfirmationInput() {
                           id={field.name}
                           inputId={'registration-confirmation'}
                           checked={field.value || false}
+                          disabled={confirmed}
                           aria-describedby={`service-confirmation-help`}
                           value={field.value || false}
                           onChange={(e) => {
@@ -72,6 +76,7 @@ export default function ConfirmationInput() {
                       <Checkbox
                           id={field.name}
                           inputId={'survey_opt-in'}
+                          disabled={confirmed}
                           checked={field.value || false}
                           aria-describedby={`survey_opt-in-help`}
                           value={field.value || false}
