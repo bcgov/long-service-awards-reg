@@ -46,13 +46,13 @@ const schemaData = {
           service_years: "",
           milestone: "",
           qualifying_year: "",
-          ceremony_opt_out: false,
-          confirmed: false
+          confirmed: false,
+          previous_registration: false,
+          previous_award: false
         },
         bcgeu: false,
         retirement: false,
         retirement_date: null,
-        previous_registration: false,
         prior_milestones: [],
       },
       validate: (data) => {
@@ -158,6 +158,7 @@ const schemaData = {
       service_pin: false,
       default: {
         service: {
+          ceremony_opt_out: false,
           awards: {
             award: {
               id: "",
@@ -380,9 +381,27 @@ export default {
     return found.length > 0 ? found[0].text : null;
   },
 
+  /**
+   * Capialize string
+   * @param value
+   * @return {string|null}
+   */
   capitalize: function capitalize(value) {
     const capitalizedValue =
         value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
     return value !== "undefined" ? capitalizedValue : null;
   },
+
+  /**
+   * Sort array of objects alphanumerically
+   */
+
+  sort: function sort(arr, field) {
+      return arr.sort((a, b) => {
+        if (a.hasOwnProperty(field) && b.hasOwnProperty(field)) {
+          return a[field] < b[field] ? -1 : 1;
+        }
+        return 0;
+      })
+    }
 };

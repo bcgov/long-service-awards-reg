@@ -13,7 +13,6 @@ import ConfirmationInput from "@/components/fieldsets/ConfirmationInput";
 import {BlockUI} from "primereact/blockui";
 import {Button} from "primereact/button";
 import {useNavigate} from "react-router-dom";
-import {Message} from "primereact/message";
 import MilestoneData from "@/components/data/MilestoneData";
 import {Panel} from "primereact/panel";
 import FormData from "@/components/data/FormData.jsx";
@@ -32,6 +31,9 @@ export default function Confirmation() {
   const { loading } = useContext(LoadingContext);
   const { completed } = useContext(RegistrationContext);
   const navigate = useNavigate();
+  const { registration } = useContext(RegistrationContext);
+  const {service} = registration || {};
+  const { previous_registration } = service || {};
 
   // get form step schema / default values
   const previous = formServices.copy('registration_steps', 'supervisor');
@@ -39,15 +41,18 @@ export default function Confirmation() {
 
   // block confirmation fieldset if form is incomplete
   return <FormStep previous={previous} current={current}>
-    <Panel className={'mb-3'} header={'Confirm Registration Details'}>
-      <FormData id={'milestone'}><MilestoneData /></FormData>
-      <FormData id={'profile'}><ProfileData /></FormData>
-      <FormData id={'contact'}><ContactData /></FormData>
-      <FormData id={'awards'}><AwardData /></FormData>
-      <FormData id={'supervisor'}><SupervisorData /></FormData>
-    </Panel>
     {
-        !completed && <Message className={'mb-3 w-full'} severity="warn" text="Registration is incomplete"/>
+      completed && <Panel className={'mb-3'} header={'Confirm Registration Details'}>
+        <FormData id={'milestone'}><MilestoneData/></FormData>
+        <FormData id={'profile'}><ProfileData/></FormData>
+        <FormData id={'contact'}><ContactData/></FormData>
+          {
+            previous_registration
+                ? <Panel className={'mb-3'} header={'Award'}>Award Previously Selected</Panel>
+                : <FormData id={'awards'}><AwardData/></FormData>
+          }
+        <FormData id={'supervisor'}><SupervisorData/></FormData>
+      </Panel>
     }
     <BlockUI blocked={!completed && !loading} template={
       <Button

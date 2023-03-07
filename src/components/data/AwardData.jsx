@@ -20,7 +20,6 @@ export default function AwardData() {
     const { awards } = service || {};
     const { award, selections } = awards || {};
     const { options } = award || {};
-    console.log(registration)
 
     return <div className={'container'}>
         <div className={'grid'}>

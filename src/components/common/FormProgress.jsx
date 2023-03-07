@@ -12,16 +12,23 @@ import { useNavigate } from "react-router-dom";
 import formServices from "@/services/settings.services";
 import {RegistrationContext} from "@/AppContext.js";
 import {Tag} from "primereact/tag";
+import {useFormContext, useWatch} from "react-hook-form";
 
 /**
  * Data Display common display component to display user data after input/submission
  * @returns {JSX.Element}
  */
 
-export default function FormProgress({control}) {
+export default function FormProgress() {
+
+    // get hooks and contexts
     const navigate = useNavigate();
+    const {control} = useFormContext();
+    const previousRegistration = useWatch({control, name: "service.previous_registration"});
+
     // get the registration steps template schema
     const steps = formServices.get("registration_steps");
+
     // get current registration step
     const { step, registration, confirmed } = useContext(RegistrationContext);
     const { label, seq } = step || {};
@@ -35,7 +42,9 @@ export default function FormProgress({control}) {
 
     return <Panel className={"steps mb-3"} header={`Registration Steps: ${label}`} toggleable>
         <Steps
-            model={steps.map(({label, route, validate}) => ({
+            model={steps
+                .filter(step => !previousRegistration || (previousRegistration && step.key !== 'awards'))
+                .map(({label, route, validate}) => ({
                 className: validate(registration) ? 'step-completed' : 'step-incomplete',
                 icon: <StepTemplate label={label} validate={validate} />,
                 command: confirmed ? ()=>{} : ()=>{navigate(route)}

@@ -59,31 +59,42 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
     }, [award]);
 
     /**
-     * Check if option has existing value in registration form context
+     * Confirm selection of award options
+     * - Check if option has existing value in registration form context
+     * - PECSF options are set by the name
+     * - Engravings with character limits are set by item size
      * */
 
-    const comfirmOptions = (selectedOptions) => {
+    const confirmOptions = (selectedOptions) => {
+        // get engraving size (if exists)
+        const engravingSize = selectedOptions.hasOwnProperty('sizes') && selectedOptions.sizes;
         // get available options for award
         const { options } = award || {};
         // map recipient option selections to available options in form context
         const filteredOptions = (options || [])
             .filter(({type, name, value, customizable}) => {
                 // filter available options by selected ones
-                return (selectedOptions.hasOwnProperty(type) && customizable )
+                return ( selectedOptions.hasOwnProperty(type) && customizable)
                     || (selectedOptions.hasOwnProperty(type) && selectedOptions[type] === value)
                     || (type === 'pecsf-charity' && selectedOptions.hasOwnProperty(name))
                     || (type === 'pecsf-certificate' && selectedOptions.hasOwnProperty(name))
             })
+            .filter(({type, name, value, customizable}) => {
+                // filter engraving size to selected one
+                return (type !== 'engraving' || name === engravingSize)
+            })
             .map((option) => {
-                const {customizable, name, value, type} = option || {};
+                const {type, name, value, customizable} = option || {};
                 return {
                     service: currentServiceID,
                     award_option: option,
                     custom_value: customizable && selectedOptions[name]
                         ? selectedOptions[name]
-                        : type === 'engraving' && selectedOptions.hasOwnProperty('engraving')
-                            ? selectedOptions['engraving']
-                            : value,
+                        : type === 'engraving'
+                            && selectedOptions.hasOwnProperty('engraving')
+                            && selectedOptions.sizes === name
+                                ? selectedOptions['engraving']
+                                : value,
                     pecsf_charity: type === 'pecsf-charity' ? selectedOptions[name] : null
                 }
             });
@@ -221,7 +232,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
     }
 
     return <div className={'grid'}>
-        <form onSubmit={handleSubmit(comfirmOptions)}>
+        <form onSubmit={handleSubmit(confirmOptions)}>
             {
                 award && <p>{award.description}</p>
             }
