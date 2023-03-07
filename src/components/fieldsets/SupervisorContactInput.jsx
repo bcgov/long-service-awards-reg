@@ -81,7 +81,7 @@ export default function SupervisorContactInput() {
                             required: "Error: Government email is required.",
                             pattern: {
                                 value: matchers.govEmail,
-                                message: "Invalid email address. E.g. example@gov.bc.ca",
+                                message: "Invalid email address. (e.g., example@gov.bc.ca)",
                             },
                         }}
                         render={({ field, fieldState: {invalid, error} }) => (

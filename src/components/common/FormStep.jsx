@@ -1,11 +1,11 @@
 /*!
- * Form for registration process step component
+ * Registration step component
  * File: FormStep.js
  * Copyright(c) 2023 BC Gov
  * MIT Licensed
  */
 
-import {useContext, useEffect, useMemo, useState} from "react";
+import React, {useContext, useEffect, useMemo, useState} from "react";
 import { useNavigate } from "react-router-dom";
 import {LoadingContext, RegistrationContext} from "@/AppContext.js";
 import {useOutletContext} from "react-router";
@@ -14,6 +14,9 @@ import FormSubmit from "@/components/common/FormSubmit.jsx";
 import {BlockUI} from "primereact/blockui";
 import {Button} from "primereact/button";
 import {removeNull} from "@/services/validation.services.js";
+import FormProgress from "@/components/common/FormProgress.jsx";
+import InfoRegistrationStatus from "@/components/info/InfoRegistrationStatus.jsx";
+import {Message} from "primereact/message";
 
 /**
  * FormStep component
@@ -30,7 +33,7 @@ export default function FormStep({previous=null, current, next=null, children}) 
     const navigate = useNavigate();
     const { loading } = useContext(LoadingContext);
     const [saveRegistration] = useOutletContext();
-    const { setStep, confirmed, registration } = useContext(RegistrationContext);
+    const { step, setStep, confirmed, completed, registration } = useContext(RegistrationContext);
     const defaultFormValues = current && current.default;
 
     // destructure form methods (react-hook-form)
@@ -80,6 +83,8 @@ export default function FormStep({previous=null, current, next=null, children}) 
     // submit form data for next step
     const submitData = async (data) => {
         await saveData(data);
+        // scroll to top of page
+        window.scrollTo(0, 0);
         if (next) navigate(next.route);
     };
 
@@ -87,17 +92,18 @@ export default function FormStep({previous=null, current, next=null, children}) 
     const BlockUITemplate = () => {
         return confirmed
             ? <>Registration Submitted</>
-            : <Button
-                onClick={()=>{navigate(previous.route)}}
-                icon={'pi pi-lock'}
-                label={'Form Locked'}
-            />
+            : <Button icon={'pi pi-lock'} label={'Form Locked'} />
     }
 
     return <FormProvider {...methods}>
         <form>
+            <FormProgress />
+            {
+                !loading && !completed && step && step.key === "confirmation"
+                && <Message className={'mb-3 w-full'} severity="warn" text="Registration is incomplete"/>
+            }
             <BlockUI
-                blocked={(next && confirmed) || loading || !previousComplete}
+                blocked={loading || !previousComplete}
                 template={<BlockUITemplate />}
             >
                 {children}

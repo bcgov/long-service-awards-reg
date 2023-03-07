@@ -5,14 +5,12 @@
  * MIT Licensed
  */
 
-import { useContext, useEffect } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
+import { useContext, useEffect, memo } from "react";
+import { useNavigate, Outlet, redirect } from "react-router-dom";
 import {LoadingContext, RegistrationContext, ToastContext} from "@/AppContext.js";
 import PageHeader from "@/components/common/PageHeader.jsx";
-import FormProgress from "@/components/common/FormProgress.jsx";
 import formServices from "@/services/settings.services.js";
 import {createSelfRegistration, getSelfRegistration, saveSelfRegistration} from "@/services/api.routes.js";
-import InfoRegistrationStatus from "@/components/info/InfoRegistrationStatus.jsx";
 import {BlockUI} from "primereact/blockui";
 import {Button} from "primereact/button";
 
@@ -24,7 +22,7 @@ export default function SelfRegistration() {
   const toast = useContext(ToastContext);
   const navigate = useNavigate();
   const {
-    step, setCompleted, confirmed, setConfirmed, registration, setRegistration
+    step, setCompleted, confirmed, setConfirmed, setRegistration, registration
   } = useContext(RegistrationContext);
   const {loading, setLoading} = useContext(LoadingContext);
 
@@ -35,11 +33,14 @@ export default function SelfRegistration() {
   const _setStatus = (data) => {
     // set form status
     const { service } = data || {};
-    const { confirmed } = service || {};
+    const { confirmed, previous_registration } = service || {};
     // form confirmation status
     setConfirmed(confirmed);
     // form completion status: validate every step except confirmation
+    // - filter out award step if previous registration was selected
+    // - filter out confirmation step since it has a separate validation process
     setCompleted(steps
+        .filter(step => !previous_registration || (previous_registration && step.key !== 'awards'))
         .filter(step => step.key !== 'confirmation')
         .every(step => step.validate(data))
     );
@@ -53,9 +54,8 @@ export default function SelfRegistration() {
       const [error, result] = await createSelfRegistration();
       toast.current.replace(formServices.lookup("messages", error || !result ? "createError" : "createSuccess"));
       if (!error && result) setRegistration(result);
-      _setStatus(result)
       // navigate to initial registration step
-      // navigate("/register/milestone");
+      redirect("/register/milestone");
       // }
     } catch (error) {
       toast.current.replace(formServices.lookup("messages", "saveError"));
@@ -90,19 +90,22 @@ export default function SelfRegistration() {
   // Initialize registration form
   useEffect(() => {
     // check for existing registration
-    getSelfRegistration().then((data) => {
+    getSelfRegistration().then( async (data) => {
       // create new registration if none exists
-      if (!data && !loading) _handleCreateRegistration().catch(console.error)
+      if (!data && !loading) await _handleCreateRegistration().catch(console.error)
     }).catch(err => {
       console.error(err)
       toast.current.replace(formServices.lookup("messages", "createError"));
-    })
+    });
   }, []);
 
-  //redirects to confirmation page if registration is confirmed
+  // set registration status
   useEffect(() => {
+    _setStatus(registration)
     if (confirmed) navigate("/register/confirmation");
-  }, []);
+    // if no step is provided, navigate to start of form
+    if(!step) navigate("/register/milestone");
+  }, [registration]);
 
   // overlay template for blocked form panels
   const BlockUITemplate = () => {
@@ -110,18 +113,15 @@ export default function SelfRegistration() {
       <Button
           onClick={()=>{navigate("/register/confirmation")}}
           icon={'pi pi-lock'}
-          label={'View Submitted Registration'}/>
+          label={'View Submitted Registration'}
+      />
     </div>
   }
 
   return <>
-    <PageHeader title="Award Registration" subtitle={step && step.description || ''}/>
-    <FormProgress />
-    {
-        confirmed && step && step.key !== "confirmation" && <InfoRegistrationStatus/>
-    }
-    <BlockUI blocked={confirmed && step && step.key !== "confirmation"} template={BlockUITemplate}>
-      <Outlet context={[_handleSaveRegistration]}/>
-    </BlockUI>
-  </>
+          <PageHeader title="Award Registration" subtitle={step && step.description || ''}/>
+          <BlockUI blocked={confirmed && step && step.key !== "confirmation"} template={BlockUITemplate}>
+            <Outlet context={[_handleSaveRegistration]}/>
+          </BlockUI>
+        </>
 }

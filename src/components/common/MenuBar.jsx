@@ -49,10 +49,14 @@ function MenuBar() {
                 removeSelfRegistration()
                     .then(()=>{
                         setRegistration(null);
+                        navigate('/')
+                        window.location.reload()
+                    })
+                    .catch(console.error)
+                    .finally(()=>{
                         toast.current.show(formServices.lookup("messages", "delete"));
                     })
-                    .then(()=>{navigate('/')})
-                    .catch(console.error)}}
+            }}
         />
     </>;
 

@@ -16,8 +16,8 @@ import {RegistrationContext} from "@/AppContext.js";
 export default function MilestoneData() {
 
   const { registration } = useContext(RegistrationContext);
-  const {service, retirement, retirement_date, previous_registration, previous_award} = registration || {};
-  const {milestone, qualifying_year, service_years, ceremony_opt_out} = service || {};
+  const {service, retirement, retirement_date, previous_award} = registration || {};
+  const {milestone, qualifying_year, service_years, ceremony_opt_out, previous_registration} = service || {};
   const retirementDate = retirement_date ? new Date(retirement_date) : null;
 
   return <div className={'container'}>

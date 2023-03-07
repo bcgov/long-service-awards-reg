@@ -1,6 +1,6 @@
 /*!
  * Previous Awards Input fieldset
- * File: PreviousAwards.js
+ * File: RegistrationOptionsInput.js
  * Copyright(c) 2023 BC Gov
  * MIT Licensed
  */
@@ -11,7 +11,7 @@ import {SelectButton} from "primereact/selectbutton";
 
 /**
  * Registration options component.
- * @returns {React.JSX.Element}
+ * @returns {JSX.Element}
  */
 
 export default function RegistrationOptionsInput() {
@@ -19,18 +19,8 @@ export default function RegistrationOptionsInput() {
     // set local states
     const { control, setValue } = useFormContext();
 
-    const previousRegistration = useWatch({
-        control,
-        name: "previous_registration",
-    });
-    const previousAward = useWatch({
-        control,
-        name: "previous_award",
-    });
-    const ceremonyOptOut = useWatch({
-        control,
-        name: "service.ceremony_opt_out",
-    });
+    const previousRegistration = useWatch({control, name: "service.previous_registration"});
+    const previousAward = useWatch({control, name: "service.previous_award"});
 
     return <Panel className={'mb-3'} header={<>Registration Options</>}>
         <div className="container">
@@ -41,8 +31,8 @@ export default function RegistrationOptionsInput() {
                             className={'radio-toggle'}
                             value={previousRegistration ? 'Yes' : 'No'}
                             onChange={(e) => {
-                                setValue('previous_registration', e.value === 'Yes')
-                                setValue('previous_award', false)
+                                setValue('service.previous_registration', e.value === 'Yes')
+                                setValue('service.previous_award', false)
                             }}
                             options={['Yes', 'No']}
                         />
@@ -58,7 +48,7 @@ export default function RegistrationOptionsInput() {
                                 className={'radio-toggle'}
                                 value={previousAward ? 'Yes' : 'No'}
                                 onChange={(e) => {
-                                    setValue('previous_award', e.value === 'Yes')
+                                    setValue('service.previous_award', e.value === 'Yes')
                                 }}
                                 options={['Yes', 'No']}
                             />
@@ -68,26 +58,6 @@ export default function RegistrationOptionsInput() {
                         </div>
                     </div>
                 }
-                <div className="col-12 form-field-container">
-                    <div className="flex align-items-center">
-                        <SelectButton
-                            className={'radio-toggle'}
-                            value={ceremonyOptOut ? 'Yes' : 'No'}
-                            onChange={(e) => {
-                                setValue('service.ceremony_opt_out', e.value === 'Yes')
-                            }}
-                            options={['Yes', 'No']}
-                        />
-                        <label className={'ml-3'}>
-                            New Registrants: Do you want to receive your award only and not attend the ceremony?
-                        </label>
-                    </div>
-                    <p>
-                        Selecting the award only option means you ‘will not’ receive an invitation to your 2023
-                        ceremony and you will receive your award following your organization’s ceremony
-                        night in the fall.
-                    </p>
-                </div>
             </div>
         </div>
     </Panel>;

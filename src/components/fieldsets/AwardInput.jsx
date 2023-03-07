@@ -21,6 +21,7 @@ import {useNavigate} from "react-router-dom";
 import {Message} from "primereact/message";
 import {useOutletContext} from "react-router";
 import formServices from "@/services/settings.services.js";
+import CeremonyInput from "@/components/fieldsets/CeremonyInput";
 
 
 /**
@@ -213,7 +214,7 @@ export default function AwardInput() {
      * */
 
     const gridItem = (item) => {
-        return <div className="col-12 sm:col-6 lg:col-4 xl:col-4 p-2">
+        return <div className="col-4 sm:col-6 md:col-4 lg:col-4 xl:col-4 p-2">
             <div className="p-4 border-1 surface-border surface-card border-round">
                 <div className="flex flex-wrap align-items-center justify-content-between gap-2">
                     <div className="flex align-items-center gap-2">
@@ -262,6 +263,7 @@ export default function AwardInput() {
                 onClick={()=>{navigate('/register/milestone')}}
                 label={'Select Your Milestone to View Awards'}
             />}>
+            <CeremonyInput />
             <div className={`award-selection-form`}>
                 <div
                     className={classNames(

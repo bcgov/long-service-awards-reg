@@ -22,7 +22,7 @@ export default function RetirementInput() {
     //set current date and populate start and end of year based on current date
     const today = new Date();
     const year = today.getFullYear();
-    const startYear = new Date(year, 0, 0);
+    const startYear = new Date(1970, 0, 0);
     const endYear = new Date(year, 11, 31);
 
     // set local states
@@ -30,7 +30,7 @@ export default function RetirementInput() {
 
     return <Panel className={'mb-3'} header={<>Retirement Date</>}>
         <div className="container">
-            <p>Are you retiring this year?</p>
+            <p>Have you retired or are you retiring this year?</p>
             <div className="grid">
                 <div className="col-6 form-field-container">
                     <div className="flex align-items-center">

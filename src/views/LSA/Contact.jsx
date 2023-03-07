@@ -9,6 +9,8 @@ import AddressInput from "../../components/fieldsets/AddressInput";
 import formServices from "@/services/settings.services.js";
 import PersonalContactInput from "@/components/fieldsets/PersonalContactInput";
 import FormStep from "@/components/common/FormStep.jsx";
+import {useContext} from "react";
+import {RegistrationContext} from "@/AppContext.js";
 
 /**
  * Additional contact details for recipient registration.
@@ -17,15 +19,22 @@ import FormStep from "@/components/common/FormStep.jsx";
 
 export default function Contact() {
 
+    // get hooks and contexts
+    const {registration} = useContext(RegistrationContext);
+    const {service} = registration || {};
+    const {previous_registration} = service || {};
+
     // get form step schema / default values
     const previous = formServices.copy('registration_steps', 'profile');
     const current = formServices.copy('registration_steps', 'contact');
-    const next = formServices.copy('registration_steps', 'awards');
+    const next = previous_registration
+        ? formServices.copy('registration_steps', 'supervisor')
+        : formServices.copy('registration_steps', 'awards');
 
     return <FormStep previous={previous} current={current} next={next}>
         <PersonalContactInput />
         <AddressInput id={'contact.personal_address'} label={'Personal'} />
-        <AddressInput id={'contact.office_address'} label={'Office'} />
+        <AddressInput id={'contact.office_address'} label={'Office'} pobox={true} />
     </FormStep>;
 
 }
