@@ -222,7 +222,7 @@ export default function ProfileInput() {
                     />
                 </div>
                 <div className="col-12 form-field-container">
-                    <label htmlFor={'branch'}>Your Branch</label>
+                    <label htmlFor={'branch'}>Branch</label>
                     <Controller
                         name={"branch"}
                         control={control}

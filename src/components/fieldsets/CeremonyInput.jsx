@@ -42,7 +42,7 @@ export default function CeremonyInput() {
                         </label>
                     </div>
                     <p>
-                        Selecting the award only option means you ‘will not’ receive an invitation to your 2023
+                        Selecting the award only option means you will not receive an invitation to your 2023
                         ceremony and you will receive your award following your organization’s ceremony
                         night in the fall.
                     </p>

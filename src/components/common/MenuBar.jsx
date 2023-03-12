@@ -25,7 +25,7 @@ function MenuBar() {
         {
             label: 'Long Service Awards Registration',
             icon: 'pi pi-fw pi-home',
-            url: '/'
+            url: import.meta.env.LSA_APPS_REGISTRATION_URL
         },
         {
             label:'About',
@@ -35,7 +35,7 @@ function MenuBar() {
         {
             label:'Service Calculator',
             icon:'pi pi-fw pi-calculator',
-            url: '/calculate'
+            url: `${import.meta.env.LSA_APPS_REGISTRATION_URL}/calculate`
         }
     ];
     const profile = <>

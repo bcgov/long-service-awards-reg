@@ -15,7 +15,6 @@ import {BlockUI} from "primereact/blockui";
 import {Button} from "primereact/button";
 import {removeNull} from "@/services/validation.services.js";
 import FormProgress from "@/components/common/FormProgress.jsx";
-import InfoRegistrationStatus from "@/components/info/InfoRegistrationStatus.jsx";
 import {Message} from "primereact/message";
 
 /**
@@ -52,6 +51,7 @@ export default function FormStep({previous=null, current, next=null, children}) 
 
     const [previousComplete, setPreviousComplete] = useState(!previous);
     const [formComplete, setFormComplete] = useState(false);
+    const [validStep, setValidStep] = useState(false);
     const formCompleteStatus = watch();
 
     // set current step and validate previous step
@@ -64,6 +64,7 @@ export default function FormStep({previous=null, current, next=null, children}) 
     useEffect(() => {
         reset({...defaultFormValues, ...removeNull(registration)})
         if (previous) setPreviousComplete(previous.validate(registration));
+        setValidStep(current.validate(registration));
     }, [registration]);
 
     // set form to not complete (ready for submission)
@@ -110,7 +111,7 @@ export default function FormStep({previous=null, current, next=null, children}) 
                 <FormSubmit
                     save={handleSubmit(saveData)}
                     submit={handleSubmit(submitData)}
-                    disabled={!next || !isValid || (isDirty && !formComplete)}
+                    disabled={!validStep || !next || !isValid || (isDirty && !formComplete)}
                     confirmation={!next}
                 />
             </BlockUI>

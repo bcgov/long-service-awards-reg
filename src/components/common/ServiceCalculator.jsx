@@ -96,7 +96,7 @@ export default function ServiceCalculator({formSubmit, threshold=5}) {
             <Button
                 className={'m-1'}
                 label={'Add Row'}
-                severity={"secondary"}
+                severity={"info"}
                 icon="pi pi-plus-circle"
                 onClick={(e) => {
                     e.preventDefault();
@@ -125,8 +125,7 @@ export default function ServiceCalculator({formSubmit, threshold=5}) {
                 <span>
                   <InfoToolTip
                       target="total-years-counter"
-                      content="Total Years count may differ from years of service
-                      per row, as duplicated years are only counted once."
+                      content="Note that overlapping work periods are merged to count each year only once."
                       position={"top"}
                   />
                   Total Years: <TotalYears key="total-count" {...{ control }} />

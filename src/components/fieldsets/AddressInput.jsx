@@ -30,8 +30,7 @@ export default function AddressInput({id, label, pobox}) {
     // check for Victoria office addresses to require post office box numbers
     const checkPobox = () => {
         setPoboxRequired(
-            getValues(`${id}.province`) === 'British Columbia'
-            && getValues(`${id}.community`) === 'Victoria'
+            getValues(`${id}.province`) === 'British Columbia' && getValues(`${id}.community`) === 'Victoria'
         );
     }
     useEffect(() => {
@@ -125,7 +124,7 @@ export default function AddressInput({id, label, pobox}) {
                         <Controller
                             name={`${id}.province`}
                             control={control}
-                            rules={{ required: "Province/State is required." }}
+                            rules={{ required: "Province is required." }}
                             render={({ field, fieldState: {invalid, error} }) => (
                                 <>
                                     <Dropdown

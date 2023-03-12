@@ -131,51 +131,9 @@ const post = async (route, data, callback=()=>{}) => {
   return handleResponse(error, response);
 }
 
-/**
- * Upload method
- *
- * @param route
- * @param data
- * @param callback
- * @return {Promise} [error, response]
- */
-
-const upload = async (route, data, callback=()=>{}) => {
-  const apiUpload = axios.create({
-    baseURL: import.meta.env.PA_APPS_API_URL,
-    withCredentials: true,
-  });
-  const [error, response] = await asyncWrapper(apiUpload.post(route, data), callback);
-  return handleResponse(error, response);
-}
-
-/**
- * Download method
- *
- * @param route
- * @param filename
- * @param callback
- * @return {Promise} [error, response]
- */
-
-const download = async (route, filename, callback) => {
-  axios.get(route, {
-    responseType: 'blob',
-    baseURL: import.meta.env.PA_APPS_API_URL,
-    withCredentials: true
-  })
-      .then(res => {
-        // saveAs(res.data, filename);
-        return callback(null, res);
-      })
-      .catch (callback);
-}
-
 export default {
   get: get,
   put: put,
-  post: post,
-  upload: upload,
-  download: download
+  post: post
 }
 

@@ -77,7 +77,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
                 return ( selectedOptions.hasOwnProperty(type) && customizable)
                     || (selectedOptions.hasOwnProperty(type) && selectedOptions[type] === value)
                     || (type === 'pecsf-charity' && selectedOptions.hasOwnProperty(name))
-                    || (type === 'pecsf-certificate' && selectedOptions.hasOwnProperty(name))
+                    || (type.includes('certificate') && selectedOptions.hasOwnProperty(name))
             })
             .filter(({type, name, value, customizable}) => {
                 // filter engraving size to selected one
@@ -98,6 +98,8 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
                     pecsf_charity: type === 'pecsf-charity' ? selectedOptions[name] : null
                 }
             });
+        // DEBUG ===
+        // console.log(selectedOptions, filteredOptions)
         // confirm award option updates
         confirm(filteredOptions);
     }

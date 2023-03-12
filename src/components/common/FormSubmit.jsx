@@ -25,9 +25,7 @@ export default function FormSubmit({submit, save, disabled, confirmation=false})
         ? "Submit Your Award Registration"
         : "Save Current Form / Continue to Next Step";
 
-    const icon = confirmation
-        ? 'pi pi-upload'
-        : 'pi pi-save';
+    const icon = confirmation ? 'pi pi-upload' : 'pi pi-save';
 
     return <Panel icons={<i className={icon} />} header={header}>
         <div className="container m-3">

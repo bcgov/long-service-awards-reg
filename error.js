@@ -130,19 +130,25 @@ const errors = {
   },
   PDFCorrupted: {
     hint: 'PDF attachments have data corruption, encryption or other errors',
-    msg: 'Your PDF attachments are corrupted or incompatible with this system. Please save your PDFs again and resave this nomination.',
-    status: 422,
-    type: 'error'
-  },
-  maxDraftsExceeded: {
-    hint: 'Maximum number of drafts allowed for user.',
-    msg: 'You have reached the maximum number of draft nominations for your account.',
+    msg: 'Your PDF attachments are corrupted or incompatible with this system. ',
     status: 422,
     type: 'error'
   },
   alreadySubmitted: {
     hint: 'Nomination has submitted status.',
     msg: 'Cannot update a submitted nomination.',
+    status: 422,
+    type: 'error'
+  },
+  failedMailSend: {
+    hint: 'Mail service failed to deliver email to recipient.',
+    msg: 'Mail delivery failed.',
+    status: 500,
+    type: 'error'
+  },
+  emailTemplateError: {
+    hint: 'Email template has an error that caused a mail delivery failure.',
+    msg: 'The requested email template has errors.',
     status: 422,
     type: 'error'
   },
