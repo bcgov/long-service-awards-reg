@@ -16,6 +16,8 @@ import { RegistrationContext } from "@/AppContext.js";
 import {Button} from "primereact/button";
 import {Panel} from "primereact/panel";
 import {getMilestones, getQualifyingYears} from "@/services/api.routes.js";
+import {Message} from "primereact/message";
+import {Link} from "react-router-dom";
 
 /**
  * Milestones reusable component.
@@ -32,36 +34,38 @@ export default function MilestoneInput({ threshold=25 }) {
     // set local states
     const [milestones, setMilestones] = useState();
     const [qualifyingYears, setQualifyingYears] = useState();
-    const [calculatorButton, setCalculatorButton] = useState(false);
-    const [calculatorDropdown, setCalculatorDropdown] = useState(false);
+    const [showCalculator, setShowCalculator] = useState(false);
 
-    // update local ministry selection state
-    // - previous service pins only available to select organizations
+    // update milestone/qualifying year options for dropdowns
     useEffect(() => {
         getMilestones().then(setMilestones).catch(console.error);
         getQualifyingYears().then(setQualifyingYears).catch(console.error);
     }, [registration]);
 
-    // Handle years of service change and update fields in state
+    // Compute milestone year / Handle years of service change and update fields in state
     // - Note that this resets the awards
-    const onYearsOfServiceChange = () => {
+    const calculateMilestone = () => {
         resetField(`service.milestone`, { defaultValue: "" });
         resetField(`service.prior_milestones`, { defaultValue: [] });
         resetField(`service.qualifying_year`, { defaultValue: "" });
-        onMilestoneChange();
-    };
-
-    // Handle milestone change and update fields in state
-    // - Note that this resets the awards
-    const onMilestoneChange = () => {
-        setValue(`service.awards`, {});
+        resetField(`service.awards`, { defaultValue: "" });
+        // get milestone bounds
+        const serviceYears = getValues(`service.service_years`);
+        const min = Math.min(...(milestones || []).map(m => m.name));
+        // find the closest milestone within bounds
+        const estimate = (milestones || [])
+            .map(m => m.name)
+            .reduce((prev, curr) => (Math.abs(curr - serviceYears) < Math.abs(prev - serviceYears))
+                    && serviceYears >= curr ? curr : prev
+            );
+        // set estimated current milestone (service years must be at least >= minimum milestone)
+        setValue(`service.milestone`, serviceYears >= min ? estimate : '')
     };
 
     // toggle service calculator
     const toggleCalculator = (e) => {
         e.preventDefault();
-        setCalculatorButton(!calculatorButton);
-        setCalculatorDropdown(!calculatorDropdown);
+        setShowCalculator(!showCalculator);
     };
 
     // update total service years form value
@@ -69,7 +73,7 @@ export default function MilestoneInput({ threshold=25 }) {
         if (newValue !== 0) {
             setValue(`service.service_years`, newValue);
             clearErrors(`service.service_years`);
-            onYearsOfServiceChange();
+            calculateMilestone();
         }
     };
 
@@ -90,8 +94,8 @@ export default function MilestoneInput({ threshold=25 }) {
                     <label htmlFor={'service_years'}>
                         Enter your total BCPS years of service <InfoToolTip
                         target="calculator-button"
-                        content="Individuals with 25+ years of service are eligible for the
-                        Long Service Awards. Use the calculator to help you add up your years of work."
+                        content="Individuals with 25+ years of service are eligible for a
+                        Long Service Award. Use the calculator to help you add up your years of work."
                         position="top"
                     />
                     </label>
@@ -110,14 +114,14 @@ export default function MilestoneInput({ threshold=25 }) {
                                         value={field.value || ''}
                                         onChange={(e) => {
                                             field.onChange(Math.min(e.value, 99));
-                                            onYearsOfServiceChange();
+                                            calculateMilestone();
                                         }}
                                         aria-describedby={`service_years-help`}
                                         className={classNames({ "p-invalid": error })}
                                         placeholder={`Enter total years of service`}
                                     />
                                     <Button
-                                        label={calculatorButton ? "Hide Calculator" : "Show Calculator"}
+                                        label={showCalculator ? "Hide Calculator" : "Show Calculator"}
                                         onClick={toggleCalculator}
                                     />
                                     </div>
@@ -129,46 +133,44 @@ export default function MilestoneInput({ threshold=25 }) {
                 </div>
                 <div className={'col-12 form-field-container'}>
                     {
-                        calculatorDropdown &&
+                        showCalculator &&
                         <ServiceCalculator formSubmit={(newValue) => setTotalYears(newValue)} />
                     }
                 </div>
 
                 <div className={"col-12 form-field-container"}>
-                    <label htmlFor={'milestone'}>
-                        What milestone are you celebrating? (Select your current or most recent milestone)
-                    </label>
-                    <Controller
-                        name={`service.milestone`}
-                        control={control}
-                        rules={{required: "Milestone selection is required."}}
-                        render={({ field, fieldState: {invalid, error} }) => (
+                    {<div id="milestone">
+                        {
+                            getValues(`service.milestone`) >= threshold && <Message
+                                className={'w-full b-1 font-bold'}
+                                severity="success"
+                                content={<span>Your Current Milestone: {getValues(`service.milestone`)}</span>}
+                            />
+                        }
+                        {
+                            getValues(`service.milestone`) < threshold && getValues(`service.milestone`) >= 5 &&
                             <>
-                                <Dropdown
-                                    disabled={!getValues(`service.service_years`)}
-                                    id={field.name}
-                                    inputId={field.name}
-                                    value={field.value || ''}
-                                    onChange={(e) => {
-                                        field.onChange(e.value);
-                                        onMilestoneChange();
-                                    }}
-                                    aria-describedby={`milestone-help`}
-                                    options={(milestones || []).filter(
-                                        opt => opt['name'] <= getValues(`service.service_years`)
-                                            && opt['name'] >= threshold
-                                    ) || []}
-                                    optionLabel="label"
-                                    optionValue="name"
-                                    placeholder={
-                                        getValues(`service.service_years`)
-                                            ? `Select the current milestone`
-                                            : `First Enter Service Years Above`}
+                                <Message
+                                    className={'w-full border-1 font-bold'}
+                                    severity="info"
+                                    content={
+                                        <div>Your Current Milestone: {getValues(`service.milestone`)}.</div>
+                                    }
                                 />
-                                { invalid && <p className="error">{error.message}</p> }
+                                <Message
+                                    className={'w-full b-1'}
+                                    severity="warn"
+                                    content={
+                                        <div>
+                                            You are ineligible for a Long Service Award. Individuals with 25+
+                                            years of service are eligible for a Long Service Award. Please
+                                            <Link to="/register/service-pins">Register for a Service Pin</Link>.
+                                        </div>
+                                    }
+                                />
                             </>
-                        )}
-                    />
+                        }
+                    </div>}
                 </div>
                 <div className="col-12 form-field-container">
                     <label htmlFor={'qualifying_year'}>
@@ -181,8 +183,7 @@ export default function MilestoneInput({ threshold=25 }) {
                         render={({ field, fieldState: {invalid, error}  }) => (
                             <>
                                 <Dropdown
-                                    disabled={!getValues(`service.service_years`)
-                                        || !getValues(`service.milestone`)}
+                                    disabled={!getValues(`service.service_years`) || !getValues(`service.milestone`)}
                                     id={field.name}
                                     value={field.value || ''}
                                     onChange={(e) => field.onChange(e.value)}

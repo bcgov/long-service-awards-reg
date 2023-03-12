@@ -14,14 +14,11 @@ import {Panel} from "primereact/panel";
 
 /**
  * Contact Details Reusable component.
- * @returns first_name, last_name, office email, office phone, employee number,
- * organization, branch, personal phone, personal email
+ * @returns personal phone
  */
 
 export default function PersonalContactInput() {
     const { control } = useFormContext();
-
-    // Note: To fix error handling to make sure naming convention works
     return <Panel
         className={'mb-3'}
         header={

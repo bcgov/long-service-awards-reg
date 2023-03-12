@@ -38,7 +38,7 @@ export default function Supervisor() {
     <p><b>Please note that for Victoria offices, a P.O. box number is required.</b></p>
 
     <SupervisorContactInput />
-    <AddressInput id={'supervisor.office_address'} label={'Supervisor Office'} pobox={true} />
+
   </FormStep>;
 
 }

@@ -11,6 +11,7 @@ import PersonalContactInput from "@/components/fieldsets/PersonalContactInput";
 import FormStep from "@/components/common/FormStep.jsx";
 import {useContext} from "react";
 import {RegistrationContext} from "@/AppContext.js";
+import OfficeContactInput from "@/components/fieldsets/OfficeContactInput.jsx";
 
 /**
  * Additional contact details for recipient registration.
@@ -34,6 +35,7 @@ export default function Contact() {
     return <FormStep previous={previous} current={current} next={next}>
         <PersonalContactInput />
         <AddressInput id={'contact.personal_address'} label={'Personal'} />
+        <OfficeContactInput />
         <AddressInput id={'contact.office_address'} label={'Office'} pobox={true} />
     </FormStep>;
 

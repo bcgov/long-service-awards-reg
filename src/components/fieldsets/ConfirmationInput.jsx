@@ -20,7 +20,10 @@ export default function ConfirmationInput() {
 
   // set local states
   const { control } = useFormContext();
-  const { confirmed } = useContext(RegistrationContext);
+  const { confirmed, registration } = useContext(RegistrationContext);
+  const { service } = registration || {};
+  // get current service cycle
+  const { cycle } = service || {};
 
   return <Panel className={'mb-3'} header={'Declaration'}>
     <div className="container">
@@ -28,7 +31,7 @@ export default function ConfirmationInput() {
         <div className="col-12 form-field-container">
             <p>
                 I declare, to the best of my knowledge and consistent with the Long Service Awards eligibility
-                guidelines (which I have reviewed) that as of December 31, 2022, I will have worked for the BC
+                guidelines (which I have reviewed) that as of December 31, {cycle}, I will have worked for the BC
                 Public Service for 25, 30, 35, 40, 45 or 50 years and I am therefore eligible for a Long
                 Service Award. By providing my personal information, I am allowing the BC Public Service
                 Agency to use and disclose this information for the planning and delivery of the Long Service

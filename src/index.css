@@ -1,8 +1,32 @@
+/* BCSans-regular - latin-ext_latin */
+@font-face {
+  font-family: "BC Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: local("BC Sans"), local("BCSans-Regular"), url("./assets/fonts/BCSans/BCSans-Regular.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
+/* BCSans-700 - latin-ext_latin */
+@font-face {
+  font-family: "BC Sans";
+  font-style: normal;
+  font-weight: 700;
+  src: local("BC Sans Bold"), local("BCSans-Bold"), url("./assets/fonts/BCSans/BCSans-Bold.woff") format("woff");
+  /* Chrome 6+, Firefox 3.6+, IE 9+, Safari 5.1+ */
+}
+
 :root {
-  font-family: Noto Sans, Helvetica, Arial, sans-serif !important;
+  font-family: BC Sans, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+  --font-family-bold: BC Sans Bold, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+
+  /*font-family: Inter, Avenir, Helvetica, Arial, sans-serif;*/
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
+
+  color: rgba(255, 255, 255, 0.87);
+  background-color: inherit;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,6 +37,11 @@
 
 body {
   margin: 0 !important
+}
+
+.p-component {
+  font-family: BC Sans, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
+  --font-family-bold: BC Sans Bold, Helvetica Neue Light, Helvetica Neue, Helvetica, Arial, Lucida Grande, sans-serif;
 }
 
 .content {

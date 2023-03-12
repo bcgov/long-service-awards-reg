@@ -18,7 +18,6 @@ export default function RegistrationOptionsInput() {
 
     // set local states
     const { control, setValue } = useFormContext();
-
     const previousRegistration = useWatch({control, name: "service.previous_registration"});
     const previousAward = useWatch({control, name: "service.previous_award"});
 
@@ -32,12 +31,16 @@ export default function RegistrationOptionsInput() {
                             value={previousRegistration ? 'Yes' : 'No'}
                             onChange={(e) => {
                                 setValue('service.previous_registration', e.value === 'Yes')
-                                setValue('service.previous_award', false)
+                                setValue('service.previous_award', false);
+
+                                // set award selection to empty when previous registration selected
+                                if (e.value === 'Yes') setValue(`service.awards`, {});
                             }}
                             options={['Yes', 'No']}
                         />
                         <label className={'ml-3'}>
-                            Did you register previously (in last two years) and were unable to attend your ceremony?
+                            Have you previously registered for this milestone (in the last 2 years)
+                            and were unable to attend your ceremony?
                         </label>
                     </div>
                 </div>
