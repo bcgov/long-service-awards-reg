@@ -13,7 +13,7 @@ import {Panel} from "primereact/panel";
  */
 
 export default function InfoSupervisorEligibility() {
-  return <Panel header="Supervisors: Employee Eligibility and Registration" toggleable collapsed={true}>
+  return <Panel className={'mb-3'} header="Supervisors: Employee Eligibility and Registration" toggleable collapsed={true}>
       <div className="information-only-panel">
           <p>
               Supervisors may use this tool to calculate their employee’s

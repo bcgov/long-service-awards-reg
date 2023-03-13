@@ -11,6 +11,7 @@ import { RegistrationContext } from "../AppContext.js";
 import { useNavigate } from "react-router-dom";
 import {Button} from "primereact/button";
 import {Panel} from "primereact/panel";
+import InfoEligibility from "@/components/info/InfoEligibility.jsx";
 
 /**
  * Front Page.
@@ -25,7 +26,7 @@ export default function Home() {
     };
 
     const registerServicePins = () => {
-        navigate("/register/milestone");
+        navigate("/service-pins");
     };
 
     return (
@@ -34,6 +35,7 @@ export default function Home() {
                 title="Welcome"
                 subtitle="Long Service Awards And Service Pin Registration"
             ></PageHeader>
+            <InfoEligibility />
             <Panel className={'mb-3'} header="Celebrating Your Service: Long Service Awards">
                 <p className="m-2">
                     The Long Service Awards celebrate the dedication and commitment of
@@ -74,7 +76,7 @@ export default function Home() {
                     <div className="flex justify-content-center flex-wrap card-container">
                         <div
                             className="flex align-items-center justify-content-center w-full m-2">
-                            <Button disabled={true} onClick={registerServicePins}>
+                            <Button onClick={registerServicePins}>
                                 Start Your Service Pin Registration
                             </Button>
                         </div>

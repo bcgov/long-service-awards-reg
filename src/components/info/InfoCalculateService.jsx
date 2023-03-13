@@ -14,7 +14,7 @@ import {Panel} from "primereact/panel";
  */
 
 export default function InfoCalculateService() {
-  return <Panel header="How to Calculate Your Years of Service" toggleable collapsed={true}>
+  return <Panel className={'mb-3'} header="How to Calculate Your Years of Service" toggleable collapsed={true}>
       <div className="information-only-panel">
           <p>
               When calculating your eligibility, count the calendar years

@@ -8,7 +8,7 @@
 import { Controller, useFormContext } from "react-hook-form";
 import { InputText } from "primereact/inputtext";
 import classNames from "classnames";
-import {matchers} from "@/services/validation.services.js";
+import {matchers, removeNull} from "@/services/validation.services.js";
 import InfoToolTip from "@/components/common/InfoToolTip.jsx";
 import {Panel} from "primereact/panel";
 import {SelectButton} from "primereact/selectbutton";
@@ -28,6 +28,12 @@ export default function SupervisorContactInput() {
     // check if recipient and supervisor addresses are identical
     useEffect(() => {
         setSameAddress(
+            getValues(`supervisor.office_address.street1`) &&
+            getValues(`supervisor.office_address.street2`) &&
+            getValues(`supervisor.office_address.pobox`) &&
+            getValues(`supervisor.office_address.province`) &&
+            getValues(`supervisor.office_address.community`) &&
+            getValues(`supervisor.office_address.postal_code`) &&
             getValues(`supervisor.office_address.street1`) === getValues(`contact.office_address.street1`) &&
             getValues(`supervisor.office_address.street2`) === getValues(`contact.office_address.street2`) &&
             getValues(`supervisor.office_address.pobox`) === getValues(`contact.office_address.pobox`) &&
@@ -43,8 +49,8 @@ export default function SupervisorContactInput() {
             setValue('supervisor.office_address', getValues('contact.office_address'))
             // strip out space between postal code
             setValue(
-                'supervisor.office_address.postal_office',
-                String(getValues('contact.office_address.postal_office')).replace(' ', '')
+                'supervisor.office_address.postal_code',
+                String(getValues('contact.office_address.postal_code')).replace(' ', '')
             )
         } else {
             resetField(`supervisor.office_address.street1`, { defaultValue: '' });

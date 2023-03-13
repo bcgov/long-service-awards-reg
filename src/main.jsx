@@ -18,18 +18,22 @@ import "./index.css";
 import Error from "./views/Error.jsx";
 
 // Load view components
-import ServicePins from "./views/ServicePins/ServicePins.jsx";
-import SelfServicePins from "./views/ServicePins/SelfServicePins.jsx";
-import SupervisorServicePins from "./views/ServicePins/SupervisorServicePins.jsx";
+import DelegatedServicePins from "./views/service-pins/DelegatedServicePins.jsx";
 import Home from "./views/Home.jsx";
-import Profile from "./views/LSA/Profile.jsx";
-import Milestone from "./views/LSA/Milestone.jsx";
-import Contact from "./views/LSA/Contact.jsx";
-import Award from "./views/LSA/Award";
-import Supervisor from "./views/LSA/Supervisor";
-import Confirmation from "./views/LSA/Confirmation";
-import SelfRegistration from "./views/LSA/SelfRegistration.jsx";
-
+import Profile from "./views/lsa/Profile.jsx";
+import Milestone from "./views/lsa/Milestone.jsx";
+import Contact from "./views/lsa/Contact.jsx";
+import Award from "./views/lsa/Award";
+import Supervisor from "./views/lsa/Supervisor";
+import Confirmation from "./views/lsa/Confirmation";
+import ServicePins from "./views/service-pins/ServicePins.jsx";
+import SelfServicePins from "./views/service-pins/self/SelfServicePins.jsx";
+import SelfRegistration from "./views/lsa/SelfRegistration.jsx";
+import ServicePinsMilestone from "@/views/service-pins/self/ServicePinsMilestone.jsx";
+import ServicePinsProfile from "@/views/service-pins/self/ServicePinsProfile.jsx";
+import ServicePinsContact from "@/views/service-pins/self/ServicePinsContact.jsx";
+import ServicePinsSupervisor from "@/views/service-pins/self/ServicePinsSupervisor.jsx";
+import ServicePinsConfirmation from "@/views/service-pins/self/ServicePinsConfirmation.jsx";
 
 const router = createBrowserRouter([
   {
@@ -38,13 +42,18 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       { index: true, element: <Home /> },
+      { path: "service-pins",  element: <ServicePins /> },
+      { path: "service-pins/supervisor", element: <DelegatedServicePins /> },
       {
-        path: "service-pins",
-        element: <ServicePins />,
+        path: "service-pins/self",
+        element: <SelfServicePins />,
         children: [
-          { path: "supervisor", element: <SupervisorServicePins /> },
-          { path: "self", element: <SelfServicePins /> },
-        ]
+          { path: "milestone", element: <ServicePinsMilestone /> },
+          { path: "profile", element: <ServicePinsProfile /> },
+          { path: "contact", element: <ServicePinsContact /> },
+          { path: "supervisor", element: <ServicePinsSupervisor /> },
+          { path: "confirmation", element: <ServicePinsConfirmation /> },
+        ],
       },
       {
         path: "register",
