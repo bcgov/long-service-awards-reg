@@ -27,7 +27,7 @@ import {Button} from "primereact/button";
  * Delegated Calculator Page. Allows users to submit delegated applications for LSA/Service Pin registration.
  */
 
-export default function SupervisorServicePins() {
+export default function DelegatedServicePins() {
   const { setRegistration } = useContext(RegistrationContext);
 
   // const defaultValues = {

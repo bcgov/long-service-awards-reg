@@ -5,7 +5,6 @@
  * MIT Licensed
  */
 
-import AddressInput from "../../components/fieldsets/AddressInput";
 import formServices from "@/services/settings.services.js";
 import PersonalContactInput from "@/components/fieldsets/PersonalContactInput";
 import FormStep from "@/components/common/FormStep.jsx";
@@ -34,9 +33,7 @@ export default function Contact() {
 
     return <FormStep previous={previous} current={current} next={next}>
         <PersonalContactInput />
-        <AddressInput id={'contact.personal_address'} label={'Personal'} />
         <OfficeContactInput />
-        <AddressInput id={'contact.office_address'} label={'Office'} pobox={true} />
     </FormStep>;
 
 }

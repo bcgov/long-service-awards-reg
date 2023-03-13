@@ -13,7 +13,7 @@ import {Panel} from "primereact/panel";
  */
 
 export default function InfoSupervisorRegistrations() {
-  return <Panel header="Supervisor Registrations: Instructions" toggleable collapsed={true}>
+  return <Panel className={'mb-3'} header="Supervisor Registrations: Instructions" toggleable collapsed={true}>
       <div className="information-only-panel">
           <h4>Supervisors and Other Delegates:</h4>
           <p>Enter supervisor information in the contact field below.</p>

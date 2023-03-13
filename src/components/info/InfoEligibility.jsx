@@ -14,7 +14,7 @@ import {Panel} from "primereact/panel";
  */
 
 export default function InfoEligibility() {
-  return <Panel header="Eligibility" toggleable collapsed={true}>
+  return <Panel className={'mb-3'} header="Eligibility" toggleable collapsed={true}>
       <div className="information-only-panel">
           <h4>Long Service Awards</h4>
           <p>

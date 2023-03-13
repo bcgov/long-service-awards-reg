@@ -7,6 +7,9 @@
 
 import validate, {validators} from "@/services/validation.services.js";
 
+// todo: need to make the cycle year dynamic
+const cycle = 2023;
+
 const schemaData = {
   milestones: [
     { value: 5, text: "5 years" },
@@ -20,7 +23,7 @@ const schemaData = {
     { value: 45, text: "45 years" },
     { value: 50, text: "50 years" },
   ],
-  delegatedFormFields: [
+  delegatedServicePins: [
     { key: "employee", label: "Employee" },
     { key: "first_name", label: "First Name", validators: [validators.required] },
     { key: "last_name", label: "Last Name", validators: [validators.required] },
@@ -39,10 +42,9 @@ const schemaData = {
       label: "Milestone",
       description: "Select your Service Milestones",
       route: "/register/milestone",
-      service_pin: true,
       default: {
         service: {
-          cycle: 2023,
+          cycle: cycle,
           service_years: "",
           milestone: "",
           qualifying_year: "",
@@ -52,8 +54,7 @@ const schemaData = {
         },
         bcgeu: false,
         retirement: false,
-        retirement_date: null,
-        prior_milestones: [],
+        retirement_date: null
       },
       validate: (data) => {
         const {service} = data || {};
@@ -71,7 +72,6 @@ const schemaData = {
       label: "Profile",
       description: "Your Profile Information",
       route: "/register/profile",
-      service_pin: true,
       default: {
         contact: {
           first_name: "",
@@ -106,7 +106,6 @@ const schemaData = {
       label: "Contact Info",
       description: "Your personal contact information",
       route: "/register/contact",
-      service_pin: true,
       default: {
         contact: {
           personal_phone: "",
@@ -155,7 +154,6 @@ const schemaData = {
       label: "Award",
       description: "Select your Long Service Award",
       route: "/register/award",
-      service_pin: false,
       default: {
         service: {
           ceremony_opt_out: false,
@@ -197,7 +195,6 @@ const schemaData = {
       label: "Supervisor",
       description: "Your Supervisor Information",
       route: "/register/supervisor",
-      service_pin: true,
       default: {
         supervisor: {
           first_name: "",
@@ -235,7 +232,6 @@ const schemaData = {
       seq: 5,
       label: "Confirmation",
       description: "Confirm your Registration",
-      service_pin: true,
       route: "/register/confirmation",
       fields: [],
       default: {

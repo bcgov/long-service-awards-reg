@@ -5,7 +5,7 @@
  * MIT Licensed
  */
 
-import { useContext, useEffect, memo } from "react";
+import { useContext, useEffect } from "react";
 import { useNavigate, Outlet, redirect } from "react-router-dom";
 import {LoadingContext, RegistrationContext, ToastContext} from "@/AppContext.js";
 import PageHeader from "@/components/common/PageHeader.jsx";
@@ -54,7 +54,7 @@ export default function SelfRegistration() {
       const [error, result] = await createSelfRegistration();
       toast.current.replace(formServices.lookup("messages", error || !result ? "createError" : "createSuccess"));
       if (!error && result) setRegistration(result);
-      // navigate to initial registration step
+      // navigate to initial registration step after creation
       redirect("/register/milestone");
       // }
     } catch (error) {

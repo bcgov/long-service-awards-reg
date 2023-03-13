@@ -67,6 +67,14 @@ export default function AwardInput() {
     };
 
     /**
+     * Parse inline award description sentinels into paragraphs
+     **/
+
+    const parseDescription = (description) => {
+        return description.split('\\n\\n').map(paragraph => <p>{paragraph}</p>);
+    };
+
+    /**
      * Confirm award and options selection. Ready to save to database.
      * @param selectedOptions
      **/
@@ -183,7 +191,7 @@ export default function AwardInput() {
                 <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
                     <div className="flex flex-column align-items-center sm:align-items-start gap-3">
                         <div className="text-2xl font-bold text-900">{item.label}</div>
-                        <div style={{textAlign: 'left'}}>{item.description}</div>
+                        <div style={{textAlign: 'left'}}>{parseDescription(item.description)}</div>
                         <div className="flex align-items-center gap-3">
                             <span className="flex align-items-center gap-2">
                                 <i className="pi pi-tag"></i>
@@ -243,7 +251,7 @@ export default function AwardInput() {
                     <div className="text-2xl font-bold">{item.label}</div>
                 </div>
                 <div>
-                    <div style={{textAlign: 'left'}}>{item.description}</div>
+                    <div style={{textAlign: 'left'}}>{parseDescription(item.description)}</div>
                 </div>
             </div>
         </div>

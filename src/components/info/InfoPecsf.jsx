@@ -14,7 +14,7 @@ import {Panel} from "primereact/panel";
  */
 
 export default function InfoPecsf() {
-  return <Panel header="About PECSF Donations" toggleable collapsed={true}>
+  return <Panel className={'mb-3'} header="About PECSF Donations" toggleable collapsed={true}>
       <div className="information-only-panel">
           <p>In lieu of receiving a Long Service Award, you may opt to make a charitable donation via
               Provincial Employees Community Services Fund (PECSF). <span className="font-weight-bold">

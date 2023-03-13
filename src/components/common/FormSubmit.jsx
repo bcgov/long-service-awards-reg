@@ -22,7 +22,7 @@ export default function FormSubmit({submit, save, disabled, confirmation=false})
     const { completed, confirmed } = useContext(RegistrationContext);
     const confirmSelected = useWatch({control, name: 'service.confirmed'});
     const header = confirmation
-        ? "Submit Your Award Registration"
+        ? "Submit Your Registration"
         : "Save Current Form / Continue to Next Step";
 
     const icon = confirmation ? 'pi pi-upload' : 'pi pi-save';

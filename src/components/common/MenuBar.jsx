@@ -23,7 +23,7 @@ function MenuBar() {
     const logo = <img alt="logo" src={logoURL} height="60" className="mr-2" />;
     const items = [
         {
-            label: 'Long Service Awards Registration',
+            label: 'Long Service Awards / Service Pins Registration',
             icon: 'pi pi-fw pi-home',
             url: import.meta.env.LSA_APPS_REGISTRATION_URL
         },
@@ -31,11 +31,6 @@ function MenuBar() {
             label:'About',
             icon:'pi pi-fw pi-info-circle',
             url: import.meta.env.LSA_APPS_MAIN_SITE_URL
-        },
-        {
-            label:'Service Calculator',
-            icon:'pi pi-fw pi-calculator',
-            url: `${import.meta.env.LSA_APPS_REGISTRATION_URL}/calculate`
         }
     ];
     const profile = <>

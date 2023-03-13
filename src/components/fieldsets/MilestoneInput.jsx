@@ -5,7 +5,7 @@
  * MIT Licensed
  */
 
-import {useContext, useEffect, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import ServiceCalculator from "../common/ServiceCalculator.jsx";
 import {Controller, useFormContext} from "react-hook-form";
 import { Dropdown } from "primereact/dropdown";
@@ -18,6 +18,7 @@ import {Panel} from "primereact/panel";
 import {getMilestones, getQualifyingYears} from "@/services/api.routes.js";
 import {Message} from "primereact/message";
 import {Link} from "react-router-dom";
+import InfoServiceEligibility from "@/components/info/InfoServiceEligibility";
 
 /**
  * Milestones reusable component.
@@ -25,7 +26,7 @@ import {Link} from "react-router-dom";
  * @returns {JSX.Element} years of service, current milestone, qualifying year, prior milestones
  */
 
-export default function MilestoneInput({ threshold=25 }) {
+export default function MilestoneInput({ type }) {
 
     // load form data
     const { registration } = useContext(RegistrationContext);
@@ -56,7 +57,7 @@ export default function MilestoneInput({ threshold=25 }) {
         const estimate = (milestones || [])
             .map(m => m.name)
             .reduce((prev, curr) => (Math.abs(curr - serviceYears) < Math.abs(prev - serviceYears))
-                    && serviceYears >= curr ? curr : prev
+                && serviceYears >= curr ? curr : prev
             );
         // set estimated current milestone (service years must be at least >= minimum milestone)
         setValue(`service.milestone`, serviceYears >= min ? estimate : '')
@@ -100,13 +101,13 @@ export default function MilestoneInput({ threshold=25 }) {
                     />
                     </label>
 
-                        <Controller
-                            name={`service.service_years`}
-                            control={control}
-                            rules={{required: "Enter your number of BCPS service years."}}
-                            render={({ field, fieldState: {invalid, error} }) => (
-                                <>
-                                    <div className="p-inputgroup">
+                    <Controller
+                        name={`service.service_years`}
+                        control={control}
+                        rules={{required: "Enter your number of BCPS service years."}}
+                        render={({ field, fieldState: {invalid, error} }) => (
+                            <>
+                                <div className="p-inputgroup">
                                     <InputNumber
                                         min={0}
                                         max={99}
@@ -124,11 +125,11 @@ export default function MilestoneInput({ threshold=25 }) {
                                         label={showCalculator ? "Hide Calculator" : "Show Calculator"}
                                         onClick={toggleCalculator}
                                     />
-                                    </div>
-                                    { invalid && <p className="error">{error.message}</p> }
-                                </>
-                            )}
-                        />
+                                </div>
+                                { invalid && <p className="error">{error.message}</p> }
+                            </>
+                        )}
+                    />
 
                 </div>
                 <div className={'col-12 form-field-container'}>
@@ -139,38 +140,7 @@ export default function MilestoneInput({ threshold=25 }) {
                 </div>
 
                 <div className={"col-12 form-field-container"}>
-                    {<div id="milestone">
-                        {
-                            getValues(`service.milestone`) >= threshold && <Message
-                                className={'w-full b-1 font-bold'}
-                                severity="success"
-                                content={<span>Your Current Milestone: {getValues(`service.milestone`)}</span>}
-                            />
-                        }
-                        {
-                            getValues(`service.milestone`) < threshold && getValues(`service.milestone`) >= 5 &&
-                            <>
-                                <Message
-                                    className={'w-full border-1 font-bold'}
-                                    severity="info"
-                                    content={
-                                        <div>Your Current Milestone: {getValues(`service.milestone`)}.</div>
-                                    }
-                                />
-                                <Message
-                                    className={'w-full b-1'}
-                                    severity="warn"
-                                    content={
-                                        <div>
-                                            You are ineligible for a Long Service Award. Individuals with 25+
-                                            years of service are eligible for a Long Service Award. Please
-                                            <Link to="/register/service-pins">Register for a Service Pin</Link>.
-                                        </div>
-                                    }
-                                />
-                            </>
-                        }
-                    </div>}
+                        <InfoServiceEligibility type={type} milestone={getValues(`service.milestone`)} />
                 </div>
                 <div className="col-12 form-field-container">
                     <label htmlFor={'qualifying_year'}>

@@ -12,6 +12,8 @@ import BCGEUInput from "@/components/fieldsets/BCGEUInput";
 import formServices from "@/services/settings.services.js";
 import FormStep from "@/components/common/FormStep.jsx";
 import RegistrationOptionsInput from "@/components/fieldsets/RegistrationOptionsInput.jsx";
+import {Message} from "primereact/message";
+import {Link} from "react-router-dom";
 
 /**
  * Milestone Selection.
@@ -25,10 +27,10 @@ export default function Milestone() {
   const next = formServices.copy('registration_steps', 'profile');
 
   return <FormStep current={current} next={next}>
-    <InfoMilestone />
-    <MilestoneInput />
-    <RegistrationOptionsInput />
-    <BCGEUInput />
-    <RetirementInput />
-  </FormStep>;
+          <InfoMilestone />
+          <MilestoneInput type={'lsa'} />
+          <RegistrationOptionsInput />
+          <BCGEUInput />
+          <RetirementInput />
+        </FormStep>;
 }
