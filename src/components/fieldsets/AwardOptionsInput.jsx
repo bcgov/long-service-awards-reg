@@ -5,7 +5,7 @@
  * MIT Licensed
  */
 
-import { useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import {Controller, useFormContext, useForm, useWatch} from "react-hook-form";
 import { InputText } from "primereact/inputtext";
 import { Dropdown } from "primereact/dropdown";
@@ -39,6 +39,16 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
         defaultValues: {
             donation: getValues('service.awards.options.pecsf_charity') || 'pool'
         }});
+
+    /**
+     * Parse inline award description sentinels into paragraphs
+     **/
+
+    const parseDescription = (description) => {
+        const id = Math.floor(Math.random() * 10000);
+        return description.split('\\n\\n').map((paragraph, index) =>
+            <p key={`para-${id}-${index}`}>{paragraph}</p>);
+    };
 
     /**
      * Get award option schema for award selection
@@ -236,7 +246,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
     return <div className={'grid'}>
         <form onSubmit={handleSubmit(confirmOptions)}>
             {
-                award && <p>{award.description}</p>
+                award && <div>{parseDescription(award.description)}</div>
             }
             <OptionInputTemplate />
             <div>

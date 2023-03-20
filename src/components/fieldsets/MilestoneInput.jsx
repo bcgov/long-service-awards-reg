@@ -16,8 +16,6 @@ import { RegistrationContext } from "@/AppContext.js";
 import {Button} from "primereact/button";
 import {Panel} from "primereact/panel";
 import {getMilestones, getQualifyingYears} from "@/services/api.routes.js";
-import {Message} from "primereact/message";
-import {Link} from "react-router-dom";
 import InfoServiceEligibility from "@/components/info/InfoServiceEligibility";
 
 /**

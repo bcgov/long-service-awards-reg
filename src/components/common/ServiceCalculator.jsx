@@ -5,9 +5,8 @@
  * MIT Licensed
  */
 
-import {useContext, Fragment} from "react";
+import {Fragment} from "react";
 import { useForm, Controller, useFieldArray, useWatch } from "react-hook-form";
-import {CalculatorContext} from "@/AppContext.js";
 import { InputText } from "primereact/inputtext";
 import { Calendar } from "primereact/calendar";
 import InfoToolTip from "./InfoToolTip.jsx";
@@ -44,9 +43,7 @@ const TotalYears = ({ control }) => {
  * @returns
  */
 
-export default function ServiceCalculator({formSubmit, threshold=5}) {
-    // service data context
-    const { setService, setEligible } = useContext(CalculatorContext);
+export default function ServiceCalculator({formSubmit}) {
 
     // service calculator form controls
     const { control, handleSubmit, reset, setValue, getValues } = useForm({
@@ -63,10 +60,6 @@ export default function ServiceCalculator({formSubmit, threshold=5}) {
             for (let i = startYear; i <= endYear; i++) yearSet.push(i);
         });
         const totalYears = [...new Set(yearSet)].length;
-        // set eligibility based on threshold milestone
-        setEligible(totalYears >= threshold);
-        // set service state
-        setService({...{service_years: totalYears}});
         // execute callback
         formSubmit(totalYears);
     };

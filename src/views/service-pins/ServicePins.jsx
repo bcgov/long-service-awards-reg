@@ -1,6 +1,6 @@
 /*!
- * Service CalculatorSelector Options View (React)
- * File: CalculatorSelector.js
+ * Service Pins View
+ * File: ServicePins.js
  * Copyright(c) 2023 BC Gov
  * MIT Licensed
  */

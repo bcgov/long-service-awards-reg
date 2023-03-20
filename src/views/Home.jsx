@@ -77,7 +77,10 @@ export default function Home() {
                         <div
                             className="flex align-items-center justify-content-center w-full m-2">
                             <Button onClick={registerServicePins}>
-                                Start Your Service Pin Registration
+                                { registration || confirmed
+                                    ? "View Your Service Pin Registration"
+                                    : "Start Your Service Pin Registration"
+                                }
                             </Button>
                         </div>
                     </div>
