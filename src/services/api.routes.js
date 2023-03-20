@@ -148,4 +148,14 @@ export const getPecsfRegions = async () => {
   return result;
 }
 
+/**
+ * Delete recipient data
+ *
+ * */
+
+export const removeSelfRegistration = async () => {
+  const [_, result] = await api.post(`/recipients/self/delete/`, {});
+  return result;
+}
+
 export default null;

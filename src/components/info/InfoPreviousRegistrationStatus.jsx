@@ -1,6 +1,6 @@
 /*!
- * Info Panel: Registration Status
- * File: InfoRegistrationStatus.js
+ * Info Panel: Previous Registration Status
+ * File: InfoPreviousRegistrationStatus.js
  * Copyright(c) 2023 BC Gov
  * MIT Licensed
  */
@@ -11,23 +11,23 @@ import {Panel} from "primereact/panel";
 import {useNavigate} from "react-router-dom";
 
 /**
- * Info Panel: PECSF Donations
+ * Info Panel: Previous registration status
  * @returns {JSX.Element}
  */
 
-export default function InfoRegistrationStatus() {
+export default function InfoPreviousRegistrationStatus() {
     const navigate = useNavigate();
-    return <Panel className={'mb-3'} header={<span>Registration Submitted</span>}>
+    return <Panel className={'mb-3'} header={<>Previous Registration Selected</>}>
         <div className="confirmation-redirection-panel">
             <div className={'flex justify-center'}>
-                You have already submitted your registration for this year.
-                Please review your application details here:
+                You have selected that you previously registered for an award (in last two years)
+                and were unable to attend your ceremony.
             </div>
             <div>
                 <Button
                     className={'m-2 p-button-info w-full flex justify-content-center'}
-                    onClick={() => { navigate("/register/confirmation") }}>
-                    Confirmation Page
+                    onClick={() => { navigate("/register/milestone") }}>
+                    Return to Registration
                 </Button>
             </div>
             <div>

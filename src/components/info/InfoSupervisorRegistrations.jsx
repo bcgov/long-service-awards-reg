@@ -5,8 +5,7 @@
  * MIT Licensed
  */
 
-import AppPanel from "@/components/common/AppPanel.jsx";
-import React from "react";
+import {Panel} from "primereact/panel";
 
 /**
  * Info Panel: Eligibility
@@ -14,7 +13,7 @@ import React from "react";
  */
 
 export default function InfoSupervisorRegistrations() {
-  return <AppPanel header="Supervisor Registrations: Instructions" toggleable collapsed={true}>
+  return <Panel className={'mb-3'} header="Supervisor Registrations: Instructions" toggleable collapsed={true}>
       <div className="information-only-panel">
           <h4>Supervisors and Other Delegates:</h4>
           <p>Enter supervisor information in the contact field below.</p>
@@ -40,5 +39,5 @@ export default function InfoSupervisorRegistrations() {
               Selection.
           </p>
       </div>
-  </AppPanel>
+  </Panel>
 }

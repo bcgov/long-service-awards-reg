@@ -13,14 +13,14 @@ import ConfirmationInput from "@/components/fieldsets/ConfirmationInput";
 import {BlockUI} from "primereact/blockui";
 import {Button} from "primereact/button";
 import {useNavigate} from "react-router-dom";
-import {Message} from "primereact/message";
-import MilestoneData from "@/components/display/MilestoneData";
+import MilestoneData from "@/components/data/MilestoneData";
 import {Panel} from "primereact/panel";
-import FormData from "@/components/display/FormData.jsx";
-import ProfileData from "@/components/display/ProfileData.jsx";
-import ContactData from "@/components/display/ContactData";
-import AwardData from "@/components/display/AwardData.jsx";
-import SupervisorData from "@/components/display/SupervisorData";
+import FormData from "@/components/data/FormData.jsx";
+import ProfileData from "@/components/data/ProfileData.jsx";
+import ContactData from "@/components/data/ContactData";
+import AwardData from "@/components/data/AwardData.jsx";
+import SupervisorData from "@/components/data/SupervisorData";
+import InfoLSADeclaration from "@/components/info/InfoLSADeclaration.jsx";
 
 /**
  * Recipient Profile form.
@@ -32,6 +32,9 @@ export default function Confirmation() {
   const { loading } = useContext(LoadingContext);
   const { completed } = useContext(RegistrationContext);
   const navigate = useNavigate();
+  const { registration } = useContext(RegistrationContext);
+  const {service} = registration || {};
+  const { previous_registration, cycle } = service || {};
 
   // get form step schema / default values
   const previous = formServices.copy('registration_steps', 'supervisor');
@@ -39,22 +42,27 @@ export default function Confirmation() {
 
   // block confirmation fieldset if form is incomplete
   return <FormStep previous={previous} current={current}>
-    <Panel className={'mb-3'} header={'Confirm Registration Details'}>
-      <FormData id={'milestone'}><MilestoneData /></FormData>
-      <FormData id={'profile'}><ProfileData /></FormData>
-      <FormData id={'contact'}><ContactData /></FormData>
-      <FormData id={'awards'}><AwardData /></FormData>
-      <FormData id={'supervisor'}><SupervisorData /></FormData>
-    </Panel>
     {
-        !completed && <Message className={'mb-3 w-full'} severity="warn" text="Registration is incomplete"/>
+      completed && <Panel className={'mb-3'} header={'Confirm Registration Details'}>
+        <FormData id={'milestone'}><MilestoneData/></FormData>
+        <FormData id={'profile'}><ProfileData/></FormData>
+        <FormData id={'contact'}><ContactData/></FormData>
+          {
+            previous_registration
+                ? <Panel className={'mb-3'} header={'Award'}>Award Previously Selected</Panel>
+                : <FormData id={'awards'}><AwardData/></FormData>
+          }
+        <FormData id={'supervisor'}><SupervisorData/></FormData>
+      </Panel>
     }
     <BlockUI blocked={!completed && !loading} template={
       <Button
           onClick={()=>{navigate('/register/milestone')}}
           label={'Click to Complete Your Registration'}
       />}>
-      <ConfirmationInput />
+      <ConfirmationInput>
+        <InfoLSADeclaration year={cycle} />
+      </ConfirmationInput>
     </BlockUI>
   </FormStep>;
 }

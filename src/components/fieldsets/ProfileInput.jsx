@@ -14,6 +14,7 @@ import {matchers} from "@/services/validation.services.js";
 import {Dropdown} from "primereact/dropdown";
 import InfoToolTip from "@/components/common/InfoToolTip.jsx";
 import {Panel} from "primereact/panel";
+import formServices from "@/services/settings.services.js";
 
 /**
  * Recipient Profile Information
@@ -26,7 +27,7 @@ export default function ProfileInput() {
     const { options } = useContext(OptionsContext);
 
     // get list of organizations
-    const organizations = options ? options.organizations : [];
+    const organizations = options ? formServices.sort(options.organizations, 'name') : [];
 
     // Note: To fix error handling to make sure naming convention works
     return <Panel
@@ -95,7 +96,7 @@ export default function ProfileInput() {
                             required: "Government email is required.",
                             pattern: {
                                 value: matchers.govEmail,
-                                message: "Invalid email address. E.g. example@gov.bc.ca",
+                                message: "Invalid email address (e.g., example@gov.bc.ca)",
                             },
                         }}
                         render={({ field, fieldState: {invalid, error} }) => (
@@ -121,19 +122,22 @@ export default function ProfileInput() {
                             required: "Personal email address is required.",
                             pattern: {
                                 value: matchers.email,
-                                message: "Invalid email address. E.g. example@email.com",
+                                message: "Invalid email address. (e.g., example@gov.bc.ca)",
                             },
                         }}
-                        render={({ field, fieldState }) => (
-                            <InputText
+                        render={({ field, fieldState: {invalid, error}}) => (
+                           <>
+                           <InputText
                                 id={`${field.name}`}
                                 value={field.value || ''}
                                 type="text"
                                 onChange={(e) => field.onChange(e.target.value)}
                                 aria-describedby={'personal_email-help'}
                                 placeholder={'Your personal email address'}
-                                className={classNames({"p-invalid": fieldState.error})}
+                                className={classNames({"p-invalid": error})}
                             />
+                               { invalid && <p className="error">{error.message}</p> }
+                           </>
                         )}
                     />
                 </div>
@@ -147,7 +151,7 @@ export default function ProfileInput() {
                             required: "Employee number is required.",
                             pattern: {
                                 value: matchers.employeeNumber,
-                                message: "Invalid employee number. E.g. 123456",
+                                message: "Invalid employee number. (e.g., 123456)",
                             },
                         }}
                         render={({ field, fieldState: {invalid, error} }) => (
@@ -218,7 +222,7 @@ export default function ProfileInput() {
                     />
                 </div>
                 <div className="col-12 form-field-container">
-                    <label htmlFor={'branch'}>Your Branch</label>
+                    <label htmlFor={'branch'}>Branch</label>
                     <Controller
                         name={"branch"}
                         control={control}

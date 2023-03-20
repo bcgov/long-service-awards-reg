@@ -6,13 +6,11 @@
  */
 
 import { useContext, useEffect } from "react";
-import { useNavigate, Outlet } from "react-router-dom";
+import { useNavigate, Outlet, redirect } from "react-router-dom";
 import {LoadingContext, RegistrationContext, ToastContext} from "@/AppContext.js";
 import PageHeader from "@/components/common/PageHeader.jsx";
-import FormProgress from "@/components/common/FormProgress.jsx";
 import formServices from "@/services/settings.services.js";
 import {createSelfRegistration, getSelfRegistration, saveSelfRegistration} from "@/services/api.routes.js";
-import InfoRegistrationStatus from "@/components/info/InfoRegistrationStatus.jsx";
 import {BlockUI} from "primereact/blockui";
 import {Button} from "primereact/button";
 
@@ -23,23 +21,30 @@ import {Button} from "primereact/button";
 export default function SelfRegistration() {
   const toast = useContext(ToastContext);
   const navigate = useNavigate();
-  const {step, setCompleted, confirmed, setConfirmed, registration, setRegistration} = useContext(RegistrationContext);
-  const {setLoading} = useContext(LoadingContext);
+  const {
+    step, setCompleted, confirmed, setConfirmed, setRegistration, registration
+  } = useContext(RegistrationContext);
+  const {loading, setLoading} = useContext(LoadingContext);
 
   // get the registration steps template schema
   const steps = formServices.get("registration_steps");
 
-  // check if registration is completed / confirmed
-  useEffect(()=>{
-    const { service } = registration || {};
-    const { confirmed } = service || {};
-    console.log(registration)
+  // set form status
+  const _setStatus = (data) => {
+    // set form status
+    const { service } = data || {};
+    const { confirmed, previous_registration } = service || {};
+    // form confirmation status
     setConfirmed(confirmed);
+    // form completion status: validate every step except confirmation
+    // - filter out award step if previous registration was selected
+    // - filter out confirmation step since it has a separate validation process
     setCompleted(steps
+        .filter(step => !previous_registration || (previous_registration && step.key !== 'awards'))
         .filter(step => step.key !== 'confirmation')
-        .every(step => step.validate(registration))
+        .every(step => step.validate(data))
     );
-  }, [registration]);
+  }
 
   // create new registration
   const _handleCreateRegistration = async () => {
@@ -48,11 +53,10 @@ export default function SelfRegistration() {
       toast.current.show(formServices.lookup("messages", "create"));
       const [error, result] = await createSelfRegistration();
       toast.current.replace(formServices.lookup("messages", error || !result ? "createError" : "createSuccess"));
-      if (!error && result) {
-        setRegistration(result);
-        // navigate to initial registration step
-        navigate("/register/milestone");
-      }
+      if (!error && result) setRegistration(result);
+      // navigate to initial registration step after creation
+      redirect("/register/milestone");
+      // }
     } catch (error) {
       toast.current.replace(formServices.lookup("messages", "saveError"));
     } finally {
@@ -64,9 +68,17 @@ export default function SelfRegistration() {
   const _handleSaveRegistration = async (data) => {
     try {
       setLoading(true);
+      const {service} = data || {};
+      const {confirmed} = service || {};
       const [error, result] = await saveSelfRegistration(data);
       toast.current.replace(formServices.lookup("messages", error || !result ? "saveError" : "saveSuccess"));
-      if (!error && result) setRegistration(result);
+      if (!error && result) {
+        setRegistration(result);
+        _setStatus(result)
+        // show confirmation message if registration completed
+        if (confirmed)
+          toast.current.replace(formServices.lookup("messages", "confirmRegistration"));
+      }
       return result;
     } catch (error) {
       toast.current.replace(formServices.lookup("messages", "saveError"));
@@ -78,38 +90,38 @@ export default function SelfRegistration() {
   // Initialize registration form
   useEffect(() => {
     // check for existing registration
-    getSelfRegistration().then(data => {
+    getSelfRegistration().then( async (data) => {
       // create new registration if none exists
-      if (!data) _handleCreateRegistration().catch(console.error);
-      // check if registration is completed
-      setCompleted(steps.every(step => step.validate(registration)));
+      if (!data && !loading) await _handleCreateRegistration().catch(console.error)
     }).catch(err => {
       console.error(err)
       toast.current.replace(formServices.lookup("messages", "createError"));
-    })
-
+    });
   }, []);
 
-  //redirects to confirmation page if registration is confirmed
+  // set registration status
   useEffect(() => {
+    _setStatus(registration)
     if (confirmed) navigate("/register/confirmation");
-  }, []);
+    // if no step is provided, navigate to start of form
+    if(!step) navigate("/register/milestone");
+  }, [registration]);
 
   // overlay template for blocked form panels
   const BlockUITemplate = () => {
     return <div>
-      <Button onClick={()=>{navigate("/register/confirmation")}} icon={'pi pi-lock'} label={'Go To Confirmation Step'}/>
+      <Button
+          onClick={()=>{navigate("/register/confirmation")}}
+          icon={'pi pi-lock'}
+          label={'View Submitted Registration'}
+      />
     </div>
   }
 
   return <>
-    <PageHeader title="Award Registration" subtitle={step && step.description || ''}/>
-    <FormProgress />
-    {
-        confirmed && step && step.key !== "confirmation" && <InfoRegistrationStatus/>
-    }
-    <BlockUI blocked={confirmed} template={BlockUITemplate}>
-      <Outlet context={[_handleSaveRegistration]}/>
-    </BlockUI>
-  </>
+          <PageHeader title="Award Registration" subtitle={step && step.description || ''}/>
+          <BlockUI blocked={confirmed && step && step.key !== "confirmation"} template={BlockUITemplate}>
+            <Outlet context={[_handleSaveRegistration]}/>
+          </BlockUI>
+        </>
 }

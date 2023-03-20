@@ -5,8 +5,8 @@
  * MIT Licensed
  */
 
-import AppPanel from "@/components/common/AppPanel.jsx";
 import React from "react";
+import {Panel} from "primereact/panel";
 
 /**
  * Info Panel: PECSF Donations
@@ -14,7 +14,7 @@ import React from "react";
  */
 
 export default function InfoPecsf() {
-  return <AppPanel header="About PECSF Donations" toggleable collapsed={true}>
+  return <Panel className={'mb-3'} header="About PECSF Donations" toggleable collapsed={true}>
       <div className="information-only-panel">
           <p>In lieu of receiving a Long Service Award, you may opt to make a charitable donation via
               Provincial Employees Community Services Fund (PECSF). <span className="font-weight-bold">
@@ -28,5 +28,5 @@ export default function InfoPecsf() {
               <li>to donate to a registered charitable organization (maximum of two) of your choice.</li>
           </ol>
       </div>
-  </AppPanel>
+  </Panel>
 }

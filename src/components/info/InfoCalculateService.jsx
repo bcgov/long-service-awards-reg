@@ -5,8 +5,8 @@
  * MIT Licensed
  */
 
-import AppPanel from "@/components/common/AppPanel.jsx";
 import React from "react";
+import {Panel} from "primereact/panel";
 
 /**
  * Info Panel: Supervisor Eligibility
@@ -14,7 +14,7 @@ import React from "react";
  */
 
 export default function InfoCalculateService() {
-  return <AppPanel header="How to Calculate Your Years of Service" toggleable collapsed={true}>
+  return <Panel className={'mb-3'} header="How to Calculate Your Years of Service" toggleable collapsed={true}>
       <div className="information-only-panel">
           <p>
               When calculating your eligibility, count the calendar years
@@ -28,5 +28,5 @@ export default function InfoCalculateService() {
               for your recognition awards in one easy process.
           </p>
       </div>
-  </AppPanel>
+  </Panel>
 }

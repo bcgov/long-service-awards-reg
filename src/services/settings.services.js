@@ -7,6 +7,9 @@
 
 import validate, {validators} from "@/services/validation.services.js";
 
+// todo: need to make the cycle year dynamic
+const cycle = 2023;
+
 const schemaData = {
   milestones: [
     { value: 5, text: "5 years" },
@@ -20,7 +23,7 @@ const schemaData = {
     { value: 45, text: "45 years" },
     { value: 50, text: "50 years" },
   ],
-  delegatedFormFields: [
+  delegatedServicePins: [
     { key: "employee", label: "Employee" },
     { key: "first_name", label: "First Name", validators: [validators.required] },
     { key: "last_name", label: "Last Name", validators: [validators.required] },
@@ -39,21 +42,19 @@ const schemaData = {
       label: "Milestone",
       description: "Select your Service Milestones",
       route: "/register/milestone",
-      service_pin: true,
       default: {
         service: {
-          cycle: 2023,
+          cycle: cycle,
           service_years: "",
           milestone: "",
           qualifying_year: "",
-          ceremony_opt_out: false,
-          confirmed: false
+          confirmed: false,
+          previous_registration: false,
+          previous_award: false
         },
         bcgeu: false,
         retirement: false,
-        retirement_date: null,
-        previous_registration: false,
-        prior_milestones: [],
+        retirement_date: null
       },
       validate: (data) => {
         const {service} = data || {};
@@ -71,7 +72,6 @@ const schemaData = {
       label: "Profile",
       description: "Your Profile Information",
       route: "/register/profile",
-      service_pin: true,
       default: {
         contact: {
           first_name: "",
@@ -106,7 +106,6 @@ const schemaData = {
       label: "Contact Info",
       description: "Your personal contact information",
       route: "/register/contact",
-      service_pin: true,
       default: {
         contact: {
           personal_phone: "",
@@ -155,9 +154,9 @@ const schemaData = {
       label: "Award",
       description: "Select your Long Service Award",
       route: "/register/award",
-      service_pin: false,
       default: {
         service: {
+          ceremony_opt_out: false,
           awards: {
             award: {
               id: "",
@@ -196,7 +195,6 @@ const schemaData = {
       label: "Supervisor",
       description: "Your Supervisor Information",
       route: "/register/supervisor",
-      service_pin: true,
       default: {
         supervisor: {
           first_name: "",
@@ -234,7 +232,6 @@ const schemaData = {
       seq: 5,
       label: "Confirmation",
       description: "Confirm your Registration",
-      service_pin: true,
       route: "/register/confirmation",
       fields: [],
       default: {
@@ -268,6 +265,15 @@ const schemaData = {
         detail: "Creating a new registration. Please Wait.",
         sticky: true,
         closable: false,
+      },
+    },
+    {
+      value: "delete",
+      text: {
+        severity: "success",
+        summary: "Registration Deleted",
+        detail: "Registration was removed.",
+        life: 3000
       },
     },
     {
@@ -329,6 +335,15 @@ const schemaData = {
         life: 3000
       },
     },
+    {
+      value: "confirmRegistration",
+      text: {
+        severity: "info",
+        summary: "Registration Complete",
+        detail: "Thank you we have received your registration.",
+        life: 3000
+      },
+    },
   ],
 };
 
@@ -362,9 +377,27 @@ export default {
     return found.length > 0 ? found[0].text : null;
   },
 
+  /**
+   * Capialize string
+   * @param value
+   * @return {string|null}
+   */
   capitalize: function capitalize(value) {
     const capitalizedValue =
         value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
     return value !== "undefined" ? capitalizedValue : null;
   },
+
+  /**
+   * Sort array of objects alphanumerically
+   */
+
+  sort: function sort(arr, field) {
+      return arr.sort((a, b) => {
+        if (a.hasOwnProperty(field) && b.hasOwnProperty(field)) {
+          return a[field] < b[field] ? -1 : 1;
+        }
+        return 0;
+      })
+    }
 };

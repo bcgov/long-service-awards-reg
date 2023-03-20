@@ -5,8 +5,8 @@
  * MIT Licensed
  */
 
-import AppPanel from "@/components/common/AppPanel.jsx";
 import React from "react";
+import {Panel} from "primereact/panel";
 
 /**
  * Info Panel: Eligibility
@@ -14,7 +14,7 @@ import React from "react";
  */
 
 export default function InfoEligibility() {
-  return <AppPanel header="Eligibility" toggleable collapsed={true}>
+  return <Panel className={'mb-3'} header="Eligibility" toggleable collapsed={true}>
       <div className="information-only-panel">
           <h4>Long Service Awards</h4>
           <p>
@@ -56,5 +56,5 @@ export default function InfoEligibility() {
               work. Unpaid leaves of absence do not count.
           </p>
       </div>
-  </AppPanel>
+  </Panel>
 }

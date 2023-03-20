@@ -21,6 +21,7 @@ import {useNavigate} from "react-router-dom";
 import {Message} from "primereact/message";
 import {useOutletContext} from "react-router";
 import formServices from "@/services/settings.services.js";
+import CeremonyInput from "@/components/fieldsets/CeremonyInput";
 
 
 /**
@@ -66,6 +67,16 @@ export default function AwardInput() {
     };
 
     /**
+     * Parse inline award description sentinels into paragraphs
+     **/
+
+    const parseDescription = (description) => {
+        const id = Math.floor(Math.random() * 10000);
+        return description.split('\\n\\n').map((paragraph, index) =>
+            <p key={`para-${id}-${index}`}>{paragraph}</p>);
+    };
+
+    /**
      * Confirm award and options selection. Ready to save to database.
      * @param selectedOptions
      **/
@@ -76,9 +87,9 @@ export default function AwardInput() {
         setValue('service.id', currentServiceID);
         setValue('service.awards.award', selectedAward);
         setValue('service.awards.selections', selectedOptions);
+        deselectAward();
         await saveRegistration(getValues());
         toast.current.show(formServices.lookup("messages", "confirmAward"));
-        deselectAward();
     };
 
     /**
@@ -182,7 +193,7 @@ export default function AwardInput() {
                 <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
                     <div className="flex flex-column align-items-center sm:align-items-start gap-3">
                         <div className="text-2xl font-bold text-900">{item.label}</div>
-                        <div style={{textAlign: 'left'}}>{item.description}</div>
+                        <div style={{textAlign: 'left'}}>{parseDescription(item.description)}</div>
                         <div className="flex align-items-center gap-3">
                             <span className="flex align-items-center gap-2">
                                 <i className="pi pi-tag"></i>
@@ -213,7 +224,7 @@ export default function AwardInput() {
      * */
 
     const gridItem = (item) => {
-        return <div className="col-12 sm:col-6 lg:col-12 xl:col-4 p-2">
+        return <div className="col-4 sm:col-6 md:col-4 lg:col-4 xl:col-4 p-2">
             <div className="p-4 border-1 surface-border surface-card border-round">
                 <div className="flex flex-wrap align-items-center justify-content-between gap-2">
                     <div className="flex align-items-center gap-2">
@@ -242,7 +253,7 @@ export default function AwardInput() {
                     <div className="text-2xl font-bold">{item.label}</div>
                 </div>
                 <div>
-                    <div style={{textAlign: 'left'}}>{item.description}</div>
+                    <div style={{textAlign: 'left'}}>{parseDescription(item.description)}</div>
                 </div>
             </div>
         </div>
@@ -262,6 +273,7 @@ export default function AwardInput() {
                 onClick={()=>{navigate('/register/milestone')}}
                 label={'Select Your Milestone to View Awards'}
             />}>
+            <CeremonyInput />
             <div className={`award-selection-form`}>
                 <div
                     className={classNames(
@@ -296,7 +308,6 @@ export default function AwardInput() {
                     maximizable
                     modal
                     style={{ minWidth: "fit-content", width: "50vw" }}
-                    breakpoints={{ "960px": "75vw" }}
                 >
                     <AwardOptionsInput
                         regControl={control}

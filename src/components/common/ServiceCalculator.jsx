@@ -5,17 +5,15 @@
  * MIT Licensed
  */
 
-import {useContext, Fragment} from "react";
+import {Fragment} from "react";
 import { useForm, Controller, useFieldArray, useWatch } from "react-hook-form";
-import {CalculatorContext} from "@/AppContext";
 import { InputText } from "primereact/inputtext";
 import { Calendar } from "primereact/calendar";
-import InfoToolTip from "../common/InfoToolTip.jsx";
+import InfoToolTip from "./InfoToolTip.jsx";
 import HelpTool from "@/components/help/HelpTool.jsx";
 import {Toolbar} from "primereact/toolbar";
-import AppPanel from "@/components/common/AppPanel.jsx";
 import {Button} from "primereact/button";
-import "@/styles/ServiceCalculator.css";
+import {Panel} from "primereact/panel";
 
 
 /**
@@ -45,9 +43,7 @@ const TotalYears = ({ control }) => {
  * @returns
  */
 
-export default function ServiceCalculator({formSubmit, threshold=5}) {
-    // service data context
-    const { setService, setEligible } = useContext(CalculatorContext);
+export default function ServiceCalculator({formSubmit}) {
 
     // service calculator form controls
     const { control, handleSubmit, reset, setValue, getValues } = useForm({
@@ -64,10 +60,6 @@ export default function ServiceCalculator({formSubmit, threshold=5}) {
             for (let i = startYear; i <= endYear; i++) yearSet.push(i);
         });
         const totalYears = [...new Set(yearSet)].length;
-        // set eligibility based on threshold milestone
-        setEligible(totalYears >= threshold);
-        // set service state
-        setService({...{service_years: totalYears}});
         // execute callback
         formSubmit(totalYears);
     };
@@ -97,7 +89,7 @@ export default function ServiceCalculator({formSubmit, threshold=5}) {
             <Button
                 className={'m-1'}
                 label={'Add Row'}
-                severity={"secondary"}
+                severity={"info"}
                 icon="pi pi-plus-circle"
                 onClick={(e) => {
                     e.preventDefault();
@@ -126,8 +118,7 @@ export default function ServiceCalculator({formSubmit, threshold=5}) {
                 <span>
                   <InfoToolTip
                       target="total-years-counter"
-                      content="Total Years count may differ from years of service
-                      per row, as duplicated years are only counted once."
+                      content="Note that overlapping work periods are merged to count each year only once."
                       position={"top"}
                   />
                   Total Years: <TotalYears key="total-count" {...{ control }} />
@@ -137,7 +128,7 @@ export default function ServiceCalculator({formSubmit, threshold=5}) {
     );
 
     return (
-        <AppPanel header={"Service Calculator"}>
+        <Panel header={"Service Calculator"}>
             <ul>
                 {
                     fields.map((item, index) => {
@@ -229,6 +220,6 @@ export default function ServiceCalculator({formSubmit, threshold=5}) {
                     })}
             </ul>
             <Toolbar left={startContent} right={endContent} />
-        </AppPanel>
+        </Panel>
     );
 }

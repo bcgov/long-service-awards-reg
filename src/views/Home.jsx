@@ -10,8 +10,8 @@ import PageHeader from "../components/common/PageHeader";
 import { RegistrationContext } from "../AppContext.js";
 import { useNavigate } from "react-router-dom";
 import {Button} from "primereact/button";
-import {Card} from "primereact/card";
 import {Panel} from "primereact/panel";
+import InfoEligibility from "@/components/info/InfoEligibility.jsx";
 
 /**
  * Front Page.
@@ -19,12 +19,14 @@ import {Panel} from "primereact/panel";
 
 export default function Home() {
     const navigate = useNavigate();
-    const { registration } = useContext(RegistrationContext);
-    const submittedRegistration = registration ? registration.confirmed : null;
-    const activeRegistration = JSON.stringify(registration) !== "{}";
+    const { confirmed, registration } = useContext(RegistrationContext);
 
-    const registerRedirect = () => {
+    const registerLSA = () => {
         navigate("/register/milestone");
+    };
+
+    const registerServicePins = () => {
+        navigate("/service-pins");
     };
 
     return (
@@ -33,7 +35,8 @@ export default function Home() {
                 title="Welcome"
                 subtitle="Long Service Awards And Service Pin Registration"
             ></PageHeader>
-            <Panel header="Celebrating Your Service">
+            <InfoEligibility />
+            <Panel className={'mb-3'} header="Celebrating Your Service: Long Service Awards">
                 <p className="m-2">
                     The Long Service Awards celebrate the dedication and commitment of
                     employees with 25, 30, 35, 40, 45 and 50 year careers in the BC Public
@@ -46,14 +49,43 @@ export default function Home() {
                     <div className="flex justify-content-center flex-wrap card-container">
                         <div
                             className="flex align-items-center justify-content-center w-full m-2">
-                            <Button onClick={registerRedirect}>
-                                { activeRegistration || submittedRegistration ? "View Your Registration" : "Register" }
+                            <Button onClick={registerLSA}>
+                                { registration || confirmed
+                                    ? "View Your Long Service Award Registration"
+                                    : "Start Your Long Service Award Registration"
+                                }
                             </Button>
                         </div>
                     </div>
                 </div>
             </Panel>
-
+            <Panel header="Service Pin Registration">
+                <p>
+                    If you’ve reached a career milestone of at least 5, 10, 15 or 20 years with the BC Public Service,
+                    register now to receive a commemorative service pin.
+                </p>
+                <p>
+                    Note that Long Service Award recipients automatically receive a corresponding service pin and do
+                    not need to register separately.
+                </p>
+                <p>
+                    You can either register for your own pin or on behalf of someone you know. Please
+                    ensure you complete the correct form.
+                </p>
+                <div className="card">
+                    <div className="flex justify-content-center flex-wrap card-container">
+                        <div
+                            className="flex align-items-center justify-content-center w-full m-2">
+                            <Button onClick={registerServicePins}>
+                                { registration || confirmed
+                                    ? "View Your Service Pin Registration"
+                                    : "Start Your Service Pin Registration"
+                                }
+                            </Button>
+                        </div>
+                    </div>
+                </div>
+            </Panel>
         </div>
     );
 }

@@ -9,13 +9,15 @@ import {Dropdown} from "primereact/dropdown";
 import {InputMask} from "primereact/inputmask";
 import {BlockUI} from "primereact/blockui";
 import {AutoComplete} from "primereact/autocomplete";
+import formServices from "@/services/settings.services.js";
+
 
 /**
  * Address Input reusable component. Conditional PO Box requirement for Victoria addresses.
  * @returns address line 1, address line 2, city/community, province/state, country, postal code, po box
  */
 
-export default function AddressInput({id, label}) {
+export default function AddressInput({id, label, pobox}) {
     const { control, setValue, getValues } = useFormContext();
     const { options } = useContext(OptionsContext);
     const [poboxRequired, setPoboxRequired] = useState(false);
@@ -23,16 +25,17 @@ export default function AddressInput({id, label}) {
 
     // get options
     const communities = options ? options.communities : [];
-    const provinces = options ? options.provinces : [];
+    const provinces = options ? formServices.sort(options.provinces, 'name') : [];
 
-    // check for Victoria addresses to require post office box numbers
+    // check for Victoria office addresses to require post office box numbers
     const checkPobox = () => {
         setPoboxRequired(
-            getValues(`${id}.province`) === 'British Columbia'
-            && getValues(`${id}.community`) === 'Victoria'
+            getValues(`${id}.province`) === 'British Columbia' && getValues(`${id}.community`) === 'Victoria'
         );
     }
-    useEffect(checkPobox, [])
+    useEffect(() => {
+        if (pobox) checkPobox()
+    }, []);
 
     return (
         <Panel className={'mb-3'} header={<>{label} Address</>}>
@@ -95,7 +98,7 @@ export default function AddressInput({id, label}) {
                                         maxLength={256}
                                         onChange={(e) => {
                                             field.onChange(e.value);
-                                            checkPobox();
+                                            if (pobox) checkPobox();
                                         }}
                                         completeMethod={(e) => {
                                             setFilteredCommunities((communities || [])
@@ -121,7 +124,7 @@ export default function AddressInput({id, label}) {
                         <Controller
                             name={`${id}.province`}
                             control={control}
-                            rules={{ required: "Province/State is required." }}
+                            rules={{ required: "Province is required." }}
                             render={({ field, fieldState: {invalid, error} }) => (
                                 <>
                                     <Dropdown
@@ -130,7 +133,7 @@ export default function AddressInput({id, label}) {
                                         filter
                                         onChange={(e) => {
                                             field.onChange(e.target.value);
-                                            checkPobox()
+                                            if (pobox) checkPobox()
                                         }}
                                         aria-describedby={`provinces-help`}
                                         options={provinces}
@@ -166,7 +169,6 @@ export default function AddressInput({id, label}) {
                                         onChange={(e) =>
                                             field.onChange(e.target.value)}
                                         onBlur={()=>{
-                                            console.log(String(field.value).toUpperCase())
                                             setValue(`${id}.postal_code`, String(field.value).toUpperCase())}
                                         }
                                         aria-describedby={`postal-code-help`}

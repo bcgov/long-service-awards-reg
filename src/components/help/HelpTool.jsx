@@ -7,7 +7,6 @@
 
 import { useState } from "react";
 import { Dialog } from "primereact/dialog";
-import AppButton from "../common/AppButton";
 import helpIndex from "./HelpIndex.jsx";
 import {Button} from "primereact/button";
 
