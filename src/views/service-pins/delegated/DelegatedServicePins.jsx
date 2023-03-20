@@ -7,7 +7,7 @@
 
 import React, {useState, useContext, useEffect} from "react";
 import {useForm, FormProvider, useFormContext, useFieldArray} from "react-hook-form";
-import { RegistrationContext, ToastContext } from "@/AppContext.js";
+import { RegistrationContext, ToastContext } from "@/AppContext";
 import formServices from "@/services/settings.services.js";
 import InfoToolTip from "@/components/common/InfoToolTip.jsx";
 import DataDisplay from "@/components/common/DataDisplay.jsx";

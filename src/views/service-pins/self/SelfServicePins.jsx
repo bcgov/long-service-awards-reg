@@ -41,7 +41,7 @@ export default function SelfServicePins () {
     const _setStatus = (data) => {
         // set form status
         const { service } = data || {};
-        const { confirmed, previous_registration, milestone } = service || {};
+        const { confirmed, milestone } = service || {};
         // form confirmation status
         setConfirmed(confirmed);
         // check if LSA eligible
@@ -49,10 +49,7 @@ export default function SelfServicePins () {
         // form completion status: validate every step except confirmation
         // - filter out award step if previous registration was selected
         // - filter out confirmation step since it has a separate validation process
-        setCompleted(steps
-            .filter(step => !previous_registration || (previous_registration))
-            .filter(step => step.key !== 'confirmation')
-            .every(step => step.validate(data))
+        setCompleted(steps.every(step => step.validate(data))
         );
     }
 

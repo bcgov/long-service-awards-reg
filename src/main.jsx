@@ -18,7 +18,7 @@ import "./index.css";
 import Error from "./views/Error.jsx";
 
 // Load view components
-import DelegatedServicePins from "./views/service-pins/DelegatedServicePins.jsx";
+import DelegatedServicePins from "./views/service-pins/delegated/DelegatedServicePins.jsx";
 import Home from "./views/Home.jsx";
 import Profile from "./views/lsa/Profile.jsx";
 import Milestone from "./views/lsa/Milestone.jsx";

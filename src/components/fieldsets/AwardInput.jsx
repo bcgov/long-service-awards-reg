@@ -71,7 +71,9 @@ export default function AwardInput() {
      **/
 
     const parseDescription = (description) => {
-        return description.split('\\n\\n').map(paragraph => <p>{paragraph}</p>);
+        const id = Math.floor(Math.random() * 10000);
+        return description.split('\\n\\n').map((paragraph, index) =>
+            <p key={`para-${id}-${index}`}>{paragraph}</p>);
     };
 
     /**

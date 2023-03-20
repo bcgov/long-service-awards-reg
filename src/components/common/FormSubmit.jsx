@@ -25,10 +25,10 @@ export default function FormSubmit({submit, save, disabled, confirmation=false})
         ? "Submit Your Registration"
         : "Save Current Form / Continue to Next Step";
 
-    const icon = confirmation ? 'pi pi-upload' : 'pi pi-save';
+    const icon = confirmation ? 'pi pi-upload' : 'pi pi-chevron-right';
 
-    return <Panel icons={<i className={icon} />} header={header}>
-        <div className="container m-3">
+    return <Panel className="container mt-3 mb-3" icons={<i className={icon} />} header={header}>
+        <div>
             {
                 Object.keys(errors).length > 0
                 && <p className={'error'}>Form has errors. Please update and submit again.</p>
@@ -39,7 +39,6 @@ export default function FormSubmit({submit, save, disabled, confirmation=false})
                         ? <div className={'col-12'}>
                             <Button
                                 className={'p-button-success w-full flex justify-content-center'}
-                                icon={'p-arrow-right'}
                                 type="submit"
                                 onClick={submit}
                                 disabled={!confirmSelected || !completed || confirmed}
