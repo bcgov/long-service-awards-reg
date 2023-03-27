@@ -34,7 +34,7 @@ export default function InfoServiceEligibility ({type, milestone}) {
                         years of service to be eligible.
                     </div>
                     : <div>
-                        You are eligible for a Long Service Award! <Link to="/register/milestone">
+                        You are eligible for a Long Service Award! <Link to="/lsa/milestone">
                         Click Here</Link> to complete your award registration.
                     </div>
             }

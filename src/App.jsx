@@ -1,12 +1,12 @@
 /*!
- * LSA Registration Application (React)
- * File: api.services.js
+ * LSA Registration Application: app component
+ * File: App.js
  * Copyright(c) 2023 BC Gov
  * MIT Licensed
  */
 
 import {useEffect, useMemo, useRef, useState} from "react";
-import { Outlet } from "react-router-dom";
+import {Outlet, useNavigate} from "react-router-dom";
 import MenuBar from "./components/common/MenuBar.jsx";
 import {Toast} from "primereact/toast";
 import {ProgressSpinner} from "primereact/progressspinner";
@@ -22,9 +22,11 @@ import {
     getUser,
     getOrganizations,
     getCommunities,
-    getProvinces
+    getProvinces,
+    isActive
 } from "./services/api.routes.js";
 import {BlockUI} from "primereact/blockui";
+import Closed from "@/views/Closed";
 
 
 /**
@@ -34,6 +36,9 @@ import {BlockUI} from "primereact/blockui";
 
 export default function App() {
     const toastProvider = useRef(null);
+
+    // define registration active state
+    const [active, setActive] = useState(false);
 
     // define user provider
     const [user, setUser] = useState(null);
@@ -45,7 +50,12 @@ export default function App() {
     const [completed, setCompleted] = useState(false);
     const [confirmed, setConfirmed] = useState(false);
     const registrationProvider = useMemo(
-        () => ({ step, setStep, completed, setCompleted,  confirmed, setConfirmed, registration, setRegistration }),
+        () => ({
+            step, setStep,
+            completed, setCompleted,
+            confirmed, setConfirmed,
+            registration, setRegistration,
+        }),
         [step, setStep, completed, setCompleted, confirmed, setConfirmed, registration, setRegistration]
     );
 
@@ -66,12 +76,24 @@ export default function App() {
     const [loading, setLoading] = useState(false);
     const loadingProvider = useMemo(() => ({ loading, setLoading }), [loading, setLoading]);
 
+    const navigate = useNavigate();
+
+    // check if registration is closed
     useEffect(() => {
-        // load either delegated or self registration
         (
             async () => {
                 setLoading(true);
-                setRegistration(await getSelfRegistration());
+
+                // set active state (flag if registration is closed)
+                setActive(await isActive());
+
+                const registration = await getSelfRegistration();
+
+                // determine the type of registration
+                const { service } = registration || {};
+                const { confirmed } = service || {};
+                setConfirmed(confirmed);
+                setRegistration(registration);
                 setUser(await getUser());
                 setOptions({
                     organizations: await getOrganizations(),
@@ -93,11 +115,18 @@ export default function App() {
                             <LoadingContext.Provider value={loadingProvider}>
                                 <div className="container">
                                     <MenuBar />
-                                    <div className="content">
-                                        <Toast ref={toastProvider} />
-                                        <Outlet />
-                                        <BlockUI blocked={loading} fullScreen template={<ProgressSpinner />} />
-                                    </div>
+                                    {
+                                        active
+                                            ? <div className="content">
+                                                <Toast ref={toastProvider}/>
+                                                <Outlet/>
+                                                <BlockUI blocked={loading} fullScreen template={<ProgressSpinner/>}/>
+                                            </div>
+                                            : loading
+                                                ? <BlockUI blocked={loading} fullScreen template={<ProgressSpinner/>}/>
+                                                : <Closed />
+                                    }
+                                    {!!!String(active)}
                                 </div>
                             </LoadingContext.Provider>
                         </ToastContext.Provider>

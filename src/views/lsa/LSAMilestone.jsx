@@ -12,25 +12,24 @@ import BCGEUInput from "@/components/fieldsets/BCGEUInput";
 import formServices from "@/services/settings.services.js";
 import FormStep from "@/components/common/FormStep.jsx";
 import RegistrationOptionsInput from "@/components/fieldsets/RegistrationOptionsInput.jsx";
-import {Message} from "primereact/message";
-import {Link} from "react-router-dom";
 
 /**
  * Milestone Selection.
  * Allows user to use built in calculator to determine years of service and potential milestones.
  */
 
-export default function Milestone() {
+export default function LSAMilestone() {
 
-  // get form step schema / default values
-  const current = formServices.copy('registration_steps', 'milestone');
-  const next = formServices.copy('registration_steps', 'profile');
+    // get form step schema / default values
+    const current = formServices.copy('lsa', 'milestone');
+    const next = formServices.copy('lsa', 'profile');
+    const steps = formServices.get('lsa');
 
-  return <FormStep current={current} next={next}>
-          <InfoMilestone />
-          <MilestoneInput type={'lsa'} />
-          <RegistrationOptionsInput />
-          <BCGEUInput />
-          <RetirementInput />
-        </FormStep>;
+    return <FormStep steps={steps} current={current} next={next}>
+        <InfoMilestone />
+        <MilestoneInput type={'lsa'} />
+        <RegistrationOptionsInput />
+        <BCGEUInput />
+        <RetirementInput />
+    </FormStep>;
 }

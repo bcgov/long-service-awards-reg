@@ -5,14 +5,15 @@
  * MIT Licensed
  */
 
-import React, { useEffect, useState} from "react";
+import { useEffect, useState} from "react";
 import {Controller, useFormContext, useForm, useWatch} from "react-hook-form";
 import { InputText } from "primereact/inputtext";
-import { Dropdown } from "primereact/dropdown";
 import classNames from "classnames";
 import {Button} from "primereact/button";
-import PecsfInput from "@/components/fieldsets/PecsfInput";
-import EngravingInput from "@/components/fieldsets/EngravingInput";
+import PecsfInput from "@/components/fieldsets/PecsfInput.jsx";
+import EngravingInput from "@/components/fieldsets/EngravingInput.jsx";
+import parse from "html-react-parser"
+import {ListBox} from "primereact/listbox";
 
 /**
  * Common Award Options Component.
@@ -41,16 +42,6 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
         }});
 
     /**
-     * Parse inline award description sentinels into paragraphs
-     **/
-
-    const parseDescription = (description) => {
-        const id = Math.floor(Math.random() * 10000);
-        return description.split('\\n\\n').map((paragraph, index) =>
-            <p key={`para-${id}-${index}`}>{paragraph}</p>);
-    };
-
-    /**
      * Get award option schema for award selection
      * - group award options by type
      * - multiple of same type are converted to selection dropdowns
@@ -59,6 +50,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
      * */
 
     useEffect(() => {
+        console.log(award)
         const {options} = award || {};
         setAwardOptions((options || []).reduce(function(rv, x) {
                 (rv[x.type] = rv[x.type] || []).push(x);
@@ -77,7 +69,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
 
     const confirmOptions = (selectedOptions) => {
         // get engraving size (if exists)
-        const engravingSize = selectedOptions.hasOwnProperty('sizes') && selectedOptions.sizes;
+        const engravingSize = selectedOptions.hasOwnProperty('options') && selectedOptions.options;
         // get available options for award
         const { options } = award || {};
         // map recipient option selections to available options in form context
@@ -101,15 +93,15 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
                     custom_value: customizable && selectedOptions[name]
                         ? selectedOptions[name]
                         : type === 'engraving'
-                            && selectedOptions.hasOwnProperty('engraving')
-                            && selectedOptions.sizes === name
-                                ? selectedOptions['engraving']
-                                : value,
+                        && selectedOptions.hasOwnProperty('engraving')
+                        && selectedOptions.options === name
+                            ? selectedOptions['engraving']
+                            : value,
                     pecsf_charity: type === 'pecsf-charity' ? selectedOptions[name] : null
                 }
             });
         // DEBUG ===
-        // console.log(selectedOptions, filteredOptions)
+        console.log(selectedOptions, filteredOptions)
         // confirm award option updates
         confirm(filteredOptions);
     }
@@ -176,7 +168,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
                                     onChange={(e) => field.onChange(e.target.value)}
                                     aria-describedby={`award-option-help`}
                                     className={classNames({"p-invalid": error})}
-                                    placeholder={option.description}
+                                    placeholder={ option.description }
                                 />
                                 <div><small>Maximum {option.value} characters.</small></div>
                                 { invalid && <p className="error">{error.message}</p> }
@@ -189,7 +181,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
                 return options.length > 0 &&
                     <>
                         <label htmlFor={options[0].name}>
-                            {award && award.label}: {options[0].type.toUpperCase()}
+                            {award && award.label}: Select An Option
                         </label>
                         <Controller
                             defaultValue={getCurrentValue(options[0].type, 'type')}
@@ -200,16 +192,15 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
                             }}
                             render={({ field, fieldState: {invalid, error} }) => (
                                 <>
-                                    <Dropdown
+                                    <ListBox
                                         id={field.name}
-                                        inputId={field.name}
                                         value={field.value || ''}
                                         onChange={(e) => field.onChange(e.target.value)}
-                                        aria-describedby={`award-options-help`}
                                         options={options}
                                         itemTemplate={dropdownItemTemplate}
-                                        className={classNames("w-full md:w-14rem", {"p-invalid": error})}
-                                        placeholder={options[0].type}
+                                        className={classNames("w-full", {"p-invalid": error})}
+                                        aria-describedby={`award-options-help`}
+                                        listStyle={{ maxHeight: '250px' }}
                                     />
                                     { invalid && <p className="error">{error.message}</p> }
                                 </>
@@ -246,7 +237,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
     return <div className={'grid'}>
         <form onSubmit={handleSubmit(confirmOptions)}>
             {
-                award && <div>{parseDescription(award.description)}</div>
+                award && <div>{ parse(award.description)}</div>
             }
             <OptionInputTemplate />
             <div>
@@ -254,7 +245,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
                     type={'submit'}
                     className={'p-button-success m-1'}
                     icon="pi pi-check"
-                    label="Confirm Your Award"
+                    label="Confirm Award Selection"
                 />
                 <Button
                     type={'button'}

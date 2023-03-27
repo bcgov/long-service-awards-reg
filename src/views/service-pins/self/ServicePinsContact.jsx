@@ -6,7 +6,6 @@
  */
 
 import formServices from "@/services/settings.services.js";
-import PersonalContactInput from "@/components/fieldsets/PersonalContactInput.jsx";
 import FormStep from "@/components/common/FormStep.jsx";
 import OfficeContactInput from "@/components/fieldsets/OfficeContactInput.jsx";
 
@@ -18,12 +17,12 @@ import OfficeContactInput from "@/components/fieldsets/OfficeContactInput.jsx";
 export default function ServicePinsContact() {
 
     // get form step schema / default values
-    const previous = formServices.copy('registration_steps', 'profile');
-    const current = formServices.copy('registration_steps', 'contact');
-    const next = formServices.copy('registration_steps', 'supervisor');
+    const previous = formServices.copy('service-pins', 'profile');
+    const current = formServices.copy('service-pins', 'contact');
+    const next = formServices.copy('service-pins', 'supervisor');
+    const steps =  formServices.get('service-pins');
 
-    return <FormStep previous={previous} current={current} next={next}>
-        <PersonalContactInput />
+    return <FormStep steps={steps} previous={previous} current={current} next={next}>
         <OfficeContactInput />
     </FormStep>;
 

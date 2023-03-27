@@ -21,13 +21,11 @@ export default function Home() {
     const navigate = useNavigate();
     const { confirmed, registration } = useContext(RegistrationContext);
 
-    const registerLSA = () => {
-        navigate("/register/milestone");
-    };
-
-    const registerServicePins = () => {
-        navigate("/service-pins");
-    };
+    // check registration status
+    const { service } = registration || {};
+    const { milestone, delegated } = service || {};
+    const isLSA = milestone >= 25;
+    const isServicePin = milestone >= 5 && milestone < 25;
 
     return (
         <div className="container">
@@ -49,8 +47,11 @@ export default function Home() {
                     <div className="flex justify-content-center flex-wrap card-container">
                         <div
                             className="flex align-items-center justify-content-center w-full m-2">
-                            <Button onClick={registerLSA}>
-                                { registration || confirmed
+                            <Button
+                                disabled={confirmed && isServicePin}
+                                onClick={() => {navigate("/lsa/milestone")}}
+                            >
+                                { (registration && isLSA) || (confirmed && isLSA)
                                     ? "View Your Long Service Award Registration"
                                     : "Start Your Long Service Award Registration"
                                 }
@@ -73,14 +74,28 @@ export default function Home() {
                     ensure you complete the correct form.
                 </p>
                 <div className="card">
-                    <div className="flex justify-content-center flex-wrap card-container">
-                        <div
-                            className="flex align-items-center justify-content-center w-full m-2">
-                            <Button onClick={registerServicePins}>
-                                { registration || confirmed
-                                    ? "View Your Service Pin Registration"
-                                    : "Start Your Service Pin Registration"
+                    <div className="grid">
+                        <div className="col-6 p-3">
+                            <Button
+                                disabled={delegated || isLSA}
+                                className={'p-button-info w-full flex justify-content-center'}
+                                onClick={() => navigate('/service-pins/self')}
+                            >
+                                {
+                                    (isLSA || delegated)
+                                        ? "You are Registered for a Long Service Award"
+                                        : confirmed
+                                            ? "View Your Service Pin Registration"
+                                            : "Register for Your Service Pin Registration"
                                 }
+                            </Button>
+                        </div>
+                        <div className="col-6 p-3">
+                            <Button
+                                className={'p-button-info w-full flex justify-content-center'}
+                                onClick={() => navigate('/service-pins/delegated')}
+                            >
+                                Register Your Employees for Service Pins (Supervisors)
                             </Button>
                         </div>
                     </div>

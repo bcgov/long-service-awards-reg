@@ -11,8 +11,8 @@ import classNames from "classnames";
 import {InputText} from "primereact/inputtext";
 
 /**
- * Pecsf Award Options Component.
- * @returns pecsf award and options
+ * Engraving: Award Options Component.
+ * @returns
  */
 
 export default function EngravingInput({award, control, setValue }) {
@@ -24,7 +24,7 @@ export default function EngravingInput({award, control, setValue }) {
     const [engravingOption, setEngravingOption] = useState(null);
 
     // monitor item size
-    const currentItemSize = useWatch({control, name: "sizes"});
+    const currentItemSize = useWatch({control, name: "options"});
 
     /**
      * Initialize PECSF selections from form data

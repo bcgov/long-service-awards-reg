@@ -25,12 +25,13 @@ export default function ServicePinsSupervisor() {
 
   // get form step schema / default values
   const previous = previous_registration
-      ? formServices.copy('registration_steps', 'contact')
-      : formServices.copy('registration_steps', 'awards');
-  const current = formServices.copy('registration_steps', 'supervisor');
-  const next = formServices.copy('registration_steps', 'confirmation');
+      ? formServices.copy('service-pins', 'contact')
+      : formServices.copy('service-pins', 'awards');
+  const current = formServices.copy('service-pins', 'supervisor');
+  const next = formServices.copy('service-pins', 'confirmation');
+  const steps =  formServices.get('service-pins');
 
-  return <FormStep previous={previous} current={current} next={next}>
+  return <FormStep steps={steps} previous={previous} current={current} next={next}>
 
     <p>Your supervisor's contact information will assist us in preparing and
       shipping your award and service pin.</p>

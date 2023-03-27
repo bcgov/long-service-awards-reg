@@ -17,11 +17,12 @@ import formServices from "@/services/settings.services.js";
 export default function ServicePinsProfile() {
 
   // get form step schema / default values
-  const previous = formServices.copy('registration_steps', 'milestone');
-  const current = formServices.copy('registration_steps', 'profile');
-  const next = formServices.copy('registration_steps', 'contact');
+  const previous = formServices.copy('delegated-service-pins', 'milestone');
+  const current = formServices.copy('service-pins', 'profile');
+  const next = formServices.copy('service-pins', 'contact');
+  const steps =  formServices.get('service-pins');
 
-  return <FormStep previous={previous} current={current} next={next}>
+  return <FormStep steps={steps} previous={previous} current={current} next={next}>
     <ProfileInput />
   </FormStep>;
 }

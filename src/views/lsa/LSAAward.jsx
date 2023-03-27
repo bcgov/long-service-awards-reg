@@ -18,7 +18,7 @@ import InfoPreviousRegistrationStatus from "@/components/info/InfoPreviousRegist
  * Resets based on milestone selection.
  */
 
-export default function Award() {
+export default function LSAAward() {
 
     // get hooks and contexts
     const {registration} = useContext(RegistrationContext);
@@ -26,11 +26,14 @@ export default function Award() {
     const {previous_registration} = service || {};
 
     // get form step schema / default values
-    const previous = formServices.copy('registration_steps', 'contact');
-    const current = formServices.copy('registration_steps', 'awards');
-    const next = formServices.copy('registration_steps', 'supervisor');
+    const previous = formServices.copy('lsa', 'contact');
+    const current = formServices.copy('lsa', 'awards');
+    const next = formServices.copy('lsa', 'supervisor');
+    const steps = formServices.get('lsa');
 
     return previous_registration
         ? <InfoPreviousRegistrationStatus />
-        : <FormStep previous={previous} current={current} next={next}><AwardInput /></FormStep>
+        : <FormStep steps={steps} previous={previous} current={current} next={next}>
+                <AwardInput />
+            </FormStep>
 }

@@ -29,13 +29,7 @@ export default function SelfServicePins () {
 
     // get the registration steps template schema
     // get service pins form schema
-    const steps =  [
-        formServices.copy('registration_steps', 'milestone'),
-        formServices.copy('registration_steps', 'profile'),
-        formServices.copy('registration_steps', 'contact'),
-        formServices.copy('registration_steps', 'supervisor'),
-        formServices.copy('registration_steps', 'confirmation')
-    ];
+    const steps =  formServices.get('service-pins');
 
     // set form status
     const _setStatus = (data) => {
@@ -45,11 +39,12 @@ export default function SelfServicePins () {
         // form confirmation status
         setConfirmed(confirmed);
         // check if LSA eligible
-        setLSAEligible(milestone >= 25)
+        setLSAEligible(milestone >= 25);
         // form completion status: validate every step except confirmation
-        // - filter out award step if previous registration was selected
-        // - filter out confirmation step since it has a separate validation process
-        setCompleted(steps.every(step => step.validate(data))
+        setCompleted(
+            steps
+                .filter(step => step.key !== 'confirmation')
+                .every(step => step.validate(data))
         );
     }
 
@@ -115,7 +110,7 @@ export default function SelfServicePins () {
     }, [registration]);
 
     // overlay template for blocked form panels
-    const BlockUITemplateConfirmed = (label) => {
+    const BlockUITemplateConfirmed = () => {
         return <Button
                 onClick={()=>{navigate("/service-pins/self/confirmation")}}
                 icon={'pi pi-lock'}
@@ -124,16 +119,16 @@ export default function SelfServicePins () {
     }
 
     // overlay template for blocked form panels
-    const BlockUITemplateLSA = (label) => {
+    const BlockUITemplateLSA = () => {
         return <Button
-            onClick={()=>{navigate("/register/milestone")}}
+            onClick={()=>{navigate("/lsa/milestone")}}
             icon={'pi pi-lock'}
             label={'Register for Your Long Service Award'}
         />
     }
 
     return <>
-        <PageHeader title="Award Registration" subtitle={step && step.description || ''}/>
+        <PageHeader title="Service Pin Registration" subtitle={step && step.description || ''}/>
         <BlockUI blocked={lsaEligible && !confirmed} template={BlockUITemplateLSA}>
             <BlockUI blocked={confirmed && step && step.key !== "confirmation"} template={BlockUITemplateConfirmed}>
                 <Outlet context={[_handleSaveRegistration]}/>
