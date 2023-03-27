@@ -6,8 +6,9 @@
  */
 
 import {useContext} from "react";
-import {RegistrationContext} from "@/AppContext.js";
+import {RegistrationContext} from "@/AppContext";
 import {Panel} from "primereact/panel";
+import {Fieldset} from "primereact/fieldset";
 
 /**
  * Recipient Profile Details
@@ -28,7 +29,7 @@ export default function SupervisorData() {
       <div className={'col-6'}>Government Email Address</div>
       <div className={'col-6'}>{office_email}</div>
       <div className={'col-12'}>
-        <Panel header={'Office Address'} toggleable>
+        <Fieldset legend={'Office Address'} toggleable>
           <div className={'container'}>
             <div className={'grid'}>
               {
@@ -51,7 +52,7 @@ export default function SupervisorData() {
               <div className={'col-6'}>{office_address && office_address.postal_code}</div>
             </div>
           </div>
-        </Panel>
+        </Fieldset>
       </div>
     </div>
   </div>

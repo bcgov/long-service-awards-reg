@@ -130,13 +130,12 @@ export default function MilestoneInput({ type }) {
                     />
 
                 </div>
-                <div className={'col-12 form-field-container'}>
-                    {
-                        showCalculator &&
+                {
+                    showCalculator &&
+                    <div className={'col-12 form-field-container'}>
                         <ServiceCalculator formSubmit={(newValue) => setTotalYears(newValue)} />
-                    }
-                </div>
-
+                    </div>
+                }
                 <div className={"col-12 form-field-container"}>
                         <InfoServiceEligibility type={type} milestone={getValues(`service.milestone`)} />
                 </div>

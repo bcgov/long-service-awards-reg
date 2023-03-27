@@ -26,7 +26,7 @@ export default function InfoRegistrationStatus() {
             <div>
                 <Button
                     className={'m-2 p-button-info w-full flex justify-content-center'}
-                    onClick={() => { navigate("/register/confirmation") }}>
+                    onClick={() => { navigate("/lsa/confirmation") }}>
                     Confirmation Page
                 </Button>
             </div>

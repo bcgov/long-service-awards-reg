@@ -17,7 +17,7 @@ import OfficeContactInput from "@/components/fieldsets/OfficeContactInput.jsx";
  * @returns
  */
 
-export default function Contact() {
+export default function LSAContact() {
 
     // get hooks and contexts
     const {registration} = useContext(RegistrationContext);
@@ -25,13 +25,14 @@ export default function Contact() {
     const {previous_registration} = service || {};
 
     // get form step schema / default values
-    const previous = formServices.copy('registration_steps', 'profile');
-    const current = formServices.copy('registration_steps', 'contact');
+    const previous = formServices.copy('lsa', 'profile');
+    const current = formServices.copy('lsa', 'contact');
     const next = previous_registration
-        ? formServices.copy('registration_steps', 'supervisor')
-        : formServices.copy('registration_steps', 'awards');
+        ? formServices.copy('lsa', 'supervisor')
+        : formServices.copy('lsa', 'awards');
+    const steps = formServices.get('lsa');
 
-    return <FormStep previous={previous} current={current} next={next}>
+    return <FormStep steps={steps} previous={previous} current={current} next={next}>
         <PersonalContactInput />
         <OfficeContactInput />
     </FormStep>;

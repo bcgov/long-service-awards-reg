@@ -10,18 +10,22 @@ import formServices from "@/services/settings.services.js";
 import {Button} from "primereact/button";
 import {useNavigate} from "react-router-dom";
 import {useContext} from "react";
-import {RegistrationContext} from "@/AppContext.js";
+import {RegistrationContext} from "@/AppContext";
 
 /**
  * Data Display common display component to display user data after input/submission
+ *
+ * @param {String} form
+ * @param {String} id
+ * @param children
  * @returns {JSX.Element}
  */
 
-export default function FormData({id, children}) {
+export default function FormData({form, id, children}) {
 
     const navigate = useNavigate();
     const { confirmed } = useContext(RegistrationContext);
-    const {label, route} = formServices.copy('registration_steps', id);
+    const {label, route} = formServices.copy(form, id);
 
     return <Panel toggleable className={'mb-3'} header={<div className="flex align-items-stretch flex-wrap">
         <div

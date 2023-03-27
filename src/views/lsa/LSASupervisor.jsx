@@ -16,7 +16,7 @@ import {RegistrationContext} from "@/AppContext.js";
  * @returns
  */
 
-export default function Supervisor() {
+export default function LSASupervisor() {
 
   // get hooks and contexts
   const {registration} = useContext(RegistrationContext);
@@ -25,12 +25,13 @@ export default function Supervisor() {
 
   // get form step schema / default values
   const previous = previous_registration
-      ? formServices.copy('registration_steps', 'contact')
-      : formServices.copy('registration_steps', 'awards');
-  const current = formServices.copy('registration_steps', 'supervisor');
-  const next = formServices.copy('registration_steps', 'confirmation');
+      ? formServices.copy('lsa', 'contact')
+      : formServices.copy('lsa', 'awards');
+  const current = formServices.copy('lsa', 'supervisor');
+  const next = formServices.copy('lsa', 'confirmation');
+  const steps = formServices.get('lsa');
 
-  return <FormStep previous={previous} current={current} next={next}>
+  return <FormStep steps={steps} previous={previous} current={current} next={next}>
 
     <p>Your supervisor's contact information will assist us in preparing and
       shipping your award and service pin.</p>

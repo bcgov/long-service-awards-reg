@@ -6,8 +6,9 @@
  */
 
 import {useContext} from "react";
-import {RegistrationContext} from "@/AppContext.js";
-import {Panel} from "primereact/panel";
+import parse from 'html-react-parser';
+import {RegistrationContext} from "@/AppContext";
+import {Fieldset} from "primereact/fieldset";
 
 /**
  * Recipient Profile Details
@@ -26,10 +27,10 @@ export default function AwardData() {
             <div className={'col-6'}>Name</div>
             <div className={'col-6'}>{award && award.label}</div>
             <div className={'col-6'}>Description</div>
-            <div className={'col-6'}>{award && award.description}</div>
+            <div className={'col-6'}>{award && parse(award.description)}</div>
             {
                 (options || []).length > 0 && <div className={'col-12'}>
-                    <Panel header={'Award Options'} toggleable>
+                    <Fieldset legend={'Award Options'} toggleable>
                         <div className={'container'}>
                             {
                                 (options || []).map(({id, customizable}) => {
@@ -39,7 +40,7 @@ export default function AwardData() {
                                             const {award_option} = selection || {};
                                             return award_option.id === id;
                                         }) || {};
-                                    const {value, label, type, description} = award_option || {};
+                                    const {label, description} = award_option || {};
                                     return <div className={'grid'} key={`award-option-${id}`}>
                                         {
                                             pecsf_charity && <>
@@ -67,7 +68,7 @@ export default function AwardData() {
                             }
 
                         </div>
-                    </Panel>
+                    </Fieldset>
                 </div>
             }
         </div>

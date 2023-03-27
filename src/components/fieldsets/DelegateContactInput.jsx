@@ -1,6 +1,6 @@
 /*!
- * Supervisor Contact Details fieldset component
- * File: SupervisorContactInput.js
+ * Delegate Service Pins Contact Info fieldset component
+ * File: DelegateContactInput.js
  * Copyright(c) 2023 BC Gov
  * MIT Licensed
  */
@@ -11,67 +11,28 @@ import classNames from "classnames";
 import {matchers} from "@/services/validation.services.js";
 import InfoToolTip from "@/components/common/InfoToolTip.jsx";
 import {Panel} from "primereact/panel";
-import {SelectButton} from "primereact/selectbutton";
-import {useEffect, useState} from "react";
 import AddressInput from "@/components/fieldsets/AddressInput.jsx";
-import {BlockUI} from "primereact/blockui";
+import PageHeader from "@/components/common/PageHeader.jsx";
 
 /**
  * Supervisor Contact Details
  * @returns first_name, last_name, office email */
 
-export default function SupervisorContactInput() {
+export default function DelegateContactInput() {
 
-    const [sameAddress, setSameAddress] = useState(false);
-    const { control, resetField, setValue, getValues } = useFormContext();
+    const { control } = useFormContext();
 
-    // check if recipient and supervisor addresses are identical
-    useEffect(() => {
-        setSameAddress(
-            getValues(`supervisor.office_address.street1`) &&
-            getValues(`supervisor.office_address.street2`) &&
-            getValues(`supervisor.office_address.pobox`) &&
-            getValues(`supervisor.office_address.province`) &&
-            getValues(`supervisor.office_address.community`) &&
-            getValues(`supervisor.office_address.postal_code`) &&
-            getValues(`supervisor.office_address.street1`) === getValues(`contact.office_address.street1`) &&
-            getValues(`supervisor.office_address.street2`) === getValues(`contact.office_address.street2`) &&
-            getValues(`supervisor.office_address.pobox`) === getValues(`contact.office_address.pobox`) &&
-            getValues(`supervisor.office_address.community`) === getValues(`contact.office_address.community`) &&
-            getValues(`supervisor.office_address.province`) === getValues(`contact.office_address.province`) &&
-            getValues(`supervisor.office_address.postal_code`) === getValues(`contact.office_address.postal_code`))
-    }, [])
-
-    // set supervisor address to recipient address
-    const _handleSameAddress = (toggle) => {
-        setSameAddress(toggle)
-        if (toggle) {
-            setValue('supervisor.office_address', getValues('contact.office_address'))
-            // strip out space between postal code
-            setValue(
-                'supervisor.office_address.postal_code',
-                String(getValues('contact.office_address.postal_code')).replace(' ', '')
-            )
-        } else {
-            resetField(`supervisor.office_address.street1`, { defaultValue: '' });
-            resetField(`supervisor.office_address.street2`, { defaultValue: '' });
-            resetField(`supervisor.office_address.pobox`, { defaultValue: '' });
-            resetField(`supervisor.office_address.community`, { defaultValue: '' });
-            resetField(`supervisor.office_address.province`, { defaultValue: '' });
-            resetField(`supervisor.office_address.postal_code`, { defaultValue: '' });
-        }
-
-    }
-
-    
     return <>
-        <Panel className={'mb-3'}
-               header={<>
-                   Supervisor Contact Information <InfoToolTip
-                   target="supervisor-details-profile"
-                   content="Please enter the contact information of your current supervisor."
-               />
-               </>}>
+        <Panel
+            toggleable
+            collapsed={true}
+            className={'mb-3'}
+            header={<>
+                Supervisor Contact Information <InfoToolTip
+                target="supervisor-details-profile"
+                content="Please enter your contact information."
+            />
+            </>}>
             <div className="container">
                 <div className="grid">
                     <div className={'col-12 form-field-container'}>
@@ -88,7 +49,7 @@ export default function SupervisorContactInput() {
                                         onChange={(e) => field.onChange(e.target.value)}
                                         className={classNames({"p-invalid": error})}
                                         aria-describedby={`first_name-help`}
-                                        placeholder={`Supervisor first name`}
+                                        placeholder={`First name`}
                                     />
                                     { invalid && <p className="error">{error.message}</p> }
                                 </>
@@ -110,7 +71,7 @@ export default function SupervisorContactInput() {
                                         className={classNames({"p-invalid": error})}
                                         aria-describedby={`last_name-help`}
                                         onChange={(e) => field.onChange(e.target.value)}
-                                        placeholder={`Supervisor last name`}
+                                        placeholder={`Last name`}
                                     />
                                     { invalid && <p className="error">{error.message}</p> }
                                 </>
@@ -145,30 +106,7 @@ export default function SupervisorContactInput() {
                     </div>
                 </div>
             </div>
-        </Panel>
-        <Panel className={'mb-3'} header="Use Same Office Address">
-            <div className="container">
-            <div className="grid">
-                <div className="col-12 form-field-container">
-                    <div className="flex align-items-center">
-                        <SelectButton
-                            className={'radio-toggle'}
-                            value={sameAddress ? 'Yes' : 'No'}
-                            onChange={(e) => {
-                                _handleSameAddress(e.value === 'Yes')
-                            }}
-                            options={['Yes', 'No']}
-                        />
-                        <label className={'ml-3'}>
-                            Supervisor office address is the same as my office address
-                        </label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </Panel>
-        <BlockUI blocked={sameAddress}>
             <AddressInput id={'supervisor.office_address'} label={'Supervisor Office'} pobox={true} />
-        </BlockUI>
+        </Panel>
     </>;
 }

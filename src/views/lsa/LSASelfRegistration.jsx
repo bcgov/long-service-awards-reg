@@ -18,7 +18,7 @@ import {Button} from "primereact/button";
  * Panel Header for common component management in registration flow
  */
 
-export default function SelfRegistration() {
+export default function LSASelfRegistration() {
   const toast = useContext(ToastContext);
   const navigate = useNavigate();
   const {
@@ -27,7 +27,7 @@ export default function SelfRegistration() {
   const {loading, setLoading} = useContext(LoadingContext);
 
   // get the registration steps template schema
-  const steps = formServices.get("registration_steps");
+  const steps = formServices.get("lsa");
 
   // set form status
   const _setStatus = (data) => {
@@ -55,7 +55,7 @@ export default function SelfRegistration() {
       toast.current.replace(formServices.lookup("messages", error || !result ? "createError" : "createSuccess"));
       if (!error && result) setRegistration(result);
       // navigate to initial registration step after creation
-      redirect("/register/milestone");
+      redirect("/lsa/milestone");
       // }
     } catch (error) {
       toast.current.replace(formServices.lookup("messages", "saveError"));
@@ -102,16 +102,16 @@ export default function SelfRegistration() {
   // set registration status
   useEffect(() => {
     _setStatus(registration)
-    if (confirmed) navigate("/register/confirmation");
+    if (confirmed) navigate("/lsa/confirmation");
     // if no step is provided, navigate to start of form
-    if(!step) navigate("/register/milestone");
+    if(!step) navigate("/lsa/milestone");
   }, [registration]);
 
   // overlay template for blocked form panels
   const BlockUITemplate = () => {
     return <div>
       <Button
-          onClick={()=>{navigate("/register/confirmation")}}
+          onClick={()=>{navigate("/lsa/confirmation")}}
           icon={'pi pi-lock'}
           label={'View Submitted Registration'}
       />

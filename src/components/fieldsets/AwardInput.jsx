@@ -22,6 +22,7 @@ import {Message} from "primereact/message";
 import {useOutletContext} from "react-router";
 import formServices from "@/services/settings.services.js";
 import CeremonyInput from "@/components/fieldsets/CeremonyInput";
+import parse from 'html-react-parser';
 
 
 /**
@@ -64,16 +65,6 @@ export default function AwardInput() {
 
     const deselectAward = () => {
         setSelectedAward(null)
-    };
-
-    /**
-     * Parse inline award description sentinels into paragraphs
-     **/
-
-    const parseDescription = (description) => {
-        const id = Math.floor(Math.random() * 10000);
-        return description.split('\\n\\n').map((paragraph, index) =>
-            <p key={`para-${id}-${index}`}>{paragraph}</p>);
     };
 
     /**
@@ -186,14 +177,14 @@ export default function AwardInput() {
             <div className="flex flex-column xl:flex-row xl:align-items-start p-4 gap-4">
                 <img
                     className="w-9 sm:w-16rem xl:w-10rem shadow-2 block xl:block mx-auto border-round"
-                    src={`${import.meta.env.LSA_APPS_MAIN_SITE_URL}/${item.image_url}`}
+                    src={item.image_url}
                     onError={(e) => (e.target.src = fallbackImg)}
                     alt={item.label}
                 />
                 <div className="flex flex-column sm:flex-row justify-content-between align-items-center xl:align-items-start flex-1 gap-4">
                     <div className="flex flex-column align-items-center sm:align-items-start gap-3">
                         <div className="text-2xl font-bold text-900">{item.label}</div>
-                        <div style={{textAlign: 'left'}}>{parseDescription(item.description)}</div>
+                        <div style={{textAlign: 'left'}}>{parse(item.description)}</div>
                         <div className="flex align-items-center gap-3">
                             <span className="flex align-items-center gap-2">
                                 <i className="pi pi-tag"></i>
@@ -246,14 +237,14 @@ export default function AwardInput() {
                 <div className="flex flex-column align-items-center gap-3 py-5">
                     <img
                         className="w-9 shadow-2 border-round"
-                        src={`${import.meta.env.LSA_APPS_MAIN_SITE_URL}/${item.image_url}`}
+                        src={item.image_url}
                         onError={(e) => (e.target.src = fallbackImg)}
                         alt={item.label}
                     />
                     <div className="text-2xl font-bold">{item.label}</div>
                 </div>
                 <div>
-                    <div style={{textAlign: 'left'}}>{parseDescription(item.description)}</div>
+                    <div style={{textAlign: 'left'}}>{parse(item.description)}</div>
                 </div>
             </div>
         </div>
@@ -270,7 +261,7 @@ export default function AwardInput() {
         }
         <BlockUI blocked={!currentMilestone && !loading} template={
             <Button
-                onClick={()=>{navigate('/register/milestone')}}
+                onClick={()=>{navigate('/lsa/milestone')}}
                 label={'Select Your Milestone to View Awards'}
             />}>
             <CeremonyInput />

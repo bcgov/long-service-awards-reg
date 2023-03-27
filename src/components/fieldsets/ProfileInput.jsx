@@ -14,7 +14,6 @@ import {matchers} from "@/services/validation.services.js";
 import {Dropdown} from "primereact/dropdown";
 import InfoToolTip from "@/components/common/InfoToolTip.jsx";
 import {Panel} from "primereact/panel";
-import formServices from "@/services/settings.services.js";
 
 /**
  * Recipient Profile Information
@@ -27,9 +26,8 @@ export default function ProfileInput() {
     const { options } = useContext(OptionsContext);
 
     // get list of organizations
-    const organizations = options ? formServices.sort(options.organizations, 'name') : [];
+    const {organizations=[]} = options || {};
 
-    // Note: To fix error handling to make sure naming convention works
     return <Panel
         header={
             <>
@@ -216,6 +214,7 @@ export default function ProfileInput() {
                                     className={classNames({"p-invalid": error})}
                                     placeholder={`Your division`}
                                 />
+                                <small>No acronyms, please spell the name in full.</small>
                                 { invalid && <p className="error">{error.message}</p> }
                             </>
                         )}
@@ -237,6 +236,7 @@ export default function ProfileInput() {
                                     className={classNames({"p-invalid": error})}
                                     placeholder={`Your branch`}
                                 />
+                                <small>No acronyms, please spell the name in full.</small>
                                 { invalid && <p className="error">{error.message}</p> }
                             </>
                         )}

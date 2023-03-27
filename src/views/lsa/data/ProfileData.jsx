@@ -6,7 +6,7 @@
  */
 
 import {useContext} from "react";
-import {RegistrationContext} from "@/AppContext.js";
+import {RegistrationContext} from "@/AppContext";
 
 /**
  * Recipient Profile Details
