@@ -26,7 +26,7 @@ export default function InfoPreviousRegistrationStatus() {
             <div>
                 <Button
                     className={'m-2 p-button-info w-full flex justify-content-center'}
-                    onClick={() => { navigate("/register/milestone") }}>
+                    onClick={() => { navigate("/lsa/milestone") }}>
                     Return to Registration
                 </Button>
             </div>

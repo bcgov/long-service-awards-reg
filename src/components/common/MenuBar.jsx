@@ -10,16 +10,16 @@ import {AppContext, RegistrationContext, ToastContext} from "@/AppContext.js";
 import {Button} from "primereact/button";
 import {Menubar} from "primereact/menubar";
 import logoURL from '@/assets/images/BCID_H_rgb_pos.png'
-import {removeSelfRegistration} from "@/services/api.routes.js";
-import {useNavigate} from "react-router-dom";
-import formServices from "@/services/settings.services.js";
+// import {removeSelfRegistration} from "@/services/api.routes.js";
+// import {useNavigate} from "react-router-dom";
+// import formServices from "@/services/settings.services.js";
 
 function MenuBar() {
 
     const { user } = useContext(AppContext);
-    const { setRegistration } = useContext(RegistrationContext);
-    const toast = useContext(ToastContext);
-    const navigate = useNavigate();
+    // const { setRegistration } = useContext(RegistrationContext);
+    // const toast = useContext(ToastContext);
+    // const navigate = useNavigate();
     const logo = <img alt="logo" src={logoURL} height="60" className="mr-2" />;
     const items = [
         {
@@ -35,24 +35,26 @@ function MenuBar() {
     ];
     const profile = <>
         <Button label={user ? user.idir : 'Loading'} icon="pi pi-user" />
-        <Button
-            className={'ml-1'}
-            severity={'danger'}
-            label={'Reset'}
-            icon="pi pi-sync"
-            onClick={()=>{
-                removeSelfRegistration()
-                    .then(()=>{
-                        setRegistration(null);
-                        navigate('/')
-                        window.location.reload()
-                    })
-                    .catch(console.error)
-                    .finally(()=>{
-                        toast.current.show(formServices.lookup("messages", "delete"));
-                    })
-            }}
-        />
+        {/*{*/}
+        {/*    user && ['super-administrator', 'administrator'].includes(user.role) &&*/}
+        {/*    <Button*/}
+        {/*        className={'ml-1'}*/}
+        {/*        severity={'danger'}*/}
+        {/*        label={'Reset'}*/}
+        {/*        icon="pi pi-sync"*/}
+        {/*        onClick={() => {*/}
+        {/*            removeSelfRegistration()*/}
+        {/*                .then(() => {*/}
+        {/*                    setRegistration(null);*/}
+        {/*                    navigate('/')*/}
+        {/*                    window.location.reload()*/}
+        {/*                })*/}
+        {/*                .catch(console.error)*/}
+        {/*                .finally(() => {*/}
+        {/*                    toast.current.show(formServices.lookup("messages", "delete"));*/}
+        {/*                })*/}
+        {/*        }}*/}
+        {/*    />}*/}
     </>;
 
     return <Menubar model={items} start={logo} end={profile}/>

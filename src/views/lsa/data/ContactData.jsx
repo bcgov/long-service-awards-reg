@@ -6,8 +6,8 @@
  */
 
 import {useContext} from "react";
-import {RegistrationContext} from "@/AppContext.js";
-import {Panel} from "primereact/panel";
+import {RegistrationContext} from "@/AppContext";
+import {Fieldset} from "primereact/fieldset";
 
 /**
  * Recipient Profile Details
@@ -24,7 +24,7 @@ export default function ContactData() {
             <div className={'col-6'}>Personal Phone Number</div>
             <div className={'col-6'}>{personal_phone}</div>
             <div className={'col-12'}>
-            <Panel header={'Home Mailing Address'} toggleable>
+            <Fieldset legend={'Home Mailing Address'} toggleable>
                 <div className={'container'}>
                     <div className={'grid'}>
                 {
@@ -47,10 +47,10 @@ export default function ContactData() {
                 <div className={'col-6'}>{personal_address && personal_address.postal_code}</div>
                     </div>
                 </div>
-            </Panel>
+            </Fieldset>
             </div>
                 <div className={'col-12'}>
-            <Panel header={'Office Address'} toggleable>
+            <Fieldset legend={'Office Address'} toggleable>
                 <div className={'container'}>
                     <div className={'grid'}>
                 {
@@ -73,7 +73,7 @@ export default function ContactData() {
                 <div className={'col-6'}>{office_address && office_address.postal_code}</div>
                     </div>
                 </div>
-            </Panel>
+            </Fieldset>
                 </div>
         </div>
     </div>

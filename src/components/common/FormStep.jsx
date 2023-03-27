@@ -1,5 +1,5 @@
 /*!
- * Registration step component
+ * Registration Form step component
  * File: FormStep.js
  * Copyright(c) 2023 BC Gov
  * MIT Licensed
@@ -19,6 +19,8 @@ import {Message} from "primereact/message";
 
 /**
  * FormStep component
+ * - can be used as a registration step for LSAs or Service Pins
+ * @param {Array} steps
  * @param {Object} previous
  * @param {Object} current
  * @param {Object} next
@@ -26,7 +28,13 @@ import {Message} from "primereact/message";
  * @returns {JSX.Element}
  */
 
-export default function FormStep({previous=null, current, next=null, children}) {
+export default function FormStep({
+                                     steps=null,
+                                     previous=null,
+                                     current,
+                                     next=null,
+                                     children
+                                 }) {
 
     // get context / hooks
     const navigate = useNavigate();
@@ -98,15 +106,14 @@ export default function FormStep({previous=null, current, next=null, children}) 
 
     return <FormProvider {...methods}>
         <form>
-            <FormProgress />
+            {
+                steps && <FormProgress steps={steps}/>
+            }
             {
                 !loading && !completed && step && step.key === "confirmation"
                 && <Message className={'mb-3 w-full'} severity="warn" text="Registration is incomplete"/>
             }
-            <BlockUI
-                blocked={loading || !previousComplete}
-                template={<BlockUITemplate />}
-            >
+            <BlockUI blocked={loading || !previousComplete} template={<BlockUITemplate />}>
                 {children}
                 <FormSubmit
                     save={handleSubmit(saveData)}

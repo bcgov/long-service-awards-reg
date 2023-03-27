@@ -14,14 +14,15 @@ import formServices from "@/services/settings.services.js";
  * Basic Profile Page requests user info required to continue with application.
  */
 
-export default function Profile() {
+export default function LSAProfile() {
 
   // get form step schema / default values
-  const previous = formServices.copy('registration_steps', 'milestone');
-  const current = formServices.copy('registration_steps', 'profile');
-  const next = formServices.copy('registration_steps', 'contact');
+  const previous = formServices.copy('lsa', 'milestone');
+  const current = formServices.copy('lsa', 'profile');
+  const next = formServices.copy('lsa', 'contact');
+  const steps = formServices.get('lsa');
 
-  return <FormStep previous={previous} current={current} next={next}>
+  return <FormStep steps={steps} previous={previous} current={current} next={next}>
     <ProfileInput />
   </FormStep>;
 }

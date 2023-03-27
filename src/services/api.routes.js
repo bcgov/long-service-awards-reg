@@ -52,10 +52,10 @@ export const saveSelfRegistration = async (data) => {
  *
  * */
 
-// export const getDelegatedRegistrations = async () => {
-//   const [_, result] = await api.get(`/recipients/delegated/view/`);
-//   return result;
-// }
+export const getDelegatedRegistrations = async () => {
+  const [_, result] = await api.get(`/recipients/delegated/view/`);
+  return result;
+}
 
 /**
  *  Save delegated registration (creates registration stub)
@@ -63,6 +63,7 @@ export const saveSelfRegistration = async (data) => {
  * */
 
 export const saveDelegatedRegistrations = async (data) => {
+  console.log('Save delegated form:', data)
   return await api.post(`/recipients/delegated/save/`, data);
 }
 
@@ -104,7 +105,7 @@ export const getQualifyingYears = async () => {
  * */
 
 export const getOrganizations = async () => {
-  const [_, result] = await api.get(`settings/organizations/list`);
+  const [_, result] = await api.get(`settings/organizations/filter/active/true`);
   return result;
 }
 
@@ -156,6 +157,17 @@ export const getPecsfRegions = async () => {
 export const removeSelfRegistration = async () => {
   const [_, result] = await api.post(`/recipients/self/delete/`, {});
   return result;
+}
+
+/**
+ *  Check if registration is active (not closed)
+ *
+ * */
+
+export const isActive = async () => {
+  const [, result] = await api.get(`/settings/global/self-registration-active`);
+  const {value} = result || {};
+  return value === 'true';
 }
 
 export default null;

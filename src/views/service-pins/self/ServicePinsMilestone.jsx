@@ -18,12 +18,13 @@ import FormStep from "@/components/common/FormStep.jsx";
 
 export default function ServicePinsMilestone() {
 
-  // get form step schema / default values
-  const current = formServices.copy('registration_steps', 'milestone');
-  const next = formServices.copy('registration_steps', 'profile');
+    // get form step schema / default values
+    const current = formServices.copy('service-pins', 'milestone');
+    const next = formServices.copy('service-pins', 'profile');
+    const steps =  formServices.get('service-pins');
 
-  return <FormStep current={current} next={next}>
-          <InfoMilestone />
-          <MilestoneInput type={'service-pins'} />
-        </FormStep>;
+    return <FormStep steps={steps} current={current} next={next}>
+        <InfoMilestone />
+        <MilestoneInput type={'service-pins'} />
+    </FormStep>;
 }

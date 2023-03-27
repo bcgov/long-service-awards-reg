@@ -13,12 +13,12 @@ import ConfirmationInput from "@/components/fieldsets/ConfirmationInput.jsx";
 import {BlockUI} from "primereact/blockui";
 import {Button} from "primereact/button";
 import {useNavigate} from "react-router-dom";
-import MilestoneData from "@/components/data/MilestoneData.jsx";
 import {Panel} from "primereact/panel";
-import FormData from "@/components/data/FormData.jsx";
-import ProfileData from "@/components/data/ProfileData.jsx";
-import ContactData from "@/components/data/ContactData.jsx";
-import SupervisorData from "@/components/data/SupervisorData.jsx";
+import FormData from "@/components/common/FormData.jsx";
+import MilestoneData from "@/views/service-pins/data/MilestoneData.jsx";
+import ProfileData from "@/views/service-pins/data/ProfileData.jsx";
+import ContactData from "@/views/service-pins/data/ContactData.jsx";
+import SupervisorData from "@/views/service-pins/data/SupervisorData.jsx";
 import InfoServicePinDeclaration from "@/components/info/InfoServicePinDeclaration";
 
 /**
@@ -36,22 +36,23 @@ export default function ServicePinsConfirmation() {
   const { cycle } = service || {};
 
   // get form step schema / default values
-  const previous = formServices.copy('registration_steps', 'supervisor');
-  const current = formServices.copy('registration_steps', 'confirmation');
+  const previous = formServices.copy('service-pins', 'supervisor');
+  const current = formServices.copy('service-pins', 'confirmation');
+  const steps =  formServices.get('service-pins');
 
   // block confirmation fieldset if form is incomplete
-  return <FormStep previous={previous} current={current}>
+  return <FormStep steps={steps} previous={previous} current={current}>
     {
       completed && <Panel className={'mb-3'} header={'Confirm Registration Details'}>
-        <FormData id={'milestone'}><MilestoneData/></FormData>
-        <FormData id={'profile'}><ProfileData/></FormData>
-        <FormData id={'contact'}><ContactData/></FormData>
-        <FormData id={'supervisor'}><SupervisorData/></FormData>
+        <FormData form={'service-pins'} id={'milestone'}><MilestoneData/></FormData>
+        <FormData form={'service-pins'} id={'profile'}><ProfileData/></FormData>
+        <FormData form={'service-pins'} id={'contact'}><ContactData/></FormData>
+        <FormData form={'service-pins'} id={'supervisor'}><SupervisorData/></FormData>
       </Panel>
     }
     <BlockUI blocked={!completed && !loading} template={
       <Button
-          onClick={()=>{navigate('/register/milestone')}}
+          onClick={()=>{navigate('/lsa/milestone')}}
           label={'Click to Complete Your Registration'}
       />}>
       <ConfirmationInput>

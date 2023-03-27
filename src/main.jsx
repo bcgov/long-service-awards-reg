@@ -20,20 +20,20 @@ import Error from "./views/Error.jsx";
 // Load view components
 import DelegatedServicePins from "./views/service-pins/delegated/DelegatedServicePins.jsx";
 import Home from "./views/Home.jsx";
-import Profile from "./views/lsa/Profile.jsx";
-import Milestone from "./views/lsa/Milestone.jsx";
-import Contact from "./views/lsa/Contact.jsx";
-import Award from "./views/lsa/Award";
-import Supervisor from "./views/lsa/Supervisor";
-import Confirmation from "./views/lsa/Confirmation";
-import ServicePins from "./views/service-pins/ServicePins.jsx";
-import SelfServicePins from "./views/service-pins/self/SelfServicePins.jsx";
-import SelfRegistration from "./views/lsa/SelfRegistration.jsx";
+import LSAProfile from "@/views/lsa/LSAProfile.jsx";
+import LSAMilestone from "@/views/lsa/LSAMilestone.jsx";
+import LSAContact from "@/views/lsa/LSAContact.jsx";
+import LSAAward from "@/views/lsa/LSAAward.jsx";
+import LSASupervisor from "@/views/lsa/LSASupervisor";
+import LSAConfirmation from "@/views/lsa/LSAConfirmation";
+import SelfServicePins from "@/views/service-pins/self/SelfServicePins.jsx";
+import LSASelfRegistration from "@/views/lsa/LSASelfRegistration.jsx";
 import ServicePinsMilestone from "@/views/service-pins/self/ServicePinsMilestone.jsx";
 import ServicePinsProfile from "@/views/service-pins/self/ServicePinsProfile.jsx";
 import ServicePinsContact from "@/views/service-pins/self/ServicePinsContact.jsx";
 import ServicePinsSupervisor from "@/views/service-pins/self/ServicePinsSupervisor.jsx";
 import ServicePinsConfirmation from "@/views/service-pins/self/ServicePinsConfirmation.jsx";
+import Closed from "@/views/Closed";
 
 const router = createBrowserRouter([
   {
@@ -42,8 +42,7 @@ const router = createBrowserRouter([
     errorElement: <Error />,
     children: [
       { index: true, element: <Home /> },
-      { path: "service-pins",  element: <ServicePins /> },
-      { path: "service-pins/supervisor", element: <DelegatedServicePins /> },
+      { path: "service-pins/delegated", element: <DelegatedServicePins /> },
       {
         path: "service-pins/self",
         element: <SelfServicePins />,
@@ -56,17 +55,18 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "register",
-        element: <SelfRegistration />,
+        path: "lsa",
+        element: <LSASelfRegistration />,
         children: [
-          { path: "milestone", element: <Milestone /> },
-          { path: "profile", element: <Profile /> },
-          { path: "contact", element: <Contact /> },
-          { path: "award", element: <Award /> },
-          { path: "supervisor", element: <Supervisor /> },
-          { path: "confirmation", element: <Confirmation /> },
+          { path: "milestone", element: <LSAMilestone /> },
+          { path: "profile", element: <LSAProfile /> },
+          { path: "contact", element: <LSAContact /> },
+          { path: "award", element: <LSAAward /> },
+          { path: "supervisor", element: <LSASupervisor /> },
+          { path: "confirmation", element: <LSAConfirmation /> },
         ],
       },
+      { path: "closed",  element: <Closed /> },
     ],
   },
 ],{ basename: import.meta.env.LSA_APPS_REGISTRATION_BASE });
