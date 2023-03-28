@@ -43,7 +43,7 @@ export default function DelegatedServicePins() {
       return defaultFormValues;
     }, [defaultFormValues]),
   });
-  const {control, handleSubmit, formState: { isValid, isDirty }} = methods || {};
+  const {control, handleSubmit, formState: { isValid }} = methods || {};
 
   // create field array for employee data
   const { fields, append, remove } = useFieldArray({
@@ -53,7 +53,12 @@ export default function DelegatedServicePins() {
 
   // check for previous service pin registrations for delegate
   useEffect(() => {
-    getDelegatedRegistrations().then(setRegistrations).catch(console.error)
+    setLoading(true);
+    getDelegatedRegistrations().then(console.log)
+    getDelegatedRegistrations()
+        .then(setRegistrations)
+        .catch(console.error)
+        .finally(()=>{setLoading(false)})
   }, []);
 
   // submit registration form data
@@ -117,11 +122,7 @@ export default function DelegatedServicePins() {
       }
       <BlockUI
           blocked={loading || submitted}
-          template={<Button
-              disabled
-              icon={'pi pi-lock'}
-              label={submitted ? 'Form Submitted' : 'Form Locked'} />
-          }>
+          template={<Button disabled icon={'pi pi-lock'} label={submitted ? 'Form Submitted' : 'Form Locked'} />}>
         <DelegateContactInput />
         <Panel header={"Employee(s) Information"}>
           {

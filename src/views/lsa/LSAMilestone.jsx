@@ -27,7 +27,7 @@ export default function LSAMilestone() {
 
     return <FormStep steps={steps} current={current} next={next}>
         <InfoMilestone />
-        <MilestoneInput type={'lsa'} />
+        <MilestoneInput type={'lsa'} threshold={25} />
         <RegistrationOptionsInput />
         <BCGEUInput />
         <RetirementInput />
