@@ -152,7 +152,9 @@ export default function MilestoneInput({ type, threshold }) {
                             <>
                                 <Dropdown
                                     disabled={
-                                    !getValues(`service.service_years`) || !currentMilestone || currentMilestone < 25}
+                                    !getValues(`service.service_years`)
+                                        || !currentMilestone
+                                        || currentMilestone < threshold}
                                     id={field.name}
                                     value={field.value || ''}
                                     onChange={(e) => field.onChange(e.value)}
