@@ -187,9 +187,7 @@ export default function AddressInput({id, label, pobox}) {
                             control={control}
                             render={({ field }) => (
                                 <>
-                                    <BlockUI blocked={true}>
                                         <InputText className={'w-full'} id={field.name} value={'Canada'} />
-                                    </BlockUI>
                                 </>
                             )}
                         />

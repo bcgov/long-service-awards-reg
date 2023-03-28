@@ -21,7 +21,7 @@ export default function InfoServicePinDeclaration({year}) {
       Agency to use this information for the planning and delivery of the corporate pin program. This
       personal information is collected in accordance with section 26(c) of the Freedom of Information
       and Protection of Privacy Act (FOIPPA). Questions about the collection or use of this information
-      can be directed to, <a href="mailto:Corporate.Engagement@gov.bc.ca">Corporate.Engagement@gov.bc.ca</a>,
+      can be directed to <a href="mailto:Corporate.Engagement@gov.bc.ca">Corporate.Engagement@gov.bc.ca</a>,
       1st floor- 563 Superior Street, Victoria BC, V8V 0C5 or by calling 1.877.277.0772
   </p>
 }
