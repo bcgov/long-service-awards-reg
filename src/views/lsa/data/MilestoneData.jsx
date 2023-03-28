@@ -16,8 +16,8 @@ import {RegistrationContext} from "@/AppContext";
 export default function MilestoneData() {
 
   const { registration } = useContext(RegistrationContext);
-  const {service, retirement, retirement_date, previous_award} = registration || {};
-  const {milestone, qualifying_year, service_years, ceremony_opt_out, previous_registration} = service || {};
+  const {service, retirement, retirement_date, } = registration || {};
+  const {milestone, qualifying_year, service_years, ceremony_opt_out, previous_registration, previous_award} = service || {};
   const retirementDate = retirement_date ? new Date(retirement_date) : null;
 
   return <div className={'container'}>
@@ -31,8 +31,7 @@ export default function MilestoneData() {
           <div className={'col-6'}>Do you want to receive your award only and not attend the ceremony?</div>
           <div className={'col-6'}>{ceremony_opt_out ? 'Yes' : 'No'}</div>
           <div className={'col-6'}>
-              Did you register previously (in last two years)
-              and were unable to attend your ceremony?
+              Did you register previously (in last two years) and were unable to attend your ceremony?
           </div>
           <div className={'col-6'}>{previous_registration ? 'Yes' : 'No'}</div>
           {

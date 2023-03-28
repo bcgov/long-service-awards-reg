@@ -163,6 +163,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
                         render={({ field, fieldState: {invalid, error} }) => (
                             <>
                                 <InputText
+                                    maxLength={256}
                                     id={field.name}
                                     value={field.value || ''}
                                     onChange={(e) => field.onChange(e.target.value)}

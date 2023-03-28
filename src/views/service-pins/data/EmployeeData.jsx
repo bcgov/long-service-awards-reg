@@ -28,7 +28,9 @@ export default function EmployeeData({data}) {
                 <div className={'col-6'}>Employment Number</div>
                 <div className={'col-6'}>{employee_number}</div>
                 <div className={'col-6'}>Organization</div>
-                <div className={'col-6'}>{organization.name} ({organization.abbreviation})</div>
+                <div className={'col-6'}>
+                    {organization && organization.name} ({organization && organization.abbreviation})
+                </div>
                 <div className={'col-6'}>Current Years of Service</div>
                 <div className={'col-6'}>{service_years}</div>
                 <div className={'col-6'}>Current Milestone</div>

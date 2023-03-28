@@ -25,6 +25,6 @@ export default function ServicePinsMilestone() {
 
     return <FormStep steps={steps} current={current} next={next}>
         <InfoMilestone />
-        <MilestoneInput type={'service-pins'} />
+        <MilestoneInput type={'service-pins'} threshold={5} />
     </FormStep>;
 }

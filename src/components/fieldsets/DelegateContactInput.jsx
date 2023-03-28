@@ -12,7 +12,6 @@ import {matchers} from "@/services/validation.services.js";
 import InfoToolTip from "@/components/common/InfoToolTip.jsx";
 import {Panel} from "primereact/panel";
 import AddressInput from "@/components/fieldsets/AddressInput.jsx";
-import PageHeader from "@/components/common/PageHeader.jsx";
 
 /**
  * Supervisor Contact Details
@@ -24,8 +23,8 @@ export default function DelegateContactInput() {
 
     return <>
         <Panel
-            toggleable
-            collapsed={true}
+            toggleable={false}
+            collapsed={false}
             className={'mb-3'}
             header={<>
                 Supervisor Contact Information <InfoToolTip
