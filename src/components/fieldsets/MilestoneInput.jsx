@@ -7,7 +7,7 @@
 
 import React, {useContext, useEffect, useState} from "react";
 import ServiceCalculator from "../common/ServiceCalculator.jsx";
-import {Controller, useFormContext} from "react-hook-form";
+import {Controller, useFormContext, useWatch} from "react-hook-form";
 import { Dropdown } from "primereact/dropdown";
 import { InputNumber } from "primereact/inputnumber";
 import classNames from "classnames";
@@ -24,7 +24,7 @@ import InfoServiceEligibility from "@/components/info/InfoServiceEligibility";
  * @returns {JSX.Element} years of service, current milestone, qualifying year, prior milestones
  */
 
-export default function MilestoneInput({ type }) {
+export default function MilestoneInput({ type, threshold }) {
 
     // load form data
     const { registration } = useContext(RegistrationContext);
@@ -34,6 +34,7 @@ export default function MilestoneInput({ type }) {
     const [milestones, setMilestones] = useState();
     const [qualifyingYears, setQualifyingYears] = useState();
     const [showCalculator, setShowCalculator] = useState(false);
+    const currentMilestone = useWatch({name: 'service.milestone'});
 
     // update milestone/qualifying year options for dropdowns
     useEffect(() => {
@@ -150,7 +151,8 @@ export default function MilestoneInput({ type }) {
                         render={({ field, fieldState: {invalid, error}  }) => (
                             <>
                                 <Dropdown
-                                    disabled={!getValues(`service.service_years`) || !getValues(`service.milestone`)}
+                                    disabled={
+                                    !getValues(`service.service_years`) || !currentMilestone || currentMilestone < 25}
                                     id={field.name}
                                     value={field.value || ''}
                                     onChange={(e) => field.onChange(e.value)}

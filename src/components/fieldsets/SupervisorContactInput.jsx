@@ -137,7 +137,7 @@ export default function SupervisorContactInput() {
                                         className={classNames({"p-invalid": error})}
                                         aria-describedby={`government-email-help`}
                                         onChange={(e) => field.onChange(e.target.value)}
-                                        placeholder={`Your government email address`}
+                                        placeholder={`Supervisor's email address`}
                                     />
                                     { invalid && <p className="error">{error.message}</p> }</>
                             )}
