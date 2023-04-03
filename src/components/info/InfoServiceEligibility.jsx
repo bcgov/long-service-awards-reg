@@ -29,7 +29,7 @@ export default function InfoServiceEligibility ({type, milestone}) {
             content={
                 type === 'lsa'
                     ? <div>
-                        You are eligible for a <Link to="/service-pins/self">Service Pin</Link>.
+                        You are eligible for a <Link to="/service-pins/self/milestone">Service Pin</Link>.
                         Long Service Award recipients must have 25+
                         years of service to be eligible.
                     </div>

@@ -50,7 +50,6 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
      * */
 
     useEffect(() => {
-        console.log(award)
         const {options} = award || {};
         setAwardOptions((options || []).reduce(function(rv, x) {
                 (rv[x.type] = rv[x.type] || []).push(x);
@@ -101,7 +100,7 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
                 }
             });
         // DEBUG ===
-        console.log(selectedOptions, filteredOptions)
+        // console.log(selectedOptions, filteredOptions)
         // confirm award option updates
         confirm(filteredOptions);
     }
@@ -115,7 +114,10 @@ export default function AwardOptionsInput({award, confirm, cancel, regControl}) 
         const currentAward = getValues('service.awards.award') || {};
         // get option selections
         const selections = getValues('service.awards.selections') || [];
+
+        // DEBUG
         // console.log('Current Selections:', selections, currentAward, field)
+
         // filter award option selections to match award option schema
         const {custom_value, award_option} = (award && award.id) === (currentAward && currentAward.id)
         && selections.find(({award_option}) => {

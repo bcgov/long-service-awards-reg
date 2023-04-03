@@ -86,7 +86,7 @@ export default function Home() {
                                         ? "You are Registered for a Long Service Award"
                                         : confirmed
                                             ? "View Your Service Pin Registration"
-                                            : "Register for Your Service Pin Registration"
+                                            : "Register for Your Service Pin"
                                 }
                             </Button>
                         </div>

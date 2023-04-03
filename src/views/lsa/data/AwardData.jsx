@@ -33,7 +33,7 @@ export default function AwardData() {
                     <Fieldset legend={'Award Options'} toggleable>
                         <div className={'container'}>
                             {
-                                (options || []).map(({id, customizable}) => {
+                                (options || []).map(({id, customizable, type}) => {
                                     const {pecsf_charity, custom_value, award_option} = selections
                                         .find(selection => {
                                             // match award option ID to selection ID
@@ -51,14 +51,21 @@ export default function AwardData() {
                                                 </>
                                         }
                                         {
-                                            !pecsf_charity && !customizable && <>
+                                            !pecsf_charity && type === 'pecsf-charity' &&
+                                            <div className={'grid'}>
+                                                <div className={'col-6'}>{label}</div>
+                                                <div className={'col-6'}>Donation Pool</div>
+                                            </div>
+                                        }
+                                        {
+                                            !pecsf_charity && type !== 'pecsf-charity' && !customizable && <>
                                                 <div className={'col-6'}>{label}</div>
                                                 <div className={'col-6'}>{description}</div>
 
                                             </>
                                         }
                                         {
-                                            !pecsf_charity && customizable && <>
+                                            !pecsf_charity && type !== 'pecsf-charity' && customizable && <>
                                                 <div className={'col-6'}>{description}</div>
                                                 <div className={'col-6'}>{custom_value}</div>
                                             </>

@@ -29,6 +29,7 @@ export default function ProfileInput() {
     const {organizations=[]} = options || {};
 
     return <Panel
+        className={'mb-3'}
         header={
             <>
                 Profile Information <InfoToolTip
