@@ -8,6 +8,7 @@
 import ProfileInput from "@/components/fieldsets/ProfileInput.jsx";
 import FormStep from "@/components/common/FormStep.jsx";
 import formServices from "@/services/settings.services.js";
+import RetroactiveMilestoneInput from "@/components/fieldsets/RetroactiveMilestoneInput";
 
 /**
  * Recipient Profile form.
@@ -24,5 +25,6 @@ export default function ServicePinsProfile() {
 
   return <FormStep steps={steps} previous={previous} current={current} next={next}>
     <ProfileInput />
+    <RetroactiveMilestoneInput />
   </FormStep>;
 }
