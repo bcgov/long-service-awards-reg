@@ -232,7 +232,8 @@ const schemaData = {
           milestone: "",
           qualifying_year: "",
           confirmed: false,
-        }
+        },
+        prior_milestones: ""
       },
       validate: (data) => {
         const {service} = data || {};
