@@ -21,7 +21,7 @@ import {Panel} from "primereact/panel";
  * organization, branch, personal phone, personal email
  */
 
-export default function ProfileInput({type}) {
+export default function ServicePinsProfileInput() {
     const { control } = useFormContext();
     const { options } = useContext(OptionsContext);
 
@@ -112,35 +112,6 @@ export default function ProfileInput({type}) {
                         )}
                     />
                 </div>
-                {type === 'lsa' && <div className={'col-12 form-field-container'}>
-                    <label htmlFor={'contact.personal_email'}>Alternate Email Address</label>
-                    <Controller
-                        name={'contact.personal_email'}
-                        control={control}
-                        rules={{
-                            required: "Personal email address is required.",
-                            pattern: {
-                                value: matchers.email,
-                                message: "Invalid email address. (e.g., example@gov.bc.ca)",
-                            },
-                        }}
-                        render={({field, fieldState: {invalid, error}}) => (
-                            <>
-                                <InputText
-                                    id={`${field.name}`}
-                                    value={field.value || ''}
-                                    type="text"
-                                    onChange={(e) => field.onChange(e.target.value)}
-                                    aria-describedby={'personal_email-help'}
-                                    placeholder={'Your personal email address'}
-                                    className={classNames({"p-invalid": error})}
-                                />
-                                {invalid && <p className="error">{error.message}</p>}
-                            </>
-                        )}
-                    />
-                </div>
-                }
                 <div className="col-12 form-field-container">
                     <label htmlFor={`employee_number`}>Employee Number (six digits)</label>
                     <Controller
