@@ -8,7 +8,6 @@
 import FormStep from "@/components/common/FormStep.jsx";
 import formServices from "@/services/settings.services.js";
 import RetroactiveMilestoneInput from "@/components/fieldsets/RetroactiveMilestoneInput";
-import ServicePinsProfileInput from "@/components/fieldsets/ServicePinsProfileInput";
 import ProfileInput from "@/components/fieldsets/ProfileInput";
 
 /**
