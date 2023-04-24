@@ -5,10 +5,10 @@
  * MIT Licensed
  */
 
-import ProfileInput from "@/components/fieldsets/ProfileInput.jsx";
 import FormStep from "@/components/common/FormStep.jsx";
 import formServices from "@/services/settings.services.js";
 import RetroactiveMilestoneInput from "@/components/fieldsets/RetroactiveMilestoneInput";
+import ProfileInput from "@/components/fieldsets/ProfileInput";
 
 /**
  * Recipient Profile form.
@@ -24,7 +24,7 @@ export default function ServicePinsProfile() {
   const steps =  formServices.get('service-pins');
 
   return <FormStep steps={steps} previous={previous} current={current} next={next}>
-    <ProfileInput />
+    <ProfileInput type={'service-pins'} />
     <RetroactiveMilestoneInput />
   </FormStep>;
 }

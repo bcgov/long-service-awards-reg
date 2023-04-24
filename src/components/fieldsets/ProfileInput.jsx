@@ -21,7 +21,7 @@ import {Panel} from "primereact/panel";
  * organization, branch, personal phone, personal email
  */
 
-export default function ProfileInput() {
+export default function ProfileInput({type}) {
     const { control } = useFormContext();
     const { options } = useContext(OptionsContext);
 
@@ -112,7 +112,7 @@ export default function ProfileInput() {
                         )}
                     />
                 </div>
-                <div className={'col-12 form-field-container'}>
+                {type === 'lsa' && <div className={'col-12 form-field-container'}>
                     <label htmlFor={'contact.personal_email'}>Alternate Email Address</label>
                     <Controller
                         name={'contact.personal_email'}
@@ -124,23 +124,23 @@ export default function ProfileInput() {
                                 message: "Invalid email address. (e.g., example@gov.bc.ca)",
                             },
                         }}
-                        render={({ field, fieldState: {invalid, error}}) => (
-                           <>
-                           <InputText
-                                id={`${field.name}`}
-                                value={field.value || ''}
-                                type="text"
-                                onChange={(e) => field.onChange(e.target.value)}
-                                aria-describedby={'personal_email-help'}
-                                placeholder={'Your personal email address'}
-                                className={classNames({"p-invalid": error})}
-                            />
-                               { invalid && <p className="error">{error.message}</p> }
-                           </>
+                        render={({field, fieldState: {invalid, error}}) => (
+                            <>
+                                <InputText
+                                    id={`${field.name}`}
+                                    value={field.value || ''}
+                                    type="text"
+                                    onChange={(e) => field.onChange(e.target.value)}
+                                    aria-describedby={'personal_email-help'}
+                                    placeholder={'Your personal email address'}
+                                    className={classNames({"p-invalid": error})}
+                                />
+                                {invalid && <p className="error">{error.message}</p>}
+                            </>
                         )}
                     />
                 </div>
-
+                }
                 <div className="col-12 form-field-container">
                     <label htmlFor={`employee_number`}>Employee Number (six digits)</label>
                     <Controller
@@ -159,6 +159,7 @@ export default function ProfileInput() {
                                     id={field.name}
                                     value={field.value || ''}
                                     maxLength={6}
+                                    minLength={6}
                                     placeholder="012345"
                                     onChange={(e) => {
                                         // require integers for employee number
