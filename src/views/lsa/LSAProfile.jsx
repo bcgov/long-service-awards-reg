@@ -23,6 +23,6 @@ export default function LSAProfile() {
   const steps = formServices.get('lsa');
 
   return <FormStep steps={steps} previous={previous} current={current} next={next}>
-    <ProfileInput />
+    <ProfileInput type={'lsa'}/>
   </FormStep>;
 }
