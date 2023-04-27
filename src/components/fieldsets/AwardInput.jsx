@@ -91,6 +91,7 @@ export default function AwardInput() {
         // load awards in gallery
         getAwards(currentMilestone)
             .then(data => {
+                console.log(data)
                 setGalleryItems(data || []);
             })
             .catch(console.error);
