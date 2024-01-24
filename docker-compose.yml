@@ -1,0 +1,16 @@
+version: '3.7'
+services:
+  postgresql:
+    image: 'docker.io/bitnami/postgresql:latest'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRESQL_USERNAME: lsa
+      POSTGRESQL_PASSWORD: password
+      POSTGRESQL_DATABASE: lsa_data
+      POSTGRESQL_TIMEZONE: US/Pacific
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - type: bind
+        source: ./backups
+        target: /data/backup

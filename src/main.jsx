@@ -35,41 +35,44 @@ import ServicePinsSupervisor from "@/views/service-pins/self/ServicePinsSupervis
 import ServicePinsConfirmation from "@/views/service-pins/self/ServicePinsConfirmation.jsx";
 import Closed from "@/views/Closed";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <App />,
-    errorElement: <Error />,
-    children: [
-      { index: true, element: <Home /> },
-      { path: "service-pins/delegated", element: <DelegatedServicePins /> },
-      {
-        path: "service-pins/self",
-        element: <SelfServicePins />,
-        children: [
-          { path: "milestone", element: <ServicePinsMilestone /> },
-          { path: "profile", element: <ServicePinsProfile /> },
-          { path: "contact", element: <ServicePinsContact /> },
-          { path: "supervisor", element: <ServicePinsSupervisor /> },
-          { path: "confirmation", element: <ServicePinsConfirmation /> },
-        ],
-      },
-      {
-        path: "lsa",
-        element: <LSASelfRegistration />,
-        children: [
-          { path: "milestone", element: <LSAMilestone /> },
-          { path: "profile", element: <LSAProfile /> },
-          { path: "contact", element: <LSAContact /> },
-          { path: "award", element: <LSAAward /> },
-          { path: "supervisor", element: <LSASupervisor /> },
-          { path: "confirmation", element: <LSAConfirmation /> },
-        ],
-      },
-      { path: "closed",  element: <Closed /> },
-    ],
-  },
-],{ basename: import.meta.env.LSA_APPS_REGISTRATION_BASE });
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <App />,
+      errorElement: <Error />,
+      children: [
+        { index: true, element: <Home /> },
+        { path: "service-pins/delegated", element: <DelegatedServicePins /> },
+        {
+          path: "service-pins/self",
+          element: <SelfServicePins />,
+          children: [
+            { path: "milestone", element: <ServicePinsMilestone /> },
+            { path: "profile", element: <ServicePinsProfile /> },
+            { path: "contact", element: <ServicePinsContact /> },
+            { path: "supervisor", element: <ServicePinsSupervisor /> },
+            { path: "confirmation", element: <ServicePinsConfirmation /> },
+          ],
+        },
+        {
+          path: "lsa",
+          element: <LSASelfRegistration />,
+          children: [
+            { path: "milestone", element: <LSAMilestone /> },
+            { path: "profile", element: <LSAProfile /> },
+            { path: "contact", element: <LSAContact /> },
+            { path: "award", element: <LSAAward /> },
+            { path: "supervisor", element: <LSASupervisor /> },
+            { path: "confirmation", element: <LSAConfirmation /> },
+          ],
+        },
+        { path: "closed", element: <Closed /> },
+      ],
+    },
+  ],
+  { basename: import.meta.env.LSA_APPS_REGISTRATION_BASE }
+);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
