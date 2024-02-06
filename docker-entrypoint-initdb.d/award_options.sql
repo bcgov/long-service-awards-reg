@@ -24,11 +24,11 @@ SET row_security = off;
 -- Data for Name: award_options; Type: TABLE DATA; Schema: public; Owner: lsa
 --
 
-INSERT INTO public.award_options VALUES (1, 1, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
-INSERT INTO public.award_options VALUES (2, 2, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
-INSERT INTO public.award_options VALUES (3, 3, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
-INSERT INTO public.award_options VALUES (4, 4, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
-INSERT INTO public.award_options VALUES (5, 5, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
+-- INSERT INTO public.award_options VALUES (1, 1, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
+-- INSERT INTO public.award_options VALUES (2, 2, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
+-- INSERT INTO public.award_options VALUES (3, 3, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
+-- INSERT INTO public.award_options VALUES (4, 4, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
+-- INSERT INTO public.award_options VALUES (5, 5, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
 -- INSERT INTO public.award_options VALUES (6, 11, 'straps', 'straps-black', 'straps-black', false, 'Black Leather', 'Black leather watch strap.');
 -- INSERT INTO public.award_options VALUES (7, 11, 'straps', 'straps-brown', 'straps-brown', false, 'Brown Leather', 'Brown leather watch strap.');
 -- INSERT INTO public.award_options VALUES (8, 11, 'straps', 'straps-plated', 'straps-plated', false, 'Plated', 'Plated watch strap.');
@@ -45,7 +45,7 @@ INSERT INTO public.award_options VALUES (18, 25, 'sizes', 'size-a', 'size-a', fa
 INSERT INTO public.award_options VALUES (19, 25, 'sizes', 'size-b', 'size-b', false, 'Size B (Large)', 'Size fits 7.5-inch- 8.5-inch');
 INSERT INTO public.award_options VALUES (20, 35, 'sizes', 'size-a', 'size-a', false, 'Size A (Small)', 'Size fits 6.5-inch- 7.5-inch');
 INSERT INTO public.award_options VALUES (21, 35, 'sizes', 'size-b', 'size-b', false, 'Size B (Large)', 'Size fits 7.5-inch- 8.5-inch');
-INSERT INTO public.award_options VALUES (22, 37, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
+-- INSERT INTO public.award_options VALUES (22, 37, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
 INSERT INTO public.award_options VALUES (23, 37, 'pecsf-charity', 'pecsf-charity-1', 'custom', true, 'PECSF Charity 1', 'Select a regional charity');
 INSERT INTO public.award_options VALUES (24, 37, 'pecsf-charity', 'pecsf-charity-2', 'custom', true, 'PECSF Charity 2', 'Select a regional charity');
 -- INSERT INTO public.award_options VALUES (25, 37, 'pecsf-certificate', 'pecsf-certificate-25', 'custom', true, 'PECSF Certificate', 'Name to appear on your PECSF certificate');
