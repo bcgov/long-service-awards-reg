@@ -1,25 +1,24 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
-import {fileURLToPath, URL} from "url";
+import { fileURLToPath, URL } from "url";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-
   // Load env file based on `mode` in the current working directory.
   // Set the third parameter to 'LSA_APPS_' to load all LSA web app env.
-  const env = loadEnv(mode, process.cwd(), 'LSA_APPS_');
-  console.log('ENV Vars:', env)
+  const env = loadEnv(mode, process.cwd(), "LSA_APPS_");
+  console.log("ENV Vars:", env);
 
   return {
-    envPrefix: 'LSA_APPS_',
+    envPrefix: "LSA_APPS_",
     base: env.LSA_APPS_REGISTRATION_BASE,
     server: {
-      port: env.LSA_APPS_REGISTRATION_PORT || 3000
+      port: env.LSA_APPS_REGISTRATION_PORT || 5000,
     },
     resolve: {
       alias: {
-        '@': fileURLToPath(new URL('./src', import.meta.url))
-      }
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
+      },
     },
     plugins: [react()],
   };
