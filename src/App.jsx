@@ -39,7 +39,6 @@ export default function App() {
 
   // define registration active state
   const [active, setActive] = useState(false);
-  console.log(active);
 
   // define user provider
   const [user, setUser] = useState(null);
