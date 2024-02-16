@@ -2564,6 +2564,15 @@ INSERT INTO public.pecsf_charities VALUES (2537, 'Comox Valley Ground Search and
 INSERT INTO public.pecsf_charities VALUES (2538, 'Canadian Red Cross Society', 'Strathcona', 'DC3341');
 INSERT INTO public.pecsf_charities VALUES (2539, 'Mental Health Recovery Partners Society', 'Strathcona', 'DC3349');
 INSERT INTO public.pecsf_charities VALUES (2540, 'Kitty Cat P.A.L. Society', 'Strathcona', 'DC3352');
+-- Updates for 2024
+-- Pooled Charities
+INSERT INTO public.pecsf_charities VALUES (2541, "Capital Region Fund Supported Pool", "BC", "1", true, true);
+INSERT INTO public.pecsf_charities VALUES (2542, "Cariboo Region Fund Supported Pool", "BC", "2", true, true);
+INSERT INTO public.pecsf_charities VALUES (2543, "Fraser Fort George Fund Supported Pool", "BC", "3", true, true);
+INSERT INTO public.pecsf_charities VALUES (2544, "Fraser Valley Region Fund Supported Pool", "BC", "4", true, true);
+INSERT INTO public.pecsf_charities VALUES (2545, "Metro Vancouver Region Fund Supported Pool", "BC", "5", true, true);
+INSERT INTO public.pecsf_charities VALUES (2546, "Thompson Nicola Region Fund Supported Pool", "BC", "6", true, true);
+-- General Charities pulled from CRA generation 2024
 
 
 --
@@ -2572,7 +2581,7 @@ INSERT INTO public.pecsf_charities VALUES (2540, 'Kitty Cat P.A.L. Society', 'St
 -- Name: pecsf_charities_id_seq; Type: SEQUENCE SET; Schema: public; Owner: lsa
 --
 
-SELECT pg_catalog.setval('public.pecsf_charities_id_seq', 2541, true);
+SELECT pg_catalog.setval('public.pecsf_charities_id_seq', 2547, true);
 
 
 -- Completed on 2023-01-29 13:56:59 PST
