@@ -119,6 +119,7 @@ export default function InfoPecsf() {
                 <i
                   className="pi pi-info-circle"
                   onClick={() => openDialog("Capital")}
+                  style={{ cursor: "pointer" }}
                 ></i>
               </sup>
             </li>
@@ -129,6 +130,7 @@ export default function InfoPecsf() {
                 <i
                   className="pi pi-info-circle"
                   onClick={() => openDialog("Cariboo")}
+                  style={{ cursor: "pointer" }}
                 ></i>
               </sup>
             </li>
@@ -139,6 +141,7 @@ export default function InfoPecsf() {
                 <i
                   className="pi pi-info-circle"
                   onClick={() => openDialog("Fraser Valley")}
+                  style={{ cursor: "pointer" }}
                 ></i>
               </sup>
             </li>
@@ -149,6 +152,7 @@ export default function InfoPecsf() {
                 <i
                   className="pi pi-info-circle"
                   onClick={() => openDialog("Fraser-Fort George")}
+                  style={{ cursor: "pointer" }}
                 ></i>
               </sup>
             </li>
@@ -159,6 +163,7 @@ export default function InfoPecsf() {
                 <i
                   className="pi pi-info-circle"
                   onClick={() => openDialog("Metro Vancouver")}
+                  style={{ cursor: "pointer" }}
                 ></i>
               </sup>
             </li>
@@ -169,6 +174,7 @@ export default function InfoPecsf() {
                 <i
                   className="pi pi-info-circle"
                   onClick={() => openDialog("Thompson-Nicola")}
+                  style={{ cursor: "pointer" }}
                 ></i>
               </sup>
             </li>
