@@ -46,9 +46,17 @@ export default function AwardData() {
                                             pecsf_charity && <>
                                                 <div className={'col-6'}>{label}</div>
                                                     <div className={'col-6'}>
-                                                        {pecsf_charity.label} ({pecsf_charity.region})
+                                                        {pecsf_charity.label}
+                                                         {/* ({pecsf_charity.region}) */}
                                                     </div>
                                                 </>
+                                        }
+                                        {
+                                            type === 'pecsf-charity-local' &&
+                                            <div className={'grid'}>
+                                                <div className={'col-6'}>{label}</div>
+                                                <div className={'col-6'}>{custom_value}</div>
+                                            </div>
                                         }
                                         {
                                             !pecsf_charity && type === 'pecsf-charity' &&
@@ -58,14 +66,14 @@ export default function AwardData() {
                                             </div>
                                         }
                                         {
-                                            !pecsf_charity && type !== 'pecsf-charity' && !customizable && <>
+                                            !pecsf_charity && type !== 'pecsf-charity' && type !== 'pecsf-charity-local' && !customizable && <>
                                                 <div className={'col-6'}>{label}</div>
                                                 <div className={'col-6'}>{description}</div>
 
                                             </>
                                         }
                                         {
-                                            !pecsf_charity && type !== 'pecsf-charity' && customizable && <>
+                                            !pecsf_charity && type !== 'pecsf-charity' && type !== 'pecsf-charity-local' && customizable && <>
                                                 <div className={'col-6'}>{description}</div>
                                                 <div className={'col-6'}>{custom_value}</div>
                                             </>

@@ -86,6 +86,8 @@ export default function AwardOptionsInput({
           (selectedOptions.hasOwnProperty(type) &&
             selectedOptions[type] === value) ||
           (type === "pecsf-charity" && selectedOptions.hasOwnProperty(name)) ||
+          (type === "pecsf-charity-local" &&
+            selectedOptions.hasOwnProperty(name)) ||
           (type.includes("certificate") && selectedOptions.hasOwnProperty(name))
         );
       })
@@ -108,6 +110,8 @@ export default function AwardOptionsInput({
               : value,
           pecsf_charity:
             type === "pecsf-charity" ? selectedOptions[name] : null,
+          pecsf_charity_local:
+            type === "pecsf-charity-local" ? selectedOptions[name] : null,
         };
       });
     // DEBUG ===
@@ -250,6 +254,7 @@ export default function AwardOptionsInput({
           // handle special options
           const pecsf = key === "pecsf-charity";
           const engraving = key === "engraving";
+          const pecsfLocal = key === "pecsf-charity-local";
           // handle multi-option dropdowns
           const multiselect = awardOptions[key].length > 1;
           // handle multi-option dropdowns
@@ -268,10 +273,12 @@ export default function AwardOptionsInput({
               )}
               {!pecsf &&
                 !engraving &&
+                !pecsfLocal &&
                 multiselect &&
                 templates.dropdown(awardOptions[key])}
               {!pecsf &&
                 !engraving &&
+                !pecsfLocal &&
                 !multiselect &&
                 templates.textInput(awardOptions[key][0])}
             </div>

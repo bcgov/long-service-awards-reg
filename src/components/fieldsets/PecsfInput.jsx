@@ -6,263 +6,315 @@
  */
 
 import { useEffect, useState } from "react";
-import {Controller, useFormContext } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import { Dropdown } from "primereact/dropdown";
 import classNames from "classnames";
 import InfoPecsf from "@/components/info/InfoPecsf";
-import {RadioButton} from "primereact/radiobutton";
-import {getPecsfCharities, getPecsfRegions} from "@/services/api.routes.js";
+import { RadioButton } from "primereact/radiobutton";
+import { getPecsfCharities } from "@/services/api.routes.js";
+import { InputText } from "primereact/inputtext";
+import InfoToolTip from "../common/InfoToolTip";
 
 /**
  * Pecsf Award Options Component.
  * @returns pecsf award and options
  */
 
-export default function PecsfInput({control, setValue }) {
+export default function PecsfInput({ control, setValue }) {
+  // get values from registration form
+  const { getValues } = useFormContext();
 
-    // get values from registration form 
-    const { getValues } = useFormContext();
+  // initialize PECSF local states
+  const [pool, setPool] = useState(true);
+  const [charities, setCharities] = useState([]);
+  const [filteredCharities1, setFilteredCharities1] = useState([]);
+  const [filteredCharities2, setFilteredCharities2] = useState([]);
+  const [selectedCharity1, setSelectedCharity1] = useState("");
+  const [selectedCharity2, setSelectedCharity2] = useState("");
 
-    // initialize PECSF local states
-    const [pool, setPool] = useState(true);
-    const [regions, setRegions] = useState([]);
-    const [charities, setCharities] = useState([]);
-    const [filteredCharities1, setFilteredCharities1] = useState([]);
-    const [filteredCharities2, setFilteredCharities2] = useState([]);
-    const [selectedRegion1, setSelectedRegion1] = useState(null);
-    const [selectedRegion2, setSelectedRegion2] = useState(null);
+  /**
+   * Initialize PECSF selections from form data
+   * */
 
-    /**
-     * Initialize PECSF selections from form data
-     * */
+  useEffect(() => {
+    const currentAward = getValues("service.awards");
+    const { selections, award } = currentAward || {};
+    const { id } = award || {};
+    // filter selections by current award selection
+    return (selections || [])
+      .filter(({ award_option }) => award_option.award === id)
+      .forEach(({ award_option, pecsf_charity }) => {
+        const { name } = award_option || {};
+        // if charities are selected, update states and PECSF form data
+        if (pecsf_charity) {
+          // set PECSF donation type to non-pool
+          setPool(false);
+          setValue("donation", "charities");
+          const { region, id } = pecsf_charity || {};
+          // set selected regions
+          // if (name === 'pecsf-charity-1') {
+          //     setValue('pecsf-region-1', region);
+          //     setSelectedRegion1(region)
+          // }
+          // else {
+          //     setValue('pecsf-region-2', region);
+          //     setSelectedRegion2(region)
+          // }
+          // set charity to selected option ID value
+          setValue(name, id);
+        }
+      });
+  }, [charities]);
 
-    useEffect( () => {
-        const currentAward = getValues('service.awards');
-        const { selections, award } = currentAward || {};
-        const { id } = award || {};
-        // filter selections by current award selection
-        return (selections || [])
-            .filter(({award_option}) => award_option.award === id)
-            .forEach(({award_option, pecsf_charity}) => {
-            const {name} = award_option || {};
-            // if charities are selected, update states and PECSF form data
-            if (pecsf_charity) {
-                // set PECSF donation type to non-pool
-                setPool(false);
-                setValue('donation', 'charities')
-                const {region, id} = pecsf_charity || {};
-                // set selected regions
-                if (name === 'pecsf-charity-1') {
-                    setValue('pecsf-region-1', region);
-                    setSelectedRegion1(region)
-                }
-                else {
-                    setValue('pecsf-region-2', region);
-                    setSelectedRegion2(region)
-                }
-                // set charity to selected option ID value
-                setValue(name, id);
-            }
-        });
-    }, [charities]);
+  /**
+   * Load PECSF options (regions and charities)
+   * */
 
-    /**
-     * Load PECSF options (regions and charities)
-     * */
+  useEffect(() => {
+    // load PECSF charities
+    getPecsfCharities().then(setCharities).catch(console.error);
+    // load PECSF charity regions
+    // getPecsfRegions().then(setRegions).catch(console.error);
+  }, []);
 
-    useEffect(() => {
-        // load PECSF charities
-        getPecsfCharities().then(setCharities).catch(console.error);
-        // load PECSF charity regions
-        getPecsfRegions().then(setRegions).catch(console.error);
-    }, []);
+  /**
+   * Filter charities by selected region
+   * */
 
-    /**
-     * Filter charities by selected region
-     * */
-
-    useEffect(() => {
-        setFilteredCharities1(charities.filter(charity => {
-            return charity.region === selectedRegion1
-        }))
-        setFilteredCharities2(charities.filter(charity => {
-            return charity.region === selectedRegion2
-        }))
-    }, [charities, selectedRegion1, selectedRegion2]);
-
-    /**
-     * Reset PECSF options
-     * */
-
-    const resetOptions = () => {
-        setPool(true);
-        setValue('pecsf-region-1', '');
-        setValue('pecsf-charity-1', '');
-        setSelectedRegion1(null);
-        setValue('pecsf-region-2', '');
-        setValue('pecsf-charity-2', '');
-        setSelectedRegion2(null);
+  useEffect(() => {
+    setFilteredCharities1(
+      charities.filter((charity) => {
+        return charity.pooled === pool && charity.active === true;
+      })
+    );
+    setFilteredCharities2(
+      charities.filter((charity) => {
+        return charity.pooled === pool && charity.active === true;
+      })
+    );
+    if (pool) {
+      resetOptions();
     }
+  }, [charities, pool]);
 
-    return <>
-        <InfoPecsf />
-        <h4>PECSF Donation Options</h4>
-        <div className="m-1 flex align-items-center">
-            <RadioButton 
-                onChange={() => {
-                     setPool(true)
-                     resetOptions();
-                 }}
-                 inputId="pool"
-                 value="pool"
-                 checked={pool}
+  /**
+   * Reset PECSF options
+   * */
+
+  const resetOptions = () => {
+    setPool(true);
+    setValue("pecsf-charity-local-1", "");
+    setValue("pecsf-charity-1", "");
+    setValue("pecsf-charity-local-2", "");
+    setValue("pecsf-charity-2", "");
+  };
+
+  return (
+    <>
+      <InfoPecsf />
+      <h4>PECSF Donation Options</h4>
+      <div className="m-1 flex align-items-center">
+        <RadioButton
+          onChange={() => {
+            setPool(true);
+            resetOptions();
+          }}
+          inputId="pool"
+          value="pool"
+          checked={pool}
+        />
+        <label htmlFor={"pool"} className="m-2">
+          Donate to a PECSF Regional Pool Fund{" "}
+          <InfoToolTip
+            target="pool"
+            content="For information on the specific charities included in the PECSF Regional Pool Funds, review the 'About PECSF Donations' section above."
+          />
+        </label>
+      </div>
+      <div className="m-1 flex align-items-center">
+        <RadioButton
+          onChange={() => {
+            setPool(false);
+          }}
+          inputId="charities"
+          value="charities"
+          checked={!pool}
+        />
+        <label htmlFor="charities" className="m-2">
+          Donate to a registered charitable organization (maximum of two)
+        </label>
+      </div>
+
+      {pool ? (
+        <h4>Select the Regional Pool Fund </h4>
+      ) : (
+        <h4>
+          Select Your PECSF Charities{" "}
+          <InfoToolTip
+            target="charities"
+            content="Search by charity name or official registration number in the dropdown."
+          />
+        </h4>
+      )}
+
+      <div className={"container"}>
+        <div className={"grid"}>
+          <div className={"col-12 form-field-container"}>
+            <label htmlFor={"pecsf-charity-1"}>PECSF Charity 1</label>
+            <Controller
+              name={"pecsf-charity-1"}
+              control={control}
+              rules={{
+                validate: { required: (v) => pool || !!v },
+              }}
+              render={({ field, fieldState: { invalid, error } }) => (
+                <>
+                  <Dropdown
+                    id={field.name}
+                    inputId={field.name}
+                    value={field.value || ""}
+                    filter
+                    onChange={(e) => {
+                      setSelectedCharity1(e.target.value);
+                      if (pool) {
+                        setSelectedCharity2(e.target.value);
+                        setValue("pecsf-charity-2", e.target.value);
+                        setValue("pecsf-charity-local-1", "n/a");
+                        setValue("pecsf-charity-local-2", "n/a");
+                      }
+                      field.onChange(e.target.value);
+                    }}
+                    aria-describedby={`pecsf-charity-1-options-help`}
+                    options={filteredCharities1}
+                    optionValue={"id"}
+                    optionLabel={(option) =>
+                      pool
+                        ? `${option.label}`
+                        : `${option.label} - ${option.vendor}`
+                    }
+                    className={classNames("w-full md:w-26rem", {
+                      "p-invalid": error,
+                    })}
+                    placeholder={
+                      pool ? "Select a regional fund pool." : "Select a charity"
+                    }
+                  />
+                  {invalid && <p className="error">Please select a charity</p>}
+                </>
+              )}
             />
-            <label htmlFor={'pool'} className="m-2">
-                Donate to the PECSF Regional Pool Fund
-            </label>
-        </div>
-        <div className="m-1 flex align-items-center">
-            <RadioButton
-                onChange={() => {
-                    setPool(false)
-                }}
-                inputId="charities"
-                value="charities"
-                checked={!pool}
-            />
-            <label htmlFor="charities" className="m-2">
-                Donate to a registered charitable organization (maximum of two)
-            </label>
-        </div>
-
-
-        { pool
-            ? <h4>PECSF Charities (not selected) </h4>
-            : <h4>Select Your PECSF Charities</h4> }
-
-        <div className={'container'}>
-            <div className={'grid'}>
-                <div className={'col-12 form-field-container'}>
-                    <label htmlFor={'pecsf-region-1'}>PECSF Region 1</label>
-                    <Controller
-                        name={'pecsf-region-1'}
-                        control={control}
-                        rules={{
-                            validate: { required: v => pool || !!v }
-                        }}
-                        render={({ field, fieldState: {invalid} }) => (
-                            <>
-                                <Dropdown
-                                    disabled={pool}
-                                    id={field.name}
-                                    inputId={field.name}
-                                    value={field.value}
-                                    filter
-                                    onChange={(e) => {
-                                        setSelectedRegion1(e.target.value)
-                                        field.onChange(e.target.value)
-                                    }}
-                                    aria-describedby={`pecsf-region-1-options-help`}
-                                    options={regions}
-                                    optionValue={'name'}
-                                    optionLabel={'name'}
-                                    className={classNames("w-full md:w-26rem", {"p-invalid": invalid})}
-                                    placeholder={'Select your first PECSF region'}
-                                />
-                                { invalid && <p className="error">Please select a region</p> }
-                            </>
-                        )} />
-                </div>
-                <div className={'col-12 form-field-container'}>
-                    <label htmlFor={'pecsf-charity-1'}>PECSF Charity 1</label>
-                    <Controller
-                        name={'pecsf-charity-1'}
-                        control={control}
-                        rules={{
-                            validate: { required: v => pool || !!v }
-                        }}
-                        render={({ field, fieldState: {invalid, error} }) => (
-                            <>
-                                <Dropdown
-                                    disabled={pool || !selectedRegion1}
-                                    id={field.name}
-                                    inputId={field.name}
-                                    value={field.value || ''}
-                                    filter
-                                    onChange={(e) => field.onChange(e.target.value)}
-                                    aria-describedby={`pecsf-charity-1-options-help`}
-                                    options={filteredCharities1}
-                                    optionValue={'id'}
-                                    optionLabel={'label'}
-                                    className={classNames("w-full md:w-26rem", {"p-invalid": error})}
-                                    placeholder={ pool && selectedRegion1
-                                        ?  'Select a regional charity' : 'Select a region to view available charities'}
-                                />
-                                { invalid && <p className="error">Please select a charity</p> }
-                            </>
-                        )} />
-                    <div><small>If you do not see your charity listed, please
-                        contact <a href={"mailto:PECSF@gov.bc.ca"}>PECSF@gov.bc.ca</a></small></div>
-                </div>
-                <div className={'col-12 form-field-container'}>
-                    <label htmlFor={'pecsf-region-2'}>PECSF Region 2</label>
-                    <Controller
-                        name={'pecsf-region-2'}
-                        control={control}
-                        render={({ field, fieldState: {invalid} }) => (
-                            <>
-                                <Dropdown
-                                    disabled={pool}
-                                    id={field.name}
-                                    inputId={field.name}
-                                    value={field.value}
-                                    filter
-                                    onChange={(e) => {
-                                        setSelectedRegion2(e.target.value)
-                                        field.onChange(e.target.value)
-                                    }}
-                                    aria-describedby={`pecsf-region-2-options-help`}
-                                    options={regions}
-                                    optionValue={'name'}
-                                    optionLabel={'name'}
-                                    className={classNames("w-full md:w-26rem", {"p-invalid": invalid})}
-                                    placeholder={'Select your second PECSF region (optional)'}
-                                />
-                            </>
-                        )} />
-                </div>
-                <div className={'col-12 form-field-container'}>
-                    <label htmlFor={'pecsf-charity-2'}>PECSF Charity 2</label>
-                    <Controller
-                        name={'pecsf-charity-2'}
-                        control={control}
-                        rules={{
-                            validate: { required: v => pool || !selectedRegion2 || !!v }
-                        }}
-                        render={({ field, fieldState: {invalid, error} }) => (
-                            <>
-                                <Dropdown
-                                    disabled={pool || !selectedRegion2}
-                                    id={field.name}
-                                    inputId={field.name}
-                                    value={field.value || ''}
-                                    filter
-                                    onChange={(e) => field.onChange(e.target.value)}
-                                    aria-describedby={`pecsf-charity-2-options-help`}
-                                    options={filteredCharities2}
-                                    optionValue={'id'}
-                                    optionLabel={'label'}
-                                    className={classNames("w-full md:w-26rem", {"p-invalid": error})}
-                                    placeholder={ !pool && selectedRegion1
-                                        ?  'Select a regional charity' : 'Select a region to view available charities'}
-                                />
-                                { invalid && <p className="error">Please select a charity</p> }
-                            </>
-                        )} />
-                    <div><small>If you do not see your charity listed, please
-                        contact <a href={"mailto:PECSF@gov.bc.ca"}>PECSF@gov.bc.ca</a></small></div>
-                </div>
+            <div>
+              <small>
+                If you do not see your charity listed, please contact{" "}
+                <a href={"mailto:PECSF@gov.bc.ca"}>PECSF@gov.bc.ca</a>
+              </small>
             </div>
+            <label htmlFor={"pecsf-charity-local-1"}>
+              PECSF Charity 1: Specific local program or initiative (optional).
+            </label>
+            <Controller
+              name={"pecsf-charity-local-1"}
+              control={control}
+              render={({ field, fieldState: { invalid, error } }) => (
+                <>
+                  <InputText
+                    disabled={!selectedCharity1 || pool}
+                    maxLength={256}
+                    id={field.name}
+                    value={field.value || ""}
+                    onChange={(e) => field.onChange(e.target.value)}
+                    aria-describedby={`award-option-help`}
+                    className={classNames({ "p-invalid": error })}
+                    placeholder={
+                      pool
+                        ? "Specific local program selection is not available for regional pool funds"
+                        : selectedCharity1
+                        ? `Specific local program or initiative.`
+                        : "Please Select a charity."
+                    }
+                  />
+                  {invalid && <p className="error">{error.message}</p>}
+                </>
+              )}
+            />
+          </div>
+          <div className={"col-12 form-field-container"}>
+            <label htmlFor={"pecsf-charity-2"}>PECSF Charity 2</label>
+            <Controller
+              name={"pecsf-charity-2"}
+              control={control}
+              render={({ field, fieldState: { invalid, error } }) => (
+                <>
+                  <Dropdown
+                    disabled={pool}
+                    id={field.name}
+                    inputId={field.name}
+                    value={field.value || ""}
+                    filter
+                    onChange={(e) => {
+                      setSelectedCharity2(e.target.value);
+                      field.onChange(e.target.value);
+                    }}
+                    aria-describedby={`pecsf-charity-2-options-help`}
+                    options={filteredCharities2}
+                    optionValue={"id"}
+                    optionLabel={(option) =>
+                      pool
+                        ? `${option.label}`
+                        : `${option.label} - ${option.vendor}`
+                    }
+                    className={classNames("w-full md:w-26rem", {
+                      "p-invalid": error,
+                    })}
+                    placeholder={
+                      pool
+                        ? "You can only select one regional pool fund."
+                        : "Select a charity"
+                    }
+                  />
+                  {invalid && <p className="error">Please select a charity</p>}
+                </>
+              )}
+            />
+            <div>
+              <small>
+                If you do not see your charity listed, please contact{" "}
+                <a href={"mailto:PECSF@gov.bc.ca"}>PECSF@gov.bc.ca</a>
+              </small>
+            </div>
+            <label htmlFor={"pecsf-charity-local-2"}>
+              PECSF Charity 2: Specific local program or initiative (optional).
+            </label>
+            <Controller
+              name={"pecsf-charity-local-2"}
+              control={control}
+              render={({ field, fieldState: { invalid, error } }) => (
+                <>
+                  <InputText
+                    disabled={!selectedCharity2 || pool}
+                    maxLength={256}
+                    id={field.name}
+                    value={field.value || ""}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                    }}
+                    aria-describedby={`award-option-help`}
+                    className={classNames({ "p-invalid": error })}
+                    placeholder={
+                      pool
+                        ? "Specific local program selection is not available for regional pool funds"
+                        : selectedCharity2
+                        ? `Specific local program or initiative.`
+                        : "Please Select a charity."
+                    }
+                  />
+                  {invalid && <p className="error">{error.message}</p>}
+                </>
+              )}
+            />
+          </div>
         </div>
+      </div>
     </>
+  );
 }
