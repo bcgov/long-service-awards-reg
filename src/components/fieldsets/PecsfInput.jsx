@@ -23,6 +23,7 @@ import InfoToolTip from "../common/InfoToolTip";
 export default function PecsfInput({ control, setValue }) {
   // get values from registration form
   const { getValues } = useFormContext();
+  const currentAward = getValues("service.awards");
 
   // initialize PECSF local states
   const [pool, setPool] = useState(true);
@@ -37,48 +38,60 @@ export default function PecsfInput({ control, setValue }) {
    * */
 
   useEffect(() => {
-    const currentAward = getValues("service.awards");
     const { selections, award } = currentAward || {};
     const { id } = award || {};
+    const pooledCharities = charities.filter((charity) => {
+      return charity.pooled === true && charity.active === true;
+    });
+    const isCharityPooled = (array, value) => {
+      return array.some((obj) => obj.id === value);
+    };
     // filter selections by current award selection
     return (selections || [])
       .filter(({ award_option }) => award_option.award === id)
-      .forEach(({ award_option, pecsf_charity }) => {
-        const { name } = award_option || {};
+      .forEach(({ award_option, pecsf_charity, custom_value }) => {
+        const { name, value, type } = award_option || {};
         // if charities are selected, update states and PECSF form data
         if (pecsf_charity) {
-          // set PECSF donation type to non-pool
-          setPool(false);
-          setValue("donation", "charities");
-          const { region, id } = pecsf_charity || {};
-          // set selected regions
-          // if (name === 'pecsf-charity-1') {
-          //     setValue('pecsf-region-1', region);
-          //     setSelectedRegion1(region)
-          // }
-          // else {
-          //     setValue('pecsf-region-2', region);
-          //     setSelectedRegion2(region)
-          // }
+          // determine PECSF donation type
+          const { id } = pecsf_charity || {};
+          if (isCharityPooled(pooledCharities, id)) {
+            console.log(pecsf_charity, "this is true");
+            setPool(true);
+          } else {
+            console.log(pecsf_charity, "this is false");
+            setPool(false);
+          }
+          // set selected charities
+          if (name === "pecsf-charity-1") {
+            setSelectedCharity1(pecsf_charity);
+          } else {
+            setSelectedCharity2(pecsf_charity);
+          }
+
           // set charity to selected option ID value
           setValue(name, id);
+        } else if (type === "pecsf-charity-local") {
+          if (custom_value !== "custom") {
+            setValue(name, custom_value);
+          } else {
+            setValue(name, "");
+          }
         }
       });
   }, [charities]);
 
   /**
-   * Load PECSF options (regions and charities)
+   * Load PECSF options (charities)
    * */
 
   useEffect(() => {
     // load PECSF charities
     getPecsfCharities().then(setCharities).catch(console.error);
-    // load PECSF charity regions
-    // getPecsfRegions().then(setRegions).catch(console.error);
   }, []);
 
   /**
-   * Filter charities by selected region
+   * Filter charities by selected type - pooled or general
    * */
 
   useEffect(() => {
@@ -92,9 +105,6 @@ export default function PecsfInput({ control, setValue }) {
         return charity.pooled === pool && charity.active === true;
       })
     );
-    if (pool) {
-      resetOptions();
-    }
   }, [charities, pool]);
 
   /**
@@ -102,11 +112,12 @@ export default function PecsfInput({ control, setValue }) {
    * */
 
   const resetOptions = () => {
-    setPool(true);
     setValue("pecsf-charity-local-1", "");
     setValue("pecsf-charity-1", "");
     setValue("pecsf-charity-local-2", "");
     setValue("pecsf-charity-2", "");
+    setSelectedCharity1("");
+    setSelectedCharity2("");
   };
 
   return (
@@ -135,6 +146,7 @@ export default function PecsfInput({ control, setValue }) {
         <RadioButton
           onChange={() => {
             setPool(false);
+            resetOptions();
           }}
           inputId="charities"
           value="charities"
@@ -165,7 +177,7 @@ export default function PecsfInput({ control, setValue }) {
               name={"pecsf-charity-1"}
               control={control}
               rules={{
-                validate: { required: (v) => pool || !!v },
+                required: true,
               }}
               render={({ field, fieldState: { invalid, error } }) => (
                 <>
@@ -181,6 +193,8 @@ export default function PecsfInput({ control, setValue }) {
                         setValue("pecsf-charity-2", e.target.value);
                         setValue("pecsf-charity-local-1", "n/a");
                         setValue("pecsf-charity-local-2", "n/a");
+                      } else {
+                        setValue("pecsf-charity-local-1", "");
                       }
                       field.onChange(e.target.value);
                     }}
@@ -249,11 +263,12 @@ export default function PecsfInput({ control, setValue }) {
                     disabled={pool}
                     id={field.name}
                     inputId={field.name}
-                    value={field.value || ""}
+                    value={field.value || selectedCharity1}
                     filter
                     onChange={(e) => {
                       setSelectedCharity2(e.target.value);
                       field.onChange(e.target.value);
+                      setValue("pecsf-charity-local-2", "");
                     }}
                     aria-describedby={`pecsf-charity-2-options-help`}
                     options={filteredCharities2}
