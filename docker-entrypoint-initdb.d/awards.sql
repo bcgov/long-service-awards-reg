@@ -96,6 +96,9 @@ INSERT INTO public.awards VALUES (56, '50-knife-set', 'other', 50, 'Oneida By Le
 INSERT INTO public.awards VALUES (57, '50-clock-mantel', 'clock', 50, 'Statesboro Mantel clock', '<p>This veneered hardwood clock has a Cherry Bordeaux finish for stately style. Decorative olive ash burl-finished overlays adorn the front of this timepiece, which has gold detail on the side glass panels for an upscale touch. Plays the Westminster chime on the hour and an hour strike that will count the hour. Automatic nighttime silencing between 9:00 pm and 6:00 am.</p><p>Overall size: 9.5” w x 6.25” depth x 11.75 h.</p><p>“In recognition of Fifty years of service” engraved on a plaque.</p>', 'https://longserviceawards.gww.gov.bc.ca/wp-content/uploads/2023/03/50-Statesboro-mantel-clock.jpg', -1, true);
 INSERT INTO public.awards VALUES (58, '50-Heys-luggage', 'luggage', 50, 'Heys Vantage 26" Smart Access- Luggage - black', '<p>Smart Access is a new and innovative patented system that will reinvent the way you pack luggage. With its front-access compartment, removable divider, and spacious main compartment, the Vantage Smart Access offers versatility to packing that allows for easy organization. Front-access system allows luggage to be easily accessible, making packing easier and more organized. Carry-on size features front-access compartment, with cushioned pocket that fits up to 15.6" laptops. Made from 100% pure Polycarbonate, the most durable. 360 dual spinner wheels. 
 </p><p>Exterior 16.25 "W x 26"h x 10.25" deep</p>', 'https://longserviceawards.gww.gov.bc.ca/wp-content/uploads/2023/03/45-50-Heys-luggage.jpg', -1, true);
+-- Updates for 2024
+-- New watch added to maintain record of previous engravings and options
+INSERT INTO public.awards VALUES (60, '35-bulova', 'watch', 35, 'Bulova® watch', '<p>This watch features the BC Coat of Arms on the dial and can be personalized with your name and "35 years" engraved on the back. It comes in a choice of gold, silver or two-toned construction with a plated, black or brown leather strap.</p><p>Please read and select from the following options carefully.</p>', 'https://longserviceawards.gww.gov.bc.ca/wp-content/uploads/2023/03/35-Bulova-watches.jpg', -1, true);
 
 --
 -- TOC entry 3428 (class 0 OID 0)
@@ -103,7 +106,7 @@ INSERT INTO public.awards VALUES (58, '50-Heys-luggage', 'luggage', 50, 'Heys Va
 -- Name: awards_id_seq; Type: SEQUENCE SET; Schema: public; Owner: lsa
 --
 
-SELECT pg_catalog.setval('public.awards_id_seq', 59, false);
+SELECT pg_catalog.setval('public.awards_id_seq', 61, false);
 
 
 

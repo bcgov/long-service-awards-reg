@@ -99,7 +99,17 @@ INSERT INTO public.award_options VALUES (69, 41, 'pecsf-charity-local', 'pecsf-c
 INSERT INTO public.award_options VALUES (70, 41, 'pecsf-charity-local', 'pecsf-charity-local-2', 'custom', true, 'Local Program or Initiative 2', 'Specific local program or initiative (optional)');
 INSERT INTO public.award_options VALUES (71, 42, 'pecsf-charity-local', 'pecsf-charity-local-1', 'custom', true, 'Local Program or Initiative 1', 'Specific local program or initiative (optional)');
 INSERT INTO public.award_options VALUES (72, 42, 'pecsf-charity-local', 'pecsf-charity-local-2', 'custom', true, 'Local Program or Initiative 2', 'Specific local program or initiative (optional)');
-
+-- Custom Sizes for non-engraved watch
+INSERT INTO public.award_options VALUES (73, 60, 'options', 'option-a-small', 'option-a-30mm', false, 'Option A (Small)', 'Round face with black dial, gold tone case, crystal at 12 and black leather strap (30 mm diameter / 16 mm wrist)');
+INSERT INTO public.award_options VALUES (74, 60, 'options', 'option-a-large', 'option-a-38mm', false, 'Option A (Large)', 'Round face with black dial, gold tone case, crystal at 12 and black leather strap (38 mm diameter / 20 mm wrist)');
+INSERT INTO public.award_options VALUES (75, 60, 'options', 'option-b-small', 'option-b-30mm', false, 'Option B (Small)', 'Round face with black dial, silver tone case and silver toned strap (30 mm diameter / 16 mm wrist)');
+INSERT INTO public.award_options VALUES (76, 60, 'options', 'option-b-large', 'option-b-38mm', false, 'Option B (Large)', 'Round face with black dial, silver tone case and silver toned strap  (38 mm diameter / 20 mm wrist)');
+INSERT INTO public.award_options VALUES (77, 60, 'options', 'option-c-small', 'option-c-30mm', false, 'Option C (Small)', 'Round face with gold dial, gold tone case and gold toned strap (30 mm diameter / 16 mm wrist)');
+INSERT INTO public.award_options VALUES (78, 60, 'options', 'option-c-large', 'option-c-38mm', false, 'Option C (Large)', 'Round face with gold dial, gold tone case and gold toned strap  (38 mm diameter / 20 mm wrist)');
+INSERT INTO public.award_options VALUES (79, 60, 'options', 'option-d-small', 'option-d-30mm', false, 'Option D (Small)', 'Round face with silver dial, two tone case and two-tone strap(30 mm diameter / 16 mm wrist)');
+INSERT INTO public.award_options VALUES (80, 60, 'options', 'option-d-large', '38mm', false, 'Option D (Large)', 'Round face with silver dial, two tone case and two-tone strap (38 mm diameter / 20 mm wrist)');
+INSERT INTO public.award_options VALUES (81, 60, 'options', 'option-e-small', '24mm', false, 'Option E (Small)', 'Rectangular face with silver dial, two tone case and two-tone strap (24 x 37.5 mm face / 20 mm wrist)');
+INSERT INTO public.award_options VALUES (82, 60, 'options', 'option-e-large', '29.5mm', false, 'Option E (Large)', 'Rectangular face with silver dial, two tone case and two-tone strap (29.5 x 46 mm face / 26 mm wrist)');
 
 
 
@@ -109,7 +119,7 @@ INSERT INTO public.award_options VALUES (72, 42, 'pecsf-charity-local', 'pecsf-c
 -- Name: award_options_id_seq; Type: SEQUENCE SET; Schema: public; Owner: lsa
 --
 
-SELECT pg_catalog.setval('public.award_options_id_seq', 73, true);
+SELECT pg_catalog.setval('public.award_options_id_seq', 83, true);
 
 
 -- Completed on 2023-01-30 09:53:07 PST
