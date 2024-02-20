@@ -34,55 +34,40 @@ export default function RegistrationOptionsInput() {
         <div className="grid">
           <div className="col-12 form-field-container">
             <div className="flex align-items-center">
-              {/* 
-              They might want to go back to SelectButton, so keeping this
-              commented out
-              
-              <SelectButton
-                className={"radio-toggle"}
-                value={previousRegistration ? "Yes" : "No"}
-                onChange={(e) => {
-                  setValue("service.previous_registration", e.value === "Yes");
-                  setValue("service.previous_award", false);
-
-                  // set award selection to empty when previous registration selected
-                  if (e.value === "Yes") setValue(`service.awards`, {});
-                }}
-                options={["Yes", "No"]}
-              /> */}
               <Checkbox
                 checked={previousRegistration ? true : false}
-                aria-describedby={`bcgeu-help`}
+                aria-describedby={`previous_registration-help`}
                 value={previousRegistration ? "Yes" : "No"}
                 onChange={(e) => {
                   setValue("service.previous_registration", e.checked);
                   setValue("service.previous_award", false);
-
                   // set award selection to empty when previous registration selected
                   if (e.checked) setValue(`service.awards`, {});
                 }}
               />
-              <label className={"m-1"} htmlFor={`bcgeu`}>
+              <label className={"m-1"} htmlFor={`previous_registration`}>
                 Yes, I have registered for this milestone before
               </label>
             </div>
           </div>
           {previousRegistration && (
-            <div className="col-12 form-field-container">
-              <div className="flex align-items-center">
-                <SelectButton
-                  className={"radio-toggle"}
-                  value={previousAward ? "Yes" : "No"}
-                  onChange={(e) => {
-                    setValue("service.previous_award", e.value === "Yes");
-                  }}
-                  options={["Yes", "No"]}
-                />
-                <label className={"ml-3"}>
-                  If yes, have you received your award?
-                </label>
+            <>
+              <div className="col-12 form-field-container">
+                <p className="mt-0">Have you received your award?</p>
+                <div className="flex align-items-center">
+                  <Checkbox
+                    checked={previousAward ? true : false}
+                    className={"radio-toggle"}
+                    value={previousAward ? "Yes" : "No"}
+                    aria-describedby={`award-help`}
+                    onChange={(e) => {
+                      setValue("service.previous_award", e.checked);
+                    }}
+                  />
+                  <label className={"m-1"}>Yes, I have received my award</label>
+                </div>
               </div>
-            </div>
+            </>
           )}
         </div>
       </div>
