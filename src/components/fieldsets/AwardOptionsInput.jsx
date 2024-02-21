@@ -97,21 +97,31 @@ export default function AwardOptionsInput({
       })
       .map((option) => {
         const { type, name, value, customizable } = option || {};
+        let customValue = null;
+        if (customizable && selectedOptions[name]) {
+          customValue = selectedOptions[name];
+        } else if (
+          type === "engraving" &&
+          selectedOptions &&
+          selectedOptions.hasOwnProperty("engraving") &&
+          selectedOptions.options === name
+        ) {
+          customValue = selectedOptions["engraving"];
+        } else if (
+          (name === "pecsf-charity-local-1" ||
+            name === "pecsf-charity-local-2") &&
+          (selectedOptions[name] === "" || !selectedOptions[name])
+        ) {
+          customValue = null;
+        } else {
+          customValue = value;
+        }
         return {
           service: currentServiceID,
           award_option: option,
-          custom_value:
-            customizable && selectedOptions[name]
-              ? selectedOptions[name]
-              : type === "engraving" &&
-                selectedOptions.hasOwnProperty("engraving") &&
-                selectedOptions.options === name
-              ? selectedOptions["engraving"]
-              : value,
+          custom_value: customValue,
           pecsf_charity:
             type === "pecsf-charity" ? selectedOptions[name] : null,
-          pecsf_charity_local:
-            type === "pecsf-charity-local" ? selectedOptions[name] : null,
         };
       });
     // DEBUG ===
