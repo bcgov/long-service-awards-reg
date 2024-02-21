@@ -5,7 +5,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRESQL_USERNAME: lsa_db_admin
+      POSTGRESQL_USERNAME: lsa
       POSTGRESQL_PASSWORD: password
       POSTGRESQL_DATABASE: lsa_data
       POSTGRESQL_TIMEZONE: US/Pacific
