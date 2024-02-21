@@ -33,7 +33,12 @@ export default function AwardData() {
             <Fieldset legend={"Award Options"} toggleable>
               <div className={"container"}>
                 {(options || []).map(({ id, customizable, type }) => {
-                  const { pecsf_charity, custom_value, award_option } =
+                  const {
+                    pecsf_charity,
+                    custom_value,
+                    award_option,
+                    pecsf_charity_local,
+                  } =
                     selections.find((selection) => {
                       // match award option ID to selection ID
                       const { award_option } = selection || {};
@@ -51,12 +56,13 @@ export default function AwardData() {
                           </div>
                         </>
                       )}
-                      {type === "pecsf-charity-local" && (
-                        <div className={"grid"}>
-                          <div className={"col-6"}>{label}</div>
-                          <div className={"col-6"}>{custom_value}</div>
-                        </div>
-                      )}
+                      {type === "pecsf-charity-local" &&
+                        custom_value !== null && (
+                          <>
+                            <div className={"col-6"}>{label}</div>
+                            <div className={"col-6"}>{custom_value}</div>
+                          </>
+                        )}
                       {!pecsf_charity &&
                         type !== "pecsf-charity" &&
                         type !== "pecsf-charity-local" &&
