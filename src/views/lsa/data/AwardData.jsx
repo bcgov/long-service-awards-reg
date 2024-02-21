@@ -51,8 +51,7 @@ export default function AwardData() {
                         <>
                           <div className={"col-6"}>{label}</div>
                           <div className={"col-6"}>
-                            {pecsf_charity.label}
-                            {/* ({pecsf_charity.region}) */}
+                            {pecsf_charity.label} - {pecsf_charity.vendor}
                           </div>
                         </>
                       )}
