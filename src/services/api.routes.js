@@ -13,10 +13,10 @@ import api from "./api.services.js";
  * */
 
 export const getUser = async () => {
-  const [_, result] = await api.get('/auth/user');
-  const { guid='', idir='' } = result || {};
+  const [_, result] = await api.get("/auth/user");
+  const { guid = "", idir = "" } = result || {};
   return { id: guid, idir: idir };
-}
+};
 
 /**
  *  View registration(s) for current user.
@@ -26,7 +26,7 @@ export const getUser = async () => {
 export const getSelfRegistration = async () => {
   const [, result] = await api.get(`/recipients/self/view/`);
   return result;
-}
+};
 
 /**
  *  SelfRegister registration (creates registration stub)
@@ -35,7 +35,7 @@ export const getSelfRegistration = async () => {
 
 export const createSelfRegistration = async () => {
   return await api.post(`/recipients/self/register/`, {});
-}
+};
 
 /**
  * Update registration for current user
@@ -43,9 +43,9 @@ export const createSelfRegistration = async () => {
  * */
 
 export const saveSelfRegistration = async (data) => {
-  console.log('Save:', data)
+  console.log("Save:", data);
   return await api.post(`/recipients/self/save/`, data);
-}
+};
 
 /**
  *  View registration(s) for delegated user.
@@ -55,7 +55,7 @@ export const saveSelfRegistration = async (data) => {
 export const getDelegatedRegistrations = async () => {
   const [_, result] = await api.get(`/recipients/delegated/view/`);
   return result;
-}
+};
 
 /**
  *  Save delegated registration (creates registration stub)
@@ -63,9 +63,9 @@ export const getDelegatedRegistrations = async () => {
  * */
 
 export const saveDelegatedRegistrations = async (data) => {
-  console.log('Save delegated form:', data)
+  console.log("Save delegated form:", data);
   return await api.post(`/recipients/delegated/save/`, data);
-}
+};
 
 /**
  *  Get awards
@@ -74,10 +74,10 @@ export const saveDelegatedRegistrations = async (data) => {
 
 export const getAwards = async (milestone) => {
   const [_, result] = milestone
-      ? await api.get(`/awards/filter/milestone/${milestone || ''}`)
-      : [];
+    ? await api.get(`/awards/filter/milestone/${milestone || ""}`)
+    : [];
   return result;
-}
+};
 
 /**
  *  Get milestones
@@ -87,7 +87,7 @@ export const getAwards = async (milestone) => {
 export const getMilestones = async () => {
   const [_, result] = await api.get(`/settings/milestones/list`);
   return result;
-}
+};
 
 /**
  *  Get qualifying years
@@ -97,7 +97,7 @@ export const getMilestones = async () => {
 export const getQualifyingYears = async () => {
   const [_, result] = await api.get(`/settings/qualifying_years/list`);
   return result;
-}
+};
 
 /**
  * Get list of participating ministries and agencies
@@ -105,9 +105,11 @@ export const getQualifyingYears = async () => {
  * */
 
 export const getOrganizations = async () => {
-  const [_, result] = await api.get(`settings/organizations/filter/active/true`);
+  const [_, result] = await api.get(
+    `settings/organizations/filter/active/true`
+  );
   return result;
-}
+};
 
 /**
  * Get list of BC communities
@@ -117,7 +119,7 @@ export const getOrganizations = async () => {
 export const getCommunities = async () => {
   const [_, result] = await api.get(`settings/communities/list`);
   return result;
-}
+};
 
 /**
  * Get list of provinces
@@ -127,7 +129,7 @@ export const getCommunities = async () => {
 export const getProvinces = async () => {
   const [_, result] = await api.get(`settings/provinces/list`);
   return result;
-}
+};
 
 /**
  * Get list of PECSF charities
@@ -137,7 +139,31 @@ export const getProvinces = async () => {
 export const getPecsfCharities = async () => {
   const [_, result] = await api.get(`settings/pecsf-charities/list`);
   return result;
-}
+};
+
+/**
+ * Get list of active PECSF charities
+ *
+ * */
+
+export const getActivePECSFCharities = async () => {
+  const [_, result] = await api.get(
+    `settings/pecsf-charities/filter/active/true`
+  );
+  return result;
+};
+
+/**
+ * Get list of pooled PECSF charities
+ *
+ * */
+
+export const getPooledPecsfCharities = async () => {
+  const [_, result] = await api.get(
+    `settings/pecsf-charities/filter/pooled/true`
+  );
+  return result;
+};
 
 /**
  * Get list of PECSF regions
@@ -147,7 +173,7 @@ export const getPecsfCharities = async () => {
 export const getPecsfRegions = async () => {
   const [_, result] = await api.get(`settings/pecsf-regions/list`);
   return result;
-}
+};
 
 /**
  * Delete recipient data
@@ -157,7 +183,7 @@ export const getPecsfRegions = async () => {
 export const removeSelfRegistration = async () => {
   const [_, result] = await api.post(`/recipients/self/delete/`, {});
   return result;
-}
+};
 
 /**
  *  Check if registration is active (not closed)
@@ -166,8 +192,8 @@ export const removeSelfRegistration = async () => {
 
 export const isActive = async () => {
   const [, result] = await api.get(`/settings/global/self-registration-active`);
-  const {value} = result || {};
-  return value === 'true';
-}
+  const { value } = result || {};
+  return value === "true";
+};
 
 export default null;

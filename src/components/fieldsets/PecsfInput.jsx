@@ -13,7 +13,10 @@ import { Dropdown } from "primereact/dropdown";
 import classNames from "classnames";
 import InfoPecsf from "@/components/info/InfoPecsf";
 import { RadioButton } from "primereact/radiobutton";
-import { getPecsfCharities } from "@/services/api.routes.js";
+import {
+  getActivePECSFCharities,
+  getPooledPecsfCharities,
+} from "@/services/api.routes.js";
 import { InputText } from "primereact/inputtext";
 import InfoToolTip from "../common/InfoToolTip";
 
@@ -31,8 +34,9 @@ export default function PecsfInput({ control, setValue }) {
   const [pool, setPool] = useState(true);
   const [loading, setLoading] = useState(true);
   const [charities, setCharities] = useState([]);
-  const [filteredCharities1, setFilteredCharities1] = useState([]);
-  const [filteredCharities2, setFilteredCharities2] = useState([]);
+  const [loadingFullList, setLoadingFullList] = useState(true);
+  const [pooledCharities, setPooledCharities] = useState([]);
+  const [generalCharities, setGeneralCharities] = useState([]);
   const [selectedCharity1, setSelectedCharity1] = useState("");
   const [selectedCharity2, setSelectedCharity2] = useState("");
 
@@ -113,39 +117,52 @@ export default function PecsfInput({ control, setValue }) {
 
   useEffect(() => {
     // load PECSF charities
-    getPecsfCharities()
-      .then((data) => {
-        // Filter the data to only include active charities
-        const activeCharities = data.filter(
-          (charity) => charity.active === true
-        );
+    const fetchCharities = async () => {
+      try {
+        const active = await getActivePECSFCharities();
 
-        // Sort the active charities and update state
-        setCharities(quickSort(activeCharities));
-      })
-      .then(setLoading(false))
+        // Filter and sort the active to only include non-pooled charities
+        const activeCharities = quickSort(active);
+
+        const generalCharities = activeCharities.filter((charity) => {
+          return charity.pooled === false;
+        });
+        // Update state of general charity lists
+        setCharities(activeCharities);
+        setGeneralCharities(generalCharities);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoadingFullList(false);
+      }
+    };
+
+    const fetchPooled = async () => {
+      try {
+        const pooled = await getPooledPecsfCharities();
+
+        // Filter and sort the pooled to only include active charities
+        const pooledCharities = quickSort(
+          pooled.filter((charity) => {
+            return charity.active === true;
+          })
+        );
+        // Update state of general charity lists
+        setCharities(pooledCharities);
+        setPooledCharities(pooledCharities);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPooled()
+      .then(() => fetchCharities())
       .catch((error) => {
         console.error(error);
       });
   }, []);
-
-  /**
-   * Filter charities by selected type - pooled or general
-   * */
-
-  useEffect(() => {
-    //Check for status of charity as a pooled charity and updates available charities
-    setFilteredCharities1(
-      charities.filter((charity) => {
-        return charity.pooled === pool;
-      })
-    );
-    setFilteredCharities2(
-      charities.filter((charity) => {
-        return charity.pooled === pool;
-      })
-    );
-  }, [charities, pool]);
 
   /**
    * Reset PECSF options
@@ -174,7 +191,10 @@ export default function PecsfInput({ control, setValue }) {
   return (
     <>
       <InfoPecsf />
-      <BlockUI blocked={loading} template={blockTemplate}>
+      <BlockUI
+        blocked={loading || (loadingFullList && pool === false)}
+        template={blockTemplate}
+      >
         <h4>PECSF Donation Options</h4>
         <div className="m-1 flex align-items-center">
           <RadioButton
@@ -245,7 +265,7 @@ export default function PecsfInput({ control, setValue }) {
                         field.onChange(e.target.value);
                       }}
                       aria-describedby={`pecsf-charity-1-options-help`}
-                      options={filteredCharities1}
+                      options={pool ? pooledCharities : generalCharities}
                       optionValue={"id"}
                       optionLabel={(option) =>
                         pool
@@ -328,7 +348,7 @@ export default function PecsfInput({ control, setValue }) {
                           field.onChange(e.target.value);
                         }}
                         aria-describedby={`pecsf-charity-2-options-help`}
-                        options={filteredCharities2}
+                        options={generalCharities}
                         optionValue={"id"}
                         optionLabel={(option) =>
                           pool
