@@ -7,6 +7,8 @@
 
 import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
+import { BlockUI } from "primereact/blockui";
+import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import classNames from "classnames";
 import InfoPecsf from "@/components/info/InfoPecsf";
@@ -27,6 +29,7 @@ export default function PecsfInput({ control, setValue }) {
 
   // initialize PECSF local states
   const [pool, setPool] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [charities, setCharities] = useState([]);
   const [filteredCharities1, setFilteredCharities1] = useState([]);
   const [filteredCharities2, setFilteredCharities2] = useState([]);
@@ -120,6 +123,7 @@ export default function PecsfInput({ control, setValue }) {
         // Sort the active charities and update state
         setCharities(quickSort(activeCharities));
       })
+      .then(setLoading(false))
       .catch((error) => {
         console.error(error);
       });
@@ -156,159 +160,92 @@ export default function PecsfInput({ control, setValue }) {
     setSelectedCharity2("");
   };
 
+  // component for blocked form while charities are loading
+  const blockTemplate = () => {
+    return (
+      <Button
+        disabled={true}
+        icon={"pi pi-spin pi-spinner"}
+        label={"Loading PECSF Charities"}
+      />
+    );
+  };
+
   return (
     <>
       <InfoPecsf />
-      <h4>PECSF Donation Options</h4>
-      <div className="m-1 flex align-items-center">
-        <RadioButton
-          onChange={() => {
-            setPool(true);
-            resetOptions();
-          }}
-          inputId="pool"
-          value="pool"
-          checked={pool}
-        />
-        <label htmlFor={"pool"} className="m-2">
-          Donate to a PECSF Regional Pool Fund{" "}
-          <InfoToolTip
-            target="pool"
-            content="For information on the specific charities included in the PECSF Regional Pool Funds, review the 'About PECSF Donations' section above."
+      <BlockUI blocked={loading} template={blockTemplate}>
+        <h4>PECSF Donation Options</h4>
+        <div className="m-1 flex align-items-center">
+          <RadioButton
+            onChange={() => {
+              setPool(true);
+              resetOptions();
+            }}
+            inputId="pool"
+            value="pool"
+            checked={pool}
           />
-        </label>
-      </div>
-      <div className="m-1 flex align-items-center">
-        <RadioButton
-          onChange={() => {
-            setPool(false);
-            resetOptions();
-          }}
-          inputId="charities"
-          value="charities"
-          checked={!pool}
-        />
-        <label htmlFor="charities" className="m-2">
-          Donate to a registered charitable organization (maximum of two)
-        </label>
-      </div>
-
-      {pool ? (
-        <h4>Select the Regional Pool Fund </h4>
-      ) : (
-        <h4>
-          Select Your PECSF Charities{" "}
-          <InfoToolTip
-            target="charities"
-            content="Search by charity name or official registration number in the dropdown."
-          />
-        </h4>
-      )}
-
-      <div className={"container"}>
-        <div className={"grid"}>
-          <div className={"col-12 form-field-container"}>
-            <label htmlFor={"pecsf-charity-1"}>PECSF Charity 1</label>
-            <Controller
-              name={"pecsf-charity-1"}
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field, fieldState: { invalid, error } }) => (
-                <>
-                  <Dropdown
-                    id={field.name}
-                    inputId={field.name}
-                    value={field.value || ""}
-                    filter
-                    virtualScrollerOptions={{ itemSize: 38 }}
-                    onChange={(e) => {
-                      setSelectedCharity1(e.target.value);
-                      setValue("pecsf-charity-local-1", "");
-                      field.onChange(e.target.value);
-                    }}
-                    aria-describedby={`pecsf-charity-1-options-help`}
-                    options={filteredCharities1}
-                    optionValue={"id"}
-                    optionLabel={(option) =>
-                      pool
-                        ? `${option.label}`
-                        : `${option.label} - ${option.vendor}`
-                    }
-                    className={classNames("w-full md:w-26rem", {
-                      "p-invalid": error,
-                    })}
-                    placeholder={
-                      pool ? "Select a regional fund pool." : "Select a charity"
-                    }
-                  />
-                  {invalid && <p className="error">Please select a charity</p>}
-                </>
-              )}
+          <label htmlFor={"pool"} className="m-2">
+            Donate to a PECSF Regional Pool Fund{" "}
+            <InfoToolTip
+              target="pool"
+              content="For information on the specific charities included in the PECSF Regional Pool Funds, review the 'About PECSF Donations' section above."
             />
-            <div>
-              <small>
-                If you do not see your charity listed, please contact{" "}
-                <a href={"mailto:PECSF@gov.bc.ca"}>PECSF@gov.bc.ca</a>
-              </small>
-            </div>
-            {!pool ? (
-              <>
-                <label htmlFor={"pecsf-charity-local-1"}>
-                  PECSF Charity 1: Specific local program or initiative
-                  (optional).
-                </label>
-                <Controller
-                  name={"pecsf-charity-local-1"}
-                  control={control}
-                  render={({ field, fieldState: { invalid, error } }) => (
-                    <>
-                      <InputText
-                        disabled={!selectedCharity1 || pool}
-                        maxLength={256}
-                        id={field.name}
-                        value={field.value || ""}
-                        onChange={(e) => field.onChange(e.target.value)}
-                        aria-describedby={`award-option-help`}
-                        className={classNames({ "p-invalid": error })}
-                        placeholder={
-                          pool
-                            ? "Specific local program selection is not available for regional pool funds"
-                            : selectedCharity1
-                            ? `Specific local program or initiative.`
-                            : "Please Select a charity."
-                        }
-                      />
-                      {invalid && <p className="error">{error.message}</p>}
-                    </>
-                  )}
-                />
-              </>
-            ) : null}
-          </div>
-          {!pool ? (
+          </label>
+        </div>
+        <div className="m-1 flex align-items-center">
+          <RadioButton
+            onChange={() => {
+              setPool(false);
+              resetOptions();
+            }}
+            inputId="charities"
+            value="charities"
+            checked={!pool}
+          />
+          <label htmlFor="charities" className="m-2">
+            Donate to a registered charitable organization (maximum of two)
+          </label>
+        </div>
+
+        {pool ? (
+          <h4>Select the Regional Pool Fund </h4>
+        ) : (
+          <h4>
+            Select Your PECSF Charities{" "}
+            <InfoToolTip
+              target="charities"
+              content="Search by charity name or official registration number in the dropdown."
+            />
+          </h4>
+        )}
+
+        <div className={"container"}>
+          <div className={"grid"}>
             <div className={"col-12 form-field-container"}>
-              <label htmlFor={"pecsf-charity-2"}>PECSF Charity 2</label>
+              <label htmlFor={"pecsf-charity-1"}>PECSF Charity 1</label>
               <Controller
-                name={"pecsf-charity-2"}
+                name={"pecsf-charity-1"}
                 control={control}
+                rules={{
+                  required: true,
+                }}
                 render={({ field, fieldState: { invalid, error } }) => (
                   <>
                     <Dropdown
-                      disabled={pool}
                       id={field.name}
                       inputId={field.name}
                       value={field.value || ""}
                       filter
                       virtualScrollerOptions={{ itemSize: 38 }}
                       onChange={(e) => {
-                        setSelectedCharity2(e.target.value);
-                        setValue("pecsf-charity-local-2", "");
+                        setSelectedCharity1(e.target.value);
+                        setValue("pecsf-charity-local-1", "");
                         field.onChange(e.target.value);
                       }}
-                      aria-describedby={`pecsf-charity-2-options-help`}
-                      options={filteredCharities2}
+                      aria-describedby={`pecsf-charity-1-options-help`}
+                      options={filteredCharities1}
                       optionValue={"id"}
                       optionLabel={(option) =>
                         pool
@@ -320,7 +257,7 @@ export default function PecsfInput({ control, setValue }) {
                       })}
                       placeholder={
                         pool
-                          ? "You can only select one regional pool fund."
+                          ? "Select a regional fund pool."
                           : "Select a charity"
                       }
                     />
@@ -336,41 +273,125 @@ export default function PecsfInput({ control, setValue }) {
                   <a href={"mailto:PECSF@gov.bc.ca"}>PECSF@gov.bc.ca</a>
                 </small>
               </div>
-              <label htmlFor={"pecsf-charity-local-2"}>
-                PECSF Charity 2: Specific local program or initiative
-                (optional).
-              </label>
-              <Controller
-                name={"pecsf-charity-local-2"}
-                control={control}
-                render={({ field, fieldState: { invalid, error } }) => (
-                  <>
-                    <InputText
-                      disabled={!selectedCharity2 || pool}
-                      maxLength={256}
-                      id={field.name}
-                      value={field.value || ""}
-                      onChange={(e) => {
-                        field.onChange(e.target.value);
-                      }}
-                      aria-describedby={`award-option-help`}
-                      className={classNames({ "p-invalid": error })}
-                      placeholder={
-                        pool
-                          ? "Specific local program selection is not available for regional pool funds"
-                          : selectedCharity2
-                          ? `Specific local program or initiative.`
-                          : "Please Select a charity."
-                      }
-                    />
-                    {invalid && <p className="error">{error.message}</p>}
-                  </>
-                )}
-              />
+              {!pool ? (
+                <>
+                  <label htmlFor={"pecsf-charity-local-1"}>
+                    PECSF Charity 1: Specific local program or initiative
+                    (optional).
+                  </label>
+                  <Controller
+                    name={"pecsf-charity-local-1"}
+                    control={control}
+                    render={({ field, fieldState: { invalid, error } }) => (
+                      <>
+                        <InputText
+                          disabled={!selectedCharity1 || pool}
+                          maxLength={256}
+                          id={field.name}
+                          value={field.value || ""}
+                          onChange={(e) => field.onChange(e.target.value)}
+                          aria-describedby={`award-option-help`}
+                          className={classNames({ "p-invalid": error })}
+                          placeholder={
+                            pool
+                              ? "Specific local program selection is not available for regional pool funds"
+                              : selectedCharity1
+                              ? `Specific local program or initiative.`
+                              : "Please Select a charity."
+                          }
+                        />
+                        {invalid && <p className="error">{error.message}</p>}
+                      </>
+                    )}
+                  />
+                </>
+              ) : null}
             </div>
-          ) : null}
+            {!pool ? (
+              <div className={"col-12 form-field-container"}>
+                <label htmlFor={"pecsf-charity-2"}>PECSF Charity 2</label>
+                <Controller
+                  name={"pecsf-charity-2"}
+                  control={control}
+                  render={({ field, fieldState: { invalid, error } }) => (
+                    <>
+                      <Dropdown
+                        disabled={pool}
+                        id={field.name}
+                        inputId={field.name}
+                        value={field.value || ""}
+                        filter
+                        virtualScrollerOptions={{ itemSize: 38 }}
+                        onChange={(e) => {
+                          setSelectedCharity2(e.target.value);
+                          setValue("pecsf-charity-local-2", "");
+                          field.onChange(e.target.value);
+                        }}
+                        aria-describedby={`pecsf-charity-2-options-help`}
+                        options={filteredCharities2}
+                        optionValue={"id"}
+                        optionLabel={(option) =>
+                          pool
+                            ? `${option.label}`
+                            : `${option.label} - ${option.vendor}`
+                        }
+                        className={classNames("w-full md:w-26rem", {
+                          "p-invalid": error,
+                        })}
+                        placeholder={
+                          pool
+                            ? "You can only select one regional pool fund."
+                            : "Select a charity"
+                        }
+                      />
+                      {invalid && (
+                        <p className="error">Please select a charity</p>
+                      )}
+                    </>
+                  )}
+                />
+                <div>
+                  <small>
+                    If you do not see your charity listed, please contact{" "}
+                    <a href={"mailto:PECSF@gov.bc.ca"}>PECSF@gov.bc.ca</a>
+                  </small>
+                </div>
+                <label htmlFor={"pecsf-charity-local-2"}>
+                  PECSF Charity 2: Specific local program or initiative
+                  (optional).
+                </label>
+                <Controller
+                  name={"pecsf-charity-local-2"}
+                  control={control}
+                  render={({ field, fieldState: { invalid, error } }) => (
+                    <>
+                      <InputText
+                        disabled={!selectedCharity2 || pool}
+                        maxLength={256}
+                        id={field.name}
+                        value={field.value || ""}
+                        onChange={(e) => {
+                          field.onChange(e.target.value);
+                        }}
+                        aria-describedby={`award-option-help`}
+                        className={classNames({ "p-invalid": error })}
+                        placeholder={
+                          pool
+                            ? "Specific local program selection is not available for regional pool funds"
+                            : selectedCharity2
+                            ? `Specific local program or initiative.`
+                            : "Please Select a charity."
+                        }
+                      />
+                      {invalid && <p className="error">{error.message}</p>}
+                    </>
+                  )}
+                />
+              </div>
+            ) : null}
+          </div>
         </div>
-      </div>
+      </BlockUI>
     </>
   );
 }
