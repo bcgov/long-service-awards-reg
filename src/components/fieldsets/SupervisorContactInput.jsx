@@ -12,9 +12,10 @@ import { matchers } from "@/services/validation.services.js";
 import InfoToolTip from "@/components/common/InfoToolTip.jsx";
 import { Panel } from "primereact/panel";
 import { SelectButton } from "primereact/selectbutton";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import AddressInput from "@/components/fieldsets/AddressInput.jsx";
 import { BlockUI } from "primereact/blockui";
+import { LoadingContext } from "@/AppContext.js";
 
 /**
  * Supervisor Contact Details
@@ -22,8 +23,9 @@ import { BlockUI } from "primereact/blockui";
 
 export default function SupervisorContactInput() {
   const [sameAddress, setSameAddress] = useState(false);
-  const [isBulk, setIsBulk] = useState(false);
+  const [isBulk, setIsBulk] = useState(true);
   const { control, resetField, setValue, getValues } = useFormContext();
+  const { loading } = useContext(LoadingContext);
 
   // check if recipient and supervisor addresses are identical
   useEffect(() => {
@@ -163,7 +165,7 @@ export default function SupervisorContactInput() {
           </div>
         </div>
       </Panel>
-      {!isBulk && (
+      {!loading && !isBulk && (
         <>
           <Panel className={"mb-3"} header="Use Same Office Address">
             <div className="container">
@@ -186,7 +188,7 @@ export default function SupervisorContactInput() {
               </div>
             </div>
           </Panel>
-          <BlockUI blocked={sameAddress}>
+          <BlockUI blocked={!loading && (sameAddress || isBulk)}>
             <AddressInput
               id={"supervisor.office_address"}
               label={"Supervisor Office"}
