@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 backups
+docker-entrypoint-initdb.d
 dist
 dist-ssr
 *.local

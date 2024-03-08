@@ -24,11 +24,11 @@ SET row_security = off;
 -- Data for Name: award_options; Type: TABLE DATA; Schema: public; Owner: lsa
 --
 
-INSERT INTO public.award_options VALUES (1, 1, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
-INSERT INTO public.award_options VALUES (2, 2, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
-INSERT INTO public.award_options VALUES (3, 3, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
-INSERT INTO public.award_options VALUES (4, 4, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
-INSERT INTO public.award_options VALUES (5, 5, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
+-- INSERT INTO public.award_options VALUES (1, 1, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
+-- INSERT INTO public.award_options VALUES (2, 2, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
+-- INSERT INTO public.award_options VALUES (3, 3, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
+-- INSERT INTO public.award_options VALUES (4, 4, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
+-- INSERT INTO public.award_options VALUES (5, 5, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
 -- INSERT INTO public.award_options VALUES (6, 11, 'straps', 'straps-black', 'straps-black', false, 'Black Leather', 'Black leather watch strap.');
 -- INSERT INTO public.award_options VALUES (7, 11, 'straps', 'straps-brown', 'straps-brown', false, 'Brown Leather', 'Brown leather watch strap.');
 -- INSERT INTO public.award_options VALUES (8, 11, 'straps', 'straps-plated', 'straps-plated', false, 'Plated', 'Plated watch strap.');
@@ -45,25 +45,25 @@ INSERT INTO public.award_options VALUES (18, 25, 'sizes', 'size-a', 'size-a', fa
 INSERT INTO public.award_options VALUES (19, 25, 'sizes', 'size-b', 'size-b', false, 'Size B (Large)', 'Size fits 7.5-inch- 8.5-inch');
 INSERT INTO public.award_options VALUES (20, 35, 'sizes', 'size-a', 'size-a', false, 'Size A (Small)', 'Size fits 6.5-inch- 7.5-inch');
 INSERT INTO public.award_options VALUES (21, 35, 'sizes', 'size-b', 'size-b', false, 'Size B (Large)', 'Size fits 7.5-inch- 8.5-inch');
-INSERT INTO public.award_options VALUES (22, 37, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
-INSERT INTO public.award_options VALUES (23, 37, 'pecsf-charity', 'pecsf-charity-1', 'custom', true, 'PECSF Charity 1', 'Select a regional charity');
-INSERT INTO public.award_options VALUES (24, 37, 'pecsf-charity', 'pecsf-charity-2', 'custom', true, 'PECSF Charity 2', 'Select a regional charity');
+-- INSERT INTO public.award_options VALUES (22, 37, 'certificate', 'certificate-25', 'custom', true, '25 Year Certificate', 'Name to appear on your 25-year certificate');
+INSERT INTO public.award_options VALUES (23, 37, 'pecsf-charity', 'pecsf-charity-1', 'custom', true, 'PECSF Charity 1', 'Select a charity');
+INSERT INTO public.award_options VALUES (24, 37, 'pecsf-charity', 'pecsf-charity-2', 'custom', true, 'PECSF Charity 2', 'Select a charity');
 -- INSERT INTO public.award_options VALUES (25, 37, 'pecsf-certificate', 'pecsf-certificate-25', 'custom', true, 'PECSF Certificate', 'Name to appear on your PECSF certificate');
 INSERT INTO public.award_options VALUES (26, 38, 'pecsf-certificate', 'pecsf-certificate-30', 'custom', true, 'PECSF Certificate', 'Name to appear on your PECSF certificate');
-INSERT INTO public.award_options VALUES (27, 38, 'pecsf-charity', 'pecsf-charity-1', 'custom', true, 'PECSF Charity 1', 'Select a regional charity');
-INSERT INTO public.award_options VALUES (28, 38, 'pecsf-charity', 'pecsf-charity-2', 'custom', true, 'PECSF Charity 2', 'Select a regional charity');
+INSERT INTO public.award_options VALUES (27, 38, 'pecsf-charity', 'pecsf-charity-1', 'custom', true, 'PECSF Charity 1', 'Select a charity');
+INSERT INTO public.award_options VALUES (28, 38, 'pecsf-charity', 'pecsf-charity-2', 'custom', true, 'PECSF Charity 2', 'Select a charity');
 INSERT INTO public.award_options VALUES (29, 39, 'pecsf-certificate', 'pecsf-certificate-35', 'custom', true, 'PECSF Certificate', 'Name to appear on your PECSF certificate');
-INSERT INTO public.award_options VALUES (30, 39, 'pecsf-charity', 'pecsf-charity-1', 'custom', true, 'PECSF Charity 1', 'Select a regional charity');
-INSERT INTO public.award_options VALUES (31, 39, 'pecsf-charity', 'pecsf-charity-2', 'custom', true, 'PECSF Charity 2', 'Select a regional charity');
+INSERT INTO public.award_options VALUES (30, 39, 'pecsf-charity', 'pecsf-charity-1', 'custom', true, 'PECSF Charity 1', 'Select a charity');
+INSERT INTO public.award_options VALUES (31, 39, 'pecsf-charity', 'pecsf-charity-2', 'custom', true, 'PECSF Charity 2', 'Select a charity');
 INSERT INTO public.award_options VALUES (32, 40, 'pecsf-certificate', 'pecsf-certificate-40', 'custom', true, 'PECSF Certificate', 'Name to appear on your PECSF certificate');
-INSERT INTO public.award_options VALUES (33, 40, 'pecsf-charity', 'pecsf-charity-1', 'custom', true, 'PECSF Charity 1', 'Select a regional charity');
-INSERT INTO public.award_options VALUES (34, 40, 'pecsf-charity', 'pecsf-charity-2', 'custom', true, 'PECSF Charity 2', 'Select a regional charity');
+INSERT INTO public.award_options VALUES (33, 40, 'pecsf-charity', 'pecsf-charity-1', 'custom', true, 'PECSF Charity 1', 'Select a charity');
+INSERT INTO public.award_options VALUES (34, 40, 'pecsf-charity', 'pecsf-charity-2', 'custom', true, 'PECSF Charity 2', 'Select a charity');
 INSERT INTO public.award_options VALUES (35, 41, 'pecsf-certificate', 'pecsf-certificate-45', 'custom', true, 'PECSF Certificate', 'Name to appear on your PECSF certificate');
-INSERT INTO public.award_options VALUES (36, 41, 'pecsf-charity', 'pecsf-charity-1', 'custom', true, 'PECSF Charity 1', 'Select a regional charity');
-INSERT INTO public.award_options VALUES (37, 41, 'pecsf-charity', 'pecsf-charity-2', 'custom', true, 'PECSF Charity 2', 'Select a regional charity');
+INSERT INTO public.award_options VALUES (36, 41, 'pecsf-charity', 'pecsf-charity-1', 'custom', true, 'PECSF Charity 1', 'Select a charity');
+INSERT INTO public.award_options VALUES (37, 41, 'pecsf-charity', 'pecsf-charity-2', 'custom', true, 'PECSF Charity 2', 'Select a charity');
 INSERT INTO public.award_options VALUES (38, 42, 'pecsf-certificate', 'pecsf-certificate-50', 'custom', true, 'PECSF Certificate', 'Name to appear on your PECSF certificate');
-INSERT INTO public.award_options VALUES (39, 42, 'pecsf-charity', 'pecsf-charity-1', 'custom', true, 'PECSF Charity 1', 'Select a regional charity');
-INSERT INTO public.award_options VALUES (40, 42, 'pecsf-charity', 'pecsf-charity-2', 'custom', true, 'PECSF Charity 2', 'Select a regional charity');
+INSERT INTO public.award_options VALUES (39, 42, 'pecsf-charity', 'pecsf-charity-1', 'custom', true, 'PECSF Charity 1', 'Select a charity');
+INSERT INTO public.award_options VALUES (40, 42, 'pecsf-charity', 'pecsf-charity-2', 'custom', true, 'PECSF Charity 2', 'Select a charity');
 
 -- updates for 2023
 INSERT INTO public.award_options VALUES (41, 11, 'options', 'option-a-small', 'option-a-30mm', false, 'Option A (Small)', 'Round face with black dial, gold tone case, crystal at 12 and black leather strap (30 mm diameter / 16 mm wrist)');
@@ -86,8 +86,30 @@ INSERT INTO public.award_options VALUES (57, 11, 'engraving', 'option-d-30mm', '
 INSERT INTO public.award_options VALUES (58, 11, 'engraving', 'option-d-38mm', '18', true, 'Engraving (18)', 'Engraving to appear on watch (18 character limit).');
 INSERT INTO public.award_options VALUES (59, 11, 'engraving', 'option-e-24mm', '15', true, 'Engraving (15)', 'Engraving to appear on watch (15 character limit).');
 INSERT INTO public.award_options VALUES (60, 11, 'engraving', 'option-e-29.5mm', '18', true, 'Engraving (18)', 'Engraving to appear on watch (18 character limit).');
-
-
+-- updates for 2024
+INSERT INTO public.award_options VALUES (61, 37, 'pecsf-charity-local', 'pecsf-charity-local-1', 'custom', true, 'Local Program or Initiative 1', 'Specific local program or initiative (optional)');
+INSERT INTO public.award_options VALUES (62, 37, 'pecsf-charity-local', 'pecsf-charity-local-2', 'custom', true, 'Local Program or Initiative 2', 'Specific local program or initiative (optional)');
+INSERT INTO public.award_options VALUES (63, 38, 'pecsf-charity-local', 'pecsf-charity-local-1', 'custom', true, 'Local Program or Initiative 1', 'Specific local program or initiative (optional)');
+INSERT INTO public.award_options VALUES (64, 38, 'pecsf-charity-local', 'pecsf-charity-local-2', 'custom', true, 'Local Program or Initiative 2', 'Specific local program or initiative (optional)');
+INSERT INTO public.award_options VALUES (65, 39, 'pecsf-charity-local', 'pecsf-charity-local-1', 'custom', true, 'Local Program or Initiative 1', 'Specific local program or initiative (optional)');
+INSERT INTO public.award_options VALUES (66, 39, 'pecsf-charity-local', 'pecsf-charity-local-2', 'custom', true, 'Local Program or Initiative 2', 'Specific local program or initiative (optional)');
+INSERT INTO public.award_options VALUES (67, 40, 'pecsf-charity-local', 'pecsf-charity-local-1', 'custom', true, 'Local Program or Initiative 1', 'Specific local program or initiative (optional)');
+INSERT INTO public.award_options VALUES (68, 40, 'pecsf-charity-local', 'pecsf-charity-local-2', 'custom', true, 'Local Program or Initiative 2', 'Specific local program or initiative (optional)');
+INSERT INTO public.award_options VALUES (69, 41, 'pecsf-charity-local', 'pecsf-charity-local-1', 'custom', true, 'Local Program or Initiative 1', 'Specific local program or initiative (optional)');
+INSERT INTO public.award_options VALUES (70, 41, 'pecsf-charity-local', 'pecsf-charity-local-2', 'custom', true, 'Local Program or Initiative 2', 'Specific local program or initiative (optional)');
+INSERT INTO public.award_options VALUES (71, 42, 'pecsf-charity-local', 'pecsf-charity-local-1', 'custom', true, 'Local Program or Initiative 1', 'Specific local program or initiative (optional)');
+INSERT INTO public.award_options VALUES (72, 42, 'pecsf-charity-local', 'pecsf-charity-local-2', 'custom', true, 'Local Program or Initiative 2', 'Specific local program or initiative (optional)');
+-- Custom Sizes for non-engraved watch
+INSERT INTO public.award_options VALUES (73, 60, 'options', 'option-a-small', 'option-a-30mm', false, 'Option A (Small)', 'Round face with black dial, gold tone case, crystal at 12 and black leather strap (30 mm diameter / 16 mm wrist)');
+INSERT INTO public.award_options VALUES (74, 60, 'options', 'option-a-large', 'option-a-38mm', false, 'Option A (Large)', 'Round face with black dial, gold tone case, crystal at 12 and black leather strap (38 mm diameter / 20 mm wrist)');
+INSERT INTO public.award_options VALUES (75, 60, 'options', 'option-b-small', 'option-b-30mm', false, 'Option B (Small)', 'Round face with black dial, silver tone case and silver toned strap (30 mm diameter / 16 mm wrist)');
+INSERT INTO public.award_options VALUES (76, 60, 'options', 'option-b-large', 'option-b-38mm', false, 'Option B (Large)', 'Round face with black dial, silver tone case and silver toned strap  (38 mm diameter / 20 mm wrist)');
+INSERT INTO public.award_options VALUES (77, 60, 'options', 'option-c-small', 'option-c-30mm', false, 'Option C (Small)', 'Round face with gold dial, gold tone case and gold toned strap (30 mm diameter / 16 mm wrist)');
+INSERT INTO public.award_options VALUES (78, 60, 'options', 'option-c-large', 'option-c-38mm', false, 'Option C (Large)', 'Round face with gold dial, gold tone case and gold toned strap  (38 mm diameter / 20 mm wrist)');
+INSERT INTO public.award_options VALUES (79, 60, 'options', 'option-d-small', 'option-d-30mm', false, 'Option D (Small)', 'Round face with silver dial, two tone case and two-tone strap(30 mm diameter / 16 mm wrist)');
+INSERT INTO public.award_options VALUES (80, 60, 'options', 'option-d-large', '38mm', false, 'Option D (Large)', 'Round face with silver dial, two tone case and two-tone strap (38 mm diameter / 20 mm wrist)');
+INSERT INTO public.award_options VALUES (81, 60, 'options', 'option-e-small', '24mm', false, 'Option E (Small)', 'Rectangular face with silver dial, two tone case and two-tone strap (24 x 37.5 mm face / 20 mm wrist)');
+INSERT INTO public.award_options VALUES (82, 60, 'options', 'option-e-large', '29.5mm', false, 'Option E (Large)', 'Rectangular face with silver dial, two tone case and two-tone strap (29.5 x 46 mm face / 26 mm wrist)');
 
 
 
@@ -97,7 +119,7 @@ INSERT INTO public.award_options VALUES (60, 11, 'engraving', 'option-e-29.5mm',
 -- Name: award_options_id_seq; Type: SEQUENCE SET; Schema: public; Owner: lsa
 --
 
-SELECT pg_catalog.setval('public.award_options_id_seq', 61, true);
+SELECT pg_catalog.setval('public.award_options_id_seq', 83, true);
 
 
 -- Completed on 2023-01-30 09:53:07 PST

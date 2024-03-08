@@ -122,8 +122,8 @@ CREATE TABLE IF NOT EXISTS public.pecsf_charities
     region character varying(256) NOT NULL,
     vendor character varying(16) NOT NULL,
     active boolean NOT NULL DEFAULT 'true',
+    pooled boolean NOT NULL DEFAULT 'false',
     CONSTRAINT "primary" PRIMARY KEY (id),
-    CONSTRAINT pecsf_charity_name UNIQUE (label, region),
     CONSTRAINT pecsf_vendor UNIQUE (vendor),
     CONSTRAINT pecsf_id UNIQUE (id)
 );

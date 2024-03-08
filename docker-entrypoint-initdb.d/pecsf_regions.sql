@@ -38,5 +38,36 @@ Thompson-Nicola
 Metro Vancouver
 Capital / Victoria
 Strathcona
+YT
+WA
+VT
+UT
+TX
+TN
+SK
+QC
+PE
+PA
+ON
+OH
+NY
+NU
+NT
+NS
+NM
+NL
+NB
+MI
+MB
+FL
+CA
+AZ
+AL
+AK
+AB
+BC
 \.
 
+-- For inserting into an existing database:
+-- INSERT INTO public.pecsf_regions (name) VALUES 
+-- ('YT'), ('WA'), ('VT'), ('UT'), ('TX'), ('TN'), ('SK'), ('QC'), ('PE'), ('PA'), ('ON'), ('OH'), ('NY'), ('NU'), ('NT'), ('NS'), ('NM'), ('NL'), ('NB'), ('MI'), ('MB'), ('FL'), ('CA'), ('AZ'), ('AL'), ('AK'), ('AB'), ('BC');

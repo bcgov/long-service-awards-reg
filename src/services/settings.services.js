@@ -5,12 +5,12 @@
  * MIT Licensed
  */
 
-import validate, {validators} from "@/services/validation.services.js";
+import validate, { validators } from "@/services/validation.services.js";
 
 const schemaData = {
   lsa: [
     {
-      key: 'milestone',
+      key: "milestone",
       seq: 0,
       label: "Milestone",
       description: "Select your Service Milestones",
@@ -23,24 +23,24 @@ const schemaData = {
           qualifying_year: "",
           confirmed: false,
           previous_registration: false,
-          previous_award: false
+          previous_award: false,
         },
         bcgeu: false,
         retirement: false,
-        retirement_date: null
+        retirement_date: null,
       },
       validate: (data) => {
-        const {service} = data || {};
+        const { service } = data || {};
         const fields = [
-          {key: "service_years", validators: [validators.required]},
-          {key: "milestone", validators: [validators.required]},
-          {key: "qualifying_year", validators: [validators.required]}
+          { key: "service_years", validators: [validators.required] },
+          { key: "milestone", validators: [validators.required] },
+          { key: "qualifying_year", validators: [validators.required] },
         ];
         return validate(fields, service);
-      }
+      },
     },
     {
-      key: 'profile',
+      key: "profile",
       seq: 1,
       label: "Profile",
       description: "Your Profile Information",
@@ -59,22 +59,37 @@ const schemaData = {
       },
       validate: (data) => {
         const { contact } = data || {};
-        return validate([
-          {key: "first_name", validators: [validators.required]},
-          {key: "last_name", validators: [validators.required]},
-          {key: "office_email", validators: [validators.required, validators.email]},
-          {key: "personal_email", validators: [validators.email]},
-          {key: "office_phone",  validators: [validators.phone]},
-        ], contact) && validate([
-          {key: "employee_number", validators: [validators.required, validators.employeeNumber]},
-          {key: "organization", validators: [validators.required]},
-          {key: "division", validators: [validators.required]},
-          {key: "branch", validators: [validators.required]},
-        ], data);
-      }
+        return (
+          validate(
+            [
+              { key: "first_name", validators: [validators.required] },
+              { key: "last_name", validators: [validators.required] },
+              {
+                key: "office_email",
+                validators: [validators.required, validators.email],
+              },
+              { key: "personal_email", validators: [validators.email] },
+              { key: "office_phone", validators: [validators.phone] },
+            ],
+            contact
+          ) &&
+          validate(
+            [
+              {
+                key: "employee_number",
+                validators: [validators.required, validators.employeeNumber],
+              },
+              { key: "organization", validators: [validators.required] },
+              { key: "division", validators: [validators.required] },
+              { key: "branch", validators: [validators.required] },
+            ],
+            data
+          )
+        );
+      },
     },
     {
-      key: 'contact',
+      key: "contact",
       seq: 2,
       label: "Contact Info",
       description: "Your personal contact information",
@@ -100,29 +115,46 @@ const schemaData = {
             community: "",
             province: "British Columbia",
             country: "Canada",
-          }
-        }
+          },
+        },
       },
       validate: (data) => {
         const { contact } = data || {};
-        const {office_address, personal_address} = contact || {};
-        return validate([
-          {key: "personal_phone", validators: [validators.phone]},
-        ], contact) && validate([
-          { key: "street1", validators: [validators.required] },
-          { key: "community", validators: [validators.required] },
-          { key: "province", validators: [validators.required] },
-          { key: "postal_code", validators: [validators.required, validators.postal_code] },
-        ], personal_address) && validate([
-          { key: "street1", validators: [validators.required] },
-          { key: "community", validators: [validators.required] },
-          { key: "province", validators: [validators.required] },
-          { key: "postal_code", validators: [validators.required, validators.postal_code] },
-        ], office_address);
-      }
+        const { office_address, personal_address } = contact || {};
+        return (
+          validate(
+            [{ key: "personal_phone", validators: [validators.phone] }],
+            contact
+          ) &&
+          validate(
+            [
+              { key: "street1", validators: [validators.required] },
+              { key: "community", validators: [validators.required] },
+              { key: "province", validators: [validators.required] },
+              {
+                key: "postal_code",
+                validators: [validators.required, validators.postal_code],
+              },
+            ],
+            personal_address
+          ) &&
+          validate(
+            [
+              { key: "street1", validators: [validators.required] },
+              { key: "community", validators: [validators.required] },
+              { key: "province", validators: [validators.required] },
+              {
+                key: "postal_code",
+                validators: [validators.required, validators.postal_code],
+              },
+            ],
+            office_address
+          )
+        );
+      },
     },
     {
-      key: 'awards',
+      key: "awards",
       seq: 3,
       label: "Award",
       description: "Select your Long Service Award",
@@ -137,11 +169,11 @@ const schemaData = {
               type: "",
               milestone: "",
               label: "",
-              description: ""
+              description: "",
             },
-            selections: []
+            selections: [],
           },
-        }
+        },
       },
       validate: (data) => {
         const { service } = data || {};
@@ -151,19 +183,24 @@ const schemaData = {
         // validate award exists (no options) or award options match schema
         // - filter selections by selected award
         // - check that each option has a corresponding selection
-        return (award || {}).hasOwnProperty('id') && award.id
-            && (options.length === 0
-                || (selections || [])
-                    .filter(({award_option}) => award_option.award === id)
-                    .every(({award_option}) => {
-                      return !!(options || []).find(({award, type}) =>
-                          (award_option || {}).hasOwnProperty('type')
-                          && award_option.type === type)
-                    }))
-      }
+        return (
+          (award || {}).hasOwnProperty("id") &&
+          award.id &&
+          (options.length === 0 ||
+            (selections || [])
+              .filter(({ award_option }) => award_option.award === id)
+              .every(({ award_option }) => {
+                return !!(options || []).find(
+                  ({ award, type }) =>
+                    (award_option || {}).hasOwnProperty("type") &&
+                    award_option.type === type
+                );
+              }))
+        );
+      },
     },
     {
-      key: 'supervisor',
+      key: "supervisor",
       seq: 4,
       label: "Supervisor",
       description: "Your Supervisor Information",
@@ -186,22 +223,38 @@ const schemaData = {
         },
       },
       validate: (data) => {
-        const { supervisor } = data || {};
+        const { supervisor, organization } = data || {};
         const { office_address } = supervisor || {};
-        return validate([
-          {key: "first_name", validators: [validators.required]},
-          {key: "last_name", validators: [validators.required]},
-          {key: "office_email", validators: [validators.required, validators.email]},
-        ], supervisor) && validate([
-          { key: "street1", validators: [validators.required] },
-          { key: "community", validators: [validators.required] },
-          { key: "province", validators: [validators.required] },
-          { key: "postal_code", validators: [validators.required, validators.postal_code] },
-        ], office_address);
-      }
+        return (
+          validate(
+            [
+              { key: "first_name", validators: [validators.required] },
+              { key: "last_name", validators: [validators.required] },
+              {
+                key: "office_email",
+                validators: [validators.required, validators.email],
+              },
+            ],
+            supervisor
+          ) &&
+          (organization.bulk ||
+            validate(
+              [
+                { key: "street1", validators: [validators.required] },
+                { key: "community", validators: [validators.required] },
+                { key: "province", validators: [validators.required] },
+                {
+                  key: "postal_code",
+                  validators: [validators.required, validators.postal_code],
+                },
+              ],
+              office_address
+            ))
+        );
+      },
     },
     {
-      key: 'confirmation',
+      key: "confirmation",
       seq: 5,
       label: "Confirmation",
       description: "Confirm your Registration",
@@ -209,18 +262,21 @@ const schemaData = {
       default: {
         service: {
           confirmed: false,
-          survey_opt_in: false
+          survey_opt_in: false,
         },
       },
       validate: (data) => {
         const { service } = data || {};
-        return validate([{key: "confirmed", validators: [validators.required]}], service)
-      }
-    }
+        return validate(
+          [{ key: "confirmed", validators: [validators.required] }],
+          service
+        );
+      },
+    },
   ],
-  'service-pins': [
+  "service-pins": [
     {
-      key: 'milestone',
+      key: "milestone",
       seq: 0,
       label: "Milestone",
       description: "Select your Service Milestones",
@@ -233,20 +289,20 @@ const schemaData = {
           qualifying_year: "",
           confirmed: false,
         },
-        prior_milestones: ""
+        prior_milestones: "",
       },
       validate: (data) => {
-        const {service} = data || {};
+        const { service } = data || {};
         const fields = [
-          {key: "service_years", validators: [validators.required]},
-          {key: "milestone", validators: [validators.required]},
-          {key: "qualifying_year", validators: [validators.required]}
+          { key: "service_years", validators: [validators.required] },
+          { key: "milestone", validators: [validators.required] },
+          { key: "qualifying_year", validators: [validators.required] },
         ];
         return validate(fields, service);
-      }
+      },
     },
     {
-      key: 'profile',
+      key: "profile",
       seq: 1,
       label: "Profile",
       description: "Your Profile Information",
@@ -265,22 +321,37 @@ const schemaData = {
       },
       validate: (data) => {
         const { contact } = data || {};
-        return validate([
-          {key: "first_name", validators: [validators.required]},
-          {key: "last_name", validators: [validators.required]},
-          {key: "office_email", validators: [validators.required, validators.email]},
-          {key: "personal_email", validators: [validators.email]},
-          {key: "office_phone",  validators: [validators.phone]},
-        ], contact) && validate([
-          {key: "employee_number", validators: [validators.required, validators.employeeNumber]},
-          {key: "organization", validators: [validators.required]},
-          {key: "division", validators: [validators.required]},
-          {key: "branch", validators: [validators.required]},
-        ], data);
-      }
+        return (
+          validate(
+            [
+              { key: "first_name", validators: [validators.required] },
+              { key: "last_name", validators: [validators.required] },
+              {
+                key: "office_email",
+                validators: [validators.required, validators.email],
+              },
+              { key: "personal_email", validators: [validators.email] },
+              { key: "office_phone", validators: [validators.phone] },
+            ],
+            contact
+          ) &&
+          validate(
+            [
+              {
+                key: "employee_number",
+                validators: [validators.required, validators.employeeNumber],
+              },
+              { key: "organization", validators: [validators.required] },
+              { key: "division", validators: [validators.required] },
+              { key: "branch", validators: [validators.required] },
+            ],
+            data
+          )
+        );
+      },
     },
     {
-      key: 'contact',
+      key: "contact",
       seq: 2,
       label: "Contact Info",
       description: "Your personal contact information",
@@ -294,21 +365,27 @@ const schemaData = {
           community: "",
           province: "British Columbia",
           country: "Canada",
-        }
+        },
       },
       validate: (data) => {
         const { contact } = data || {};
-        const {office_address} = contact || {};
-        return validate([
-          { key: "street1", validators: [validators.required] },
-          { key: "community", validators: [validators.required] },
-          { key: "province", validators: [validators.required] },
-          { key: "postal_code", validators: [validators.required, validators.postal_code] },
-        ], office_address);
-      }
+        const { office_address } = contact || {};
+        return validate(
+          [
+            { key: "street1", validators: [validators.required] },
+            { key: "community", validators: [validators.required] },
+            { key: "province", validators: [validators.required] },
+            {
+              key: "postal_code",
+              validators: [validators.required, validators.postal_code],
+            },
+          ],
+          office_address
+        );
+      },
     },
     {
-      key: 'supervisor',
+      key: "supervisor",
       seq: 3,
       label: "Supervisor",
       description: "Your Supervisor Information",
@@ -333,20 +410,35 @@ const schemaData = {
       validate: (data) => {
         const { supervisor } = data || {};
         const { office_address } = supervisor || {};
-        return validate([
-          {key: "first_name", validators: [validators.required]},
-          {key: "last_name", validators: [validators.required]},
-          {key: "office_email", validators: [validators.required, validators.email]},
-        ], supervisor) && validate([
-          { key: "street1", validators: [validators.required] },
-          { key: "community", validators: [validators.required] },
-          { key: "province", validators: [validators.required] },
-          { key: "postal_code", validators: [validators.required, validators.postal_code] },
-        ], office_address);
-      }
+        return (
+          validate(
+            [
+              { key: "first_name", validators: [validators.required] },
+              { key: "last_name", validators: [validators.required] },
+              {
+                key: "office_email",
+                validators: [validators.required, validators.email],
+              },
+            ],
+            supervisor
+          ) &&
+          validate(
+            [
+              { key: "street1", validators: [validators.required] },
+              { key: "community", validators: [validators.required] },
+              { key: "province", validators: [validators.required] },
+              {
+                key: "postal_code",
+                validators: [validators.required, validators.postal_code],
+              },
+            ],
+            office_address
+          )
+        );
+      },
     },
     {
-      key: 'confirmation',
+      key: "confirmation",
       seq: 4,
       label: "Confirmation",
       description: "Confirm your Registration",
@@ -354,68 +446,94 @@ const schemaData = {
       default: {
         service: {
           confirmed: false,
-          survey_opt_in: false
+          survey_opt_in: false,
         },
       },
       validate: (data) => {
         const { service } = data || {};
-        return validate([{key: "confirmed", validators: [validators.required]}], service)
-      }
-    }
-  ],
-  'delegated-service-pins': [{
-    key: 'employee',
-    label: "Delegated Service Pins",
-    description: "Register Service Pins on behalf of your employees",
-    route: "/service-pins/delegated",
-    default: {
-      supervisor: {
-        first_name: "",
-        last_name: "",
-        office_email: "",
-        office_phone: "",
-        office_address: {
-          pobox: "",
-          street1: "",
-          street2: "",
-          postal_code: "",
-          community: "",
-          province: "British Columbia",
-          country: "Canada",
-        },
+        return validate(
+          [{ key: "confirmed", validators: [validators.required] }],
+          service
+        );
       },
-      employees: [{
-        employee_number: "",
-        organization: null,
-        contact: {
+    },
+  ],
+  "delegated-service-pins": [
+    {
+      key: "employee",
+      label: "Delegated Service Pins",
+      description: "Register Service Pins on behalf of your employees",
+      route: "/service-pins/delegated",
+      default: {
+        supervisor: {
           first_name: "",
           last_name: "",
           office_email: "",
+          office_phone: "",
+          office_address: {
+            pobox: "",
+            street1: "",
+            street2: "",
+            postal_code: "",
+            community: "",
+            province: "British Columbia",
+            country: "Canada",
+          },
         },
-        service: {
-          years_of_service: "",
-          milestone: "",
-          qualifying_year: "",
-        },
-        prior_milestones: ""
-      }]
+        employees: [
+          {
+            employee_number: "",
+            organization: null,
+            contact: {
+              first_name: "",
+              last_name: "",
+              office_email: "",
+            },
+            service: {
+              years_of_service: "",
+              milestone: "",
+              qualifying_year: "",
+            },
+            prior_milestones: "",
+          },
+        ],
+      },
+      validate: (data) => {
+        const { service, contact } = data || {};
+        return (
+          validate(
+            [
+              { key: "first_name", validators: [validators.required] },
+              { key: "last_name", validators: [validators.required] },
+              {
+                key: "office_email",
+                validators: [validators.required, validators.email],
+              },
+            ],
+            contact
+          ) &&
+          validate(
+            [
+              { key: "service_years", validators: [validators.required] },
+              { key: "milestone", validators: [validators.required] },
+              { key: "qualifying_year", validators: [validators.required] },
+            ],
+            service
+          ) &&
+          validate(
+            [
+              {
+                key: "employee_number",
+                validators: [validators.required, validators.employeeNumber],
+              },
+              { key: "organization", validators: [validators.required] },
+            ],
+            data
+          )
+        );
+      },
     },
-    validate: (data) => {
-      const { service, contact } = data || {};
-      return validate([
-        {key: "first_name", validators: [validators.required]},
-        {key: "last_name", validators: [validators.required]},
-        {key: "office_email", validators: [validators.required, validators.email]},
-      ], contact) && validate([
-        {key: "service_years", validators: [validators.required]},
-        {key: "milestone", validators: [validators.required]},
-        {key: "qualifying_year", validators: [validators.required]}
-      ], service) && validate([
-        {key: "employee_number", validators: [validators.required, validators.employeeNumber]},
-        {key: "organization", validators: [validators.required]},
-      ], data);
-    }
-  }],
+  ],
   messages: [
     {
       value: "save",
@@ -443,7 +561,7 @@ const schemaData = {
         severity: "success",
         summary: "Registration Deleted",
         detail: "Registration was removed.",
-        life: 3000
+        life: 3000,
       },
     },
     {
@@ -462,7 +580,7 @@ const schemaData = {
         severity: "error",
         summary: "Registration could not be created.",
         detail:
-            "There was an error in processing your registration. Please try again. If issues persist, please contact support",
+          "There was an error in processing your registration. Please try again. If issues persist, please contact support",
         closable: true,
         sticky: true,
       },
@@ -483,7 +601,7 @@ const schemaData = {
         severity: "error",
         summary: "Error! Save Failed",
         detail:
-            "There was an error in processing your registration. Please try again. If issues persist, please contact support",
+          "There was an error in processing your registration. Please try again. If issues persist, please contact support",
         sticky: true,
       },
     },
@@ -502,7 +620,7 @@ const schemaData = {
         severity: "success",
         summary: "Award Selected!",
         detail: "Award options confirmed.",
-        life: 3000
+        life: 3000,
       },
     },
     {
@@ -511,14 +629,13 @@ const schemaData = {
         severity: "info",
         summary: "Registration Complete",
         detail: "Thank you we have received your registration.",
-        life: 3000
+        life: 3000,
       },
     },
   ],
 };
 
 export default {
-
   /**
    * get enumerated data by key
    * **/
@@ -531,7 +648,7 @@ export default {
    * get a copy of the schema data
    * **/
 
-  copy: function copy(key, value, idKey='key') {
+  copy: function copy(key, value, idKey = "key") {
     if (typeof schemaData[key] === "undefined") return null;
     const found = schemaData[key].find((item) => item[idKey] === value);
     return found ? Object.assign({}, found) : null;
@@ -554,7 +671,7 @@ export default {
    */
   capitalize: function capitalize(value) {
     const capitalizedValue =
-        value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+      value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
     return value !== "undefined" ? capitalizedValue : null;
   },
 
@@ -568,6 +685,6 @@ export default {
         return a[field] < b[field] ? -1 : 1;
       }
       return 0;
-    })
-  }
+    });
+  },
 };
