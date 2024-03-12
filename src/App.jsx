@@ -125,6 +125,15 @@ export default function App() {
       });
   }, []);
 
+  //Get current environment
+  const nodeENV = process.env.NODE_ENV;
+
+  // Check if the URL contains the dev site url
+  const currentUrl = window.location.href;
+  const isDevSite =
+    currentUrl.includes("https://engagement.gww.gov.bc.ca/lsa/registration") ||
+    currentUrl.includes("localhost");
+
   return (
     <OptionsContext.Provider value={optionsProvider}>
       <AppContext.Provider value={userProvider}>
@@ -154,6 +163,11 @@ export default function App() {
                     <Closed />
                   )}
                   {!!!String(active)}
+                  {nodeENV === "development" || isDevSite ? (
+                    <div className="w-screen bg-orange-500 fixed top-0 z-9999 m-0 text-center">
+                      Test Environment
+                    </div>
+                  ) : null}
                 </div>
               </LoadingContext.Provider>
             </ToastContext.Provider>
