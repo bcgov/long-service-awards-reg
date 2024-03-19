@@ -408,7 +408,7 @@ const schemaData = {
         },
       },
       validate: (data) => {
-        const { supervisor } = data || {};
+        const { supervisor, organization } = data || {};
         const { office_address } = supervisor || {};
         return (
           validate(
@@ -422,18 +422,19 @@ const schemaData = {
             ],
             supervisor
           ) &&
-          validate(
-            [
-              { key: "street1", validators: [validators.required] },
-              { key: "community", validators: [validators.required] },
-              { key: "province", validators: [validators.required] },
-              {
-                key: "postal_code",
-                validators: [validators.required, validators.postal_code],
-              },
-            ],
-            office_address
-          )
+          (organization.bulk ||
+            validate(
+              [
+                { key: "street1", validators: [validators.required] },
+                { key: "community", validators: [validators.required] },
+                { key: "province", validators: [validators.required] },
+                {
+                  key: "postal_code",
+                  validators: [validators.required, validators.postal_code],
+                },
+              ],
+              office_address
+            ))
         );
       },
     },
