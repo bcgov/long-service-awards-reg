@@ -561,7 +561,7 @@ ALTER TABLE IF EXISTS public.award_option_selections
     ADD CONSTRAINT award_options_ref FOREIGN KEY (award_option)
     REFERENCES public.award_options (id) MATCH SIMPLE
     ON UPDATE CASCADE
-    ON DELETE CASCADE;
+    ON DELETE RESTRICT;
 CREATE INDEX IF NOT EXISTS fki_award_options_ref
     ON public.award_option_selections(award_option);
 
