@@ -40,6 +40,9 @@ CREATE TABLE IF NOT EXISTS public.organizations
     CONSTRAINT org_id UNIQUE (id)
 );
 
+ALTER TABLE IF EXISTS public.organizations
+    ADD COLUMN bulk boolean;
+
 CREATE TABLE IF NOT EXISTS public.contacts
 (
     id uuid NOT NULL,
@@ -107,6 +110,11 @@ CREATE TABLE IF NOT EXISTS public.award_options
 
 COMMENT ON CONSTRAINT award_option_single ON public.award_options
     IS 'Ensure unique option for given award and option type.';
+
+ALTER TABLE IF EXISTS public.award_options DROP CONSTRAINT IF EXISTS award_option_single;
+
+ALTER TABLE IF EXISTS public.award_options
+    ADD CONSTRAINT award_option_single UNIQUE (id);
 
 CREATE TABLE IF NOT EXISTS public.pecsf_regions
 (
@@ -362,6 +370,10 @@ CREATE INDEX IF NOT EXISTS fki_recipients_supervisor_ref
     ON public.recipients(supervisor);
 
 
+ALTER TABLE IF EXISTS public.recipients
+    ADD COLUMN attending_with_organization integer;
+
+
 ALTER TABLE IF EXISTS public.contacts
     ADD CONSTRAINT contact_office_address_fk FOREIGN KEY (office_address)
     REFERENCES public.addresses (id) MATCH SIMPLE
@@ -378,6 +390,9 @@ ALTER TABLE IF EXISTS public.contacts
     ON DELETE RESTRICT;
 CREATE INDEX IF NOT EXISTS fki_contact_personal_address_fk
     ON public.contacts(personal_address);
+
+ALTER TABLE IF EXISTS public.contacts
+    ADD COLUMN alternate_is_preferred boolean;
 
 
 ALTER TABLE IF EXISTS public.addresses
@@ -451,6 +466,8 @@ ALTER TABLE IF EXISTS public.attendees
 CREATE INDEX IF NOT EXISTS fki_attendees_ceremonies_ref
     ON public.attendees(ceremony);
 
+ALTER TABLE IF EXISTS public.attendees
+    ADD COLUMN ceremony_noshow boolean;
 
 ALTER TABLE IF EXISTS public.accommodation_selections
     ADD CONSTRAINT accommodations_attendees_ref FOREIGN KEY (attendee)
