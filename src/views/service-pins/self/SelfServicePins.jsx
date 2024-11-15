@@ -13,6 +13,7 @@ import formServices from "@/services/settings.services.js";
 import {createSelfRegistration, getSelfRegistration, saveSelfRegistration} from "@/services/api.routes.js";
 import {BlockUI} from "primereact/blockui";
 import {Button} from "primereact/button";
+import {Card} from "primereact/card";
 
 /**
  * Panel Header for common component management in registration flow
@@ -26,6 +27,10 @@ export default function SelfServicePins () {
     } = useContext(RegistrationContext);
     const {loading, setLoading} = useContext(LoadingContext);
     const [lsaEligible, setLSAEligible] = useState(false);
+    // LSA-505 Added flag which indicates that a user intends to continue with Pin instead of LSA 
+    
+    const [lsaEligibleIgnore, setLSAEligibleIgnore] = useState(false);
+    console.log(registration);
 
     // get the registration steps template schema
     // get service pins form schema
@@ -70,6 +75,7 @@ export default function SelfServicePins () {
     const _handleSaveRegistration = async (data) => {
         try {
             setLoading(true);
+            console.log(data);
             const {service} = data || {};
             const {confirmed} = service || {};
             const [error, result] = await saveSelfRegistration(data);
@@ -120,16 +126,52 @@ export default function SelfServicePins () {
 
     // overlay template for blocked form panels
     const BlockUITemplateLSA = () => {
-        return <Button
-            onClick={()=>{navigate("/lsa/milestone")}}
-            icon={'pi pi-lock'}
-            label={'Register for Your Long Service Award'}
-        />
+        // LSA-505 Added additional button which allows user to continue with Pin instead of LSA
+        const footer = (<>
+
+                        <Button
+                            onClick={()=>{navigate("/lsa/milestone")}}
+                            icon={'pi pi-lock'}
+                            label={'Register for Your Long Service Award'}
+                        />
+                   
+                        {" "}
+                  
+                        <Button
+                            onClick={async ()=>{
+                                /* 
+                                LSA-505 Add a note, and also opt out of ceremony if the registrant does not want to register for LSA
+                                */
+                                setLSAEligibleIgnore(true);
+                                registration.service.ceremony_opt_out = true;
+                                registration.notes = "Registrant has opted to not register for the LSA.";
+                                const [error, result] = await saveSelfRegistration(registration);
+                                if ( !error ) {
+
+                                    navigate("/service-pins/self/profile");
+                                    setRegistration(result);
+                                }
+                                else {
+                                    // Handle some error here.
+                                }
+                            }}
+                            icon={'pi pi-lock'}
+                            label={'Register for Service Pin'}
+                        />
+                    
+                </>
+        );
+        return <>
+                <Card title="LSA Confirmation" footer={footer}>
+
+                    Please confirm whether you want to register for your Long Service Award, or continue with your Service Pin registration.
+                </Card>
+            </>
     }
 
     return <>
         <PageHeader title="Service Pin Registration" subtitle={step && step.description || ''}/>
-        <BlockUI blocked={lsaEligible && !confirmed} template={BlockUITemplateLSA}>
+        <BlockUI blocked={lsaEligible && !confirmed && !lsaEligibleIgnore} template={BlockUITemplateLSA}>
             <BlockUI blocked={confirmed && step && step.key !== "confirmation"} template={BlockUITemplateConfirmed}>
                 <Outlet context={[_handleSaveRegistration]}/>
             </BlockUI>
