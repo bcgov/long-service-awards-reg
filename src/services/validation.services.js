@@ -21,7 +21,6 @@ export const matchers = {
   alphanumeric: /^[a-z0-9]+$/i
 }
 
-
 export const validators = {
 
   /**
