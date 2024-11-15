@@ -7,7 +7,7 @@
 
 import {Controller, useFormContext, useWatch} from "react-hook-form";
 import classNames from "classnames";
-import {matchers} from "@/services/validation.services.js";
+import {matchers, validators} from "@/services/validation.services.js";
 import InfoToolTip from "@/components/common/InfoToolTip.jsx";
 import {useEffect, useState} from "react";
 import {InputText} from "primereact/inputtext";
@@ -188,6 +188,14 @@ export default function EmployeeInput({index, remove}) {
                                 value: matchers.employeeNumber,
                                 message: "Invalid employee number. (e.g., 123456)",
                             },
+                            validate: {
+                              duplicate: async (value) => {
+                                // Check if recipient employee number is unique in cycle (LSA-478)
+                                const exists = await validators.recipientExistsInCycle(value);
+                                console.log("(Employee) Validate exists returned " +exists);
+                                return !exists || "Employee number has already been registered for this cycle."
+                              }
+                            }
                         }}
                         render={({ field, fieldState: {invalid, error} }) => (
                             <>

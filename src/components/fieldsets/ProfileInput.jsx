@@ -6,11 +6,12 @@
  */
 
 import React, { useContext } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import { InputText } from "primereact/inputtext";
 import classNames from "classnames";
 import { OptionsContext } from "@/AppContext.js";
-import { matchers } from "@/services/validation.services.js";
+import { matchers, validators } from "@/services/validation.services.js";
 import { Dropdown } from "primereact/dropdown";
 import InfoToolTip from "@/components/common/InfoToolTip.jsx";
 import { Panel } from "primereact/panel";
@@ -24,6 +25,15 @@ import { Panel } from "primereact/panel";
 export default function ProfileInput({ type }) {
   const { control } = useFormContext();
   const { options } = useContext(OptionsContext);
+  
+  const [passedUniqueConstraint, setPassedUniqueConstraint] = useState(false);
+
+  const [currentCycle, setCurrentCycle ] = useState(null);
+  useEffect( () => {
+    
+      setCurrentCycle(2023);
+ 
+  }, []);
 
   // get list of organizations
   const { organizations = [] } = options || {};
@@ -161,6 +171,37 @@ export default function ProfileInput({ type }) {
                   value: matchers.employeeNumber,
                   message: "Invalid employee number. (e.g., 123456)",
                 },
+                validate: {
+                  duplicate: async (...values) => {
+
+                    const [ input, rowData ] = values;
+                    
+                    const { services, status } = rowData || {};
+                    const hasServices = (services || []).some(
+                      (service) => service.cycle === currentCycle
+                    );
+                   
+                    if ( hasServices ) {
+                      
+                      console.log(`We have services so assuming it's an existing entry, so we're not validating`);
+                      return true;
+                    }
+
+                    
+                    if ( passedUniqueConstraint ) {
+                      console.log("Already passed unique constraint, so continuing.")
+                      return true;
+                    }
+                    
+                    // Check if recipient employee number is unique in cycle (LSA-478)
+                    const duplicate = await validators.recipientUniqueInCycle(input);
+                    // continue button validates form again, and this triggers a validation error because number has been registered already
+                    console.log("(Profile) Validate duplicate returned " +duplicate);
+                    //return !duplicate || "Employee number has already been registered for this cycle."
+                    setPassedUniqueConstraint(!duplicate);
+                    return passedUniqueConstraint || "Employee number has already been registered for this cycle.";
+                  }
+                }
               }}
               render={({ field, fieldState: { invalid, error } }) => (
                 <>

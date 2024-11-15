@@ -196,4 +196,14 @@ export const isActive = async () => {
   return value === "true";
 };
 
+/**
+ * Check if employee has already been registered in this cycle
+ */
+
+export const recipientExistsInCycle = async (employeeNumber) => {
+
+  const [, result] = await api.get(`/recipients/admin/exists/${employeeNumber}`);
+  return result;
+};
+
 export default null;
