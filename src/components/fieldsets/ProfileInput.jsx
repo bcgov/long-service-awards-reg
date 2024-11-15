@@ -195,6 +195,7 @@ export default function ProfileInput({ type }) {
                     
                     // Check if recipient employee number is unique in cycle (LSA-478)
                     const duplicate = await validators.recipientUniqueInCycle(input);
+                    
                     // continue button validates form again, and this triggers a validation error because number has been registered already
                     console.log("(Profile) Validate duplicate returned " +duplicate);
                     //return !duplicate || "Employee number has already been registered for this cycle."
