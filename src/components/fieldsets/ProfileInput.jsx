@@ -176,7 +176,7 @@ export default function ProfileInput({ type }) {
 
                     const [ input, rowData ] = values;
                     
-                    const { services, status } = rowData || {};
+                    const { services } = rowData || {};
                     const hasServices = (services || []).some(
                       (service) => service.cycle === currentCycle
                     );
@@ -198,9 +198,10 @@ export default function ProfileInput({ type }) {
 
                     // continue button validates form again, and this triggers a validation error because number has been registered already
                     console.log("(Profile) Validate duplicate returned " +duplicate);
-                    //return !duplicate || "Employee number has already been registered for this cycle."
+                    
                     setPassedUniqueConstraint(!duplicate);
-                    return passedUniqueConstraint || "Employee number has already been registered for this cycle.";
+                    return !duplicate || "Employee number has already been registered for this cycle.";
+                  
                   }
                 }
               }}

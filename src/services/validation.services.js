@@ -103,7 +103,6 @@ export const validators = {
     };
 
     const exists = await getRecipientExistsInCycle(data);
-    console.log('exists ' +exists);
     return exists;
   },
 
