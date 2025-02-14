@@ -40,7 +40,15 @@ export default function MilestoneInput({ type, threshold }) {
   useEffect(() => {
     getMilestones().then(setMilestones).catch(console.error);
     getQualifyingYears()
-      .then((data) => setQualifyingYears(data.slice(0, -1)))
+      .then((qualifyingYears) => {
+        const currentYear = qualifyingYears.filter(
+          (years) => years.current == true
+        )[0]?.name;
+        const selectableYears = qualifyingYears.filter(
+          (years) => years.name > currentYear - 5
+        );
+        setQualifyingYears(selectableYears);
+      })
       .catch(console.error);
   }, [registration]);
 
