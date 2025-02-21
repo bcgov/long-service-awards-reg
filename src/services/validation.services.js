@@ -9,6 +9,8 @@
  * Regular expression patterns for validation checks
  * **/
 
+import {recipientExistsInCycle} from "../services/api.routes.js";
+
 export const matchers = {
   employeeNumber: /^\d{6}$/i,
   govEmail: /^[A-Z0-9._%+-]+@(?:[A-Z0-9-]+\.)+[A-Z]{2,4}$/i,
@@ -18,7 +20,6 @@ export const matchers = {
   guid: /^[0-9a-fA-F]{8}[0-9a-fA-F]{4}[0-9a-fA-F]{4}[0-9a-fA-F]{4}[0-9a-fA-F]{12}$/,
   alphanumeric: /^[a-z0-9]+$/i
 }
-
 
 export const validators = {
 
@@ -79,7 +80,31 @@ export const validators = {
     return !data || !!String(data)
         .toLowerCase()
         .match(matchers.postal_code);
-  }
+  },
+
+  /**
+   * Check if recipient employee number is unique in cycle (LSA-478)
+   * Returns true if there is already a recipient for this cycle
+   * */
+
+  recipientExistsInCycle: async (data) => {
+
+    const getRecipientExistsInCycle = async (employeeNumber) => {
+
+      const res = await recipientExistsInCycle(employeeNumber);
+      
+      if ( res == null ) {
+
+        // In case an error occurs, we return false to allow registration to continue
+        return false;
+      }
+
+      return res;
+    };
+
+    const exists = await getRecipientExistsInCycle(data);
+    return exists;
+  },
 
 }
 

@@ -22,7 +22,7 @@
     "postcss-nesting": "^10.2.0",
     "primeflex": "^3.3.0",
     "primeicons": "^6.0.1",
-    "primereact": "^9.2.0",
+    "primereact": "^10.8.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.40.0",

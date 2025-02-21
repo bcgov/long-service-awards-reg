@@ -11,7 +11,8 @@ import classNames from "classnames";
 import { matchers } from "@/services/validation.services.js";
 import InfoToolTip from "@/components/common/InfoToolTip.jsx";
 import { Panel } from "primereact/panel";
-import { SelectButton } from "primereact/selectbutton";
+//import { SelectButton } from "primereact/selectbutton";
+import { RadioButton } from 'primereact/radiobutton';
 import { useContext, useEffect, useState } from "react";
 import AddressInput from "@/components/fieldsets/AddressInput.jsx";
 import { BlockUI } from "primereact/blockui";
@@ -172,16 +173,32 @@ export default function SupervisorContactInput() {
               <div className="grid">
                 <div className="col-12 form-field-container">
                   <div className="flex align-items-center">
-                    <SelectButton
-                      className={"radio-toggle"}
-                      value={sameAddress ? "Yes" : "No"}
+                    <RadioButton
+                      inputId="sameAddressYes"
+                      name="sameAddress"
+                      value="Yes"
+                      checked={sameAddress}
                       onChange={(e) => {
                         _handleSameAddress(e.value === "Yes");
                       }}
-                      options={["Yes", "No"]}
+                      />
+                    <label className={"ml-3"} htmlFor="sameAddressYes">
+                      Yes, supervisor office address is the same as my office address
+                    </label>
+                  </div>
+                  
+                  <div className="flex align-items-center">
+                    <RadioButton
+                      inputId="sameAddressNo"
+                      name="sameAddress"
+                      value="No"
+                      checked={!sameAddress}
+                      onChange={(e) => {
+                        _handleSameAddress(e.value === "Yes");
+                      }}
                     />
-                    <label className={"ml-3"}>
-                      Supervisor office address is the same as my office address
+                    <label className={"ml-3"} htmlFor="sameAddressNo">
+                      No, supervisor office address is different from my office address
                     </label>
                   </div>
                 </div>
