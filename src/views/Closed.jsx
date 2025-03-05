@@ -41,9 +41,7 @@ export default function Closed() {
           The Long Service Awards celebrate the dedication and commitment of
           employees with 25, 30, 35, 40, 45 and 50 year careers in the BC Public
           Service. Long Service Award ceremonies are prestigious and memorable
-          events held at Government House in Victoria, the official residence of
-          B.C.'s Lieutenant Governor and the ceremonial home for all British
-          Columbians.
+          events held in Victoria this fall.
         </p>
       </Panel>
       <Panel header="Service Pin Registration">
