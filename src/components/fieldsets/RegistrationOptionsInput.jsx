@@ -28,8 +28,8 @@ export default function RegistrationOptionsInput() {
     <Panel className={"mb-3"} header={<>Registration Options</>}>
       <div className="container">
         <p>
-          Have you previously registered for this milestone (in the last 2
-          years) and were unable to attend your ceremony?
+          Did you register for this milestone last year and were unable to
+          attend?
         </p>
         <div className="grid">
           <div className="col-12 form-field-container">
