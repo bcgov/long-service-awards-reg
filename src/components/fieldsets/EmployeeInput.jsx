@@ -88,6 +88,8 @@ export default function EmployeeInput({ index, remove }) {
           : prev
       );
     // set estimated current milestone (service years must be at least >= minimum milestone)
+    const milestone = serviceYears >= min ? estimate : "";
+    
     setValue(
       `employees.${index}.service.milestone`,
       milestone
