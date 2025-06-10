@@ -89,17 +89,13 @@ export default function EmployeeInput({ index, remove }) {
       );
     // set estimated current milestone (service years must be at least >= minimum milestone)
     const milestone = serviceYears >= min ? estimate : "";
-    setValue(
-      `employees.${index}.service.milestone`,
-      milestone
-    );
 
-    // LSA-549 Add a note if a registration is eligible for an LSA
-    if ( milestone >= 25 ) {
+    setValue(`employees.${index}.service.milestone`, milestone);
 
+    // LSA-549 Add a note if a delegated registration is eligible for an LSA
+    if (milestone >= 25) {
       setValue(`employees.${index}.notes`, "Delegated LSA registration");
     } else {
-      
       setValue(`employees.${index}.notes`, "");
     }
   };
