@@ -47,7 +47,7 @@ export default function OfficeContactInput() {
                 rules={{
                   pattern: {
                     value: matchers.phone,
-                    message: "Invalid phone number. E.g. (555)-555-5555",
+                    message: "Invalid phone number. E.g. 555-555-5555",
                   },
                 }}
                 render={({ field, fieldState: { invalid, error } }) => (
@@ -55,12 +55,10 @@ export default function OfficeContactInput() {
                     <InputMask
                       id={field.name}
                       value={field.value || ""}
-                      mask="(999) 999-9999? x99999"
+                      mask="999-999-9999?"
                       autoClear={false}
                       onChange={(e) => field.onChange(e.target.value)}
-                      placeholder={
-                        "Office phone number Ex. (999) 999-9999 x99999"
-                      }
+                      placeholder={"Office phone number Ex. 999-999-9999"}
                       aria-describedby={"office-phone-help"}
                       className={classNames({ "p-invalid": error })}
                     />

@@ -30,7 +30,7 @@ export default function AddressInput({ id, label, pobox }) {
   const checkPobox = () => {
     setPoboxRequired(
       getValues(`${id}.province`) === "British Columbia" &&
-        getValues(`${id}.community`) === "Victoria"
+        getValues(`${id}.community`) === "Victoria",
     );
   };
   useEffect(() => {
@@ -38,11 +38,11 @@ export default function AddressInput({ id, label, pobox }) {
   }, []);
 
   return (
-    <Fieldset className={"mb-3"} legend={<>{label} Address</>}>
+    <Fieldset className={"mb-3"} legend={<>{label} Street Address</>}>
       <div className="container">
         <div className="grid">
           <div className={"col-12 form-field-container"}>
-            <label htmlFor={`${id}.street1`}>Address line 1</label>
+            <label htmlFor={`${id}.street1`}>Street Address</label>
             <Controller
               name={`${id}.street1`}
               control={control}
@@ -56,14 +56,14 @@ export default function AddressInput({ id, label, pobox }) {
                     aria-describedby={`${id}-street1-help`}
                     onChange={(e) => field.onChange(e.target.value)}
                     className={classNames({ "p-invalid": error })}
-                    placeholder="Address line 1"
+                    placeholder="Enter your Street Address"
                   />
                   {invalid && <p className="error">{error.message}</p>}
                 </>
               )}
             />
           </div>
-          <div className={"col-12 form-field-container"}>
+          {/* <div className={"col-12 form-field-container"}>
             <label htmlFor={`${id}.street2`}>Address line 2</label>
             <Controller
               name={`${id}.street2`}
@@ -83,7 +83,7 @@ export default function AddressInput({ id, label, pobox }) {
                 </>
               )}
             />
-          </div>
+          </div> */}
           <div className={"col-12 form-field-container"}>
             <label htmlFor={`${id}.community`}>City/Community</label>
             <Controller
@@ -110,7 +110,7 @@ export default function AddressInput({ id, label, pobox }) {
                           })
                           .map(({ name }) => {
                             return name;
-                          })
+                          }),
                       );
                     }}
                     aria-describedby={`communities-help`}
@@ -174,7 +174,7 @@ export default function AddressInput({ id, label, pobox }) {
                     onBlur={() => {
                       setValue(
                         `${id}.postal_code`,
-                        String(field.value).toUpperCase()
+                        String(field.value).toUpperCase(),
                       );
                     }}
                     aria-describedby={`postal-code-help`}
