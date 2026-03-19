@@ -55,7 +55,7 @@ export default function OfficeContactInput() {
                     <InputMask
                       id={field.name}
                       value={field.value || ""}
-                      mask="999-999-9999?"
+                      mask="999-999-9999"
                       autoClear={false}
                       onChange={(e) => field.onChange(e.target.value)}
                       placeholder={"Office phone number Ex. 999-999-9999"}
