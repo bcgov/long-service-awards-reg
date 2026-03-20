@@ -197,6 +197,7 @@ export default function AddressInput({ id, label, pobox }) {
                     className={"w-full"}
                     id={field.name}
                     value={"Canada"}
+                    onChange={(e) => field.onChange(e.target.value)}
                   />
                 </>
               )}
