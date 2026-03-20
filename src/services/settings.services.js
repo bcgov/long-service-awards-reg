@@ -359,15 +359,15 @@ const schemaData = {
       route: "/service-pins/self/contact",
       default: {
         // personal_phone: "",
-        // personal_address: {
-        //   pobox: "",
-        //   street1: "",
-        //   street2: "",
-        //   postal_code: "",
-        //   community: "",
-        //   province: "British Columbia",
-        //   country: "Canada",
-        // },
+        personal_address: {
+          pobox: "",
+          street1: "",
+          street2: "",
+          postal_code: "",
+          community: "",
+          province: "British Columbia",
+          country: "Canada",
+        },
         // office_phone: "",
         office_address: {
           pobox: "",
