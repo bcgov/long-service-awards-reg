@@ -131,6 +131,7 @@ const schemaData = {
               { key: "street1", validators: [validators.required] },
               { key: "community", validators: [validators.required] },
               { key: "province", validators: [validators.required] },
+              { key: "country", validators: [validators.required] },
               {
                 key: "postal_code",
                 validators: [validators.required, validators.postal_code],
@@ -143,6 +144,7 @@ const schemaData = {
               { key: "street1", validators: [validators.required] },
               { key: "community", validators: [validators.required] },
               { key: "province", validators: [validators.required] },
+              { key: "country", validators: [validators.required] },
               {
                 key: "postal_code",
                 validators: [validators.required, validators.postal_code],
