@@ -71,7 +71,7 @@ const schemaData = {
               { key: "personal_email", validators: [validators.email] },
               { key: "office_phone", validators: [validators.phone] },
             ],
-            contact
+            contact,
           ) &&
           validate(
             [
@@ -83,7 +83,7 @@ const schemaData = {
               { key: "division", validators: [validators.required] },
               { key: "branch", validators: [validators.required] },
             ],
-            data
+            data,
           )
         );
       },
@@ -124,31 +124,33 @@ const schemaData = {
         return (
           validate(
             [{ key: "personal_phone", validators: [validators.phone] }],
-            contact
+            contact,
           ) &&
           validate(
             [
               { key: "street1", validators: [validators.required] },
               { key: "community", validators: [validators.required] },
               { key: "province", validators: [validators.required] },
+              { key: "country", validators: [validators.required] },
               {
                 key: "postal_code",
                 validators: [validators.required, validators.postal_code],
               },
             ],
-            personal_address
+            personal_address,
           ) &&
           validate(
             [
               { key: "street1", validators: [validators.required] },
               { key: "community", validators: [validators.required] },
               { key: "province", validators: [validators.required] },
+              { key: "country", validators: [validators.required] },
               {
                 key: "postal_code",
                 validators: [validators.required, validators.postal_code],
               },
             ],
-            office_address
+            office_address,
           )
         );
       },
@@ -193,7 +195,7 @@ const schemaData = {
                 return !!(options || []).find(
                   ({ award, type }) =>
                     (award_option || {}).hasOwnProperty("type") &&
-                    award_option.type === type
+                    award_option.type === type,
                 );
               }))
         );
@@ -235,7 +237,7 @@ const schemaData = {
                 validators: [validators.required, validators.email],
               },
             ],
-            supervisor
+            supervisor,
           ) &&
           (organization.bulk ||
             validate(
@@ -248,7 +250,7 @@ const schemaData = {
                   validators: [validators.required, validators.postal_code],
                 },
               ],
-              office_address
+              office_address,
             ))
         );
       },
@@ -269,7 +271,7 @@ const schemaData = {
         const { service } = data || {};
         return validate(
           [{ key: "confirmed", validators: [validators.required] }],
-          service
+          service,
         );
       },
     },
@@ -313,6 +315,7 @@ const schemaData = {
           last_name: "",
           office_email: "",
           office_phone: "",
+          personal_phone: "",
         },
         employee_number: "",
         organization: "",
@@ -333,7 +336,7 @@ const schemaData = {
               { key: "personal_email", validators: [validators.email] },
               { key: "office_phone", validators: [validators.phone] },
             ],
-            contact
+            contact,
           ) &&
           validate(
             [
@@ -345,7 +348,7 @@ const schemaData = {
               { key: "division", validators: [validators.required] },
               { key: "branch", validators: [validators.required] },
             ],
-            data
+            data,
           )
         );
       },
@@ -357,6 +360,17 @@ const schemaData = {
       description: "Your personal contact information",
       route: "/service-pins/self/contact",
       default: {
+        // personal_phone: "",
+        personal_address: {
+          pobox: "",
+          street1: "",
+          street2: "",
+          postal_code: "",
+          community: "",
+          province: "British Columbia",
+          country: "Canada",
+        },
+        // office_phone: "",
         office_address: {
           pobox: "",
           street1: "",
@@ -369,18 +383,40 @@ const schemaData = {
       },
       validate: (data) => {
         const { contact } = data || {};
-        const { office_address } = contact || {};
-        return validate(
-          [
-            { key: "street1", validators: [validators.required] },
-            { key: "community", validators: [validators.required] },
-            { key: "province", validators: [validators.required] },
-            {
-              key: "postal_code",
-              validators: [validators.required, validators.postal_code],
-            },
-          ],
-          office_address
+        const { office_address, personal_address } = contact || {};
+        return (
+          validate(
+            [{ key: "personal_phone", validators: [validators.phone] }],
+            contact,
+          ) &&
+          validate(
+            [{ key: "office_phone", validators: [validators.phone] }],
+            contact,
+          ) &&
+          validate(
+            [
+              { key: "street1", validators: [validators.required] },
+              { key: "community", validators: [validators.required] },
+              { key: "province", validators: [validators.required] },
+              {
+                key: "postal_code",
+                validators: [validators.required, validators.postal_code],
+              },
+            ],
+            office_address,
+          ) &&
+          validate(
+            [
+              { key: "street1", validators: [validators.required] },
+              { key: "community", validators: [validators.required] },
+              { key: "province", validators: [validators.required] },
+              {
+                key: "postal_code",
+                validators: [validators.required, validators.postal_code],
+              },
+            ],
+            personal_address,
+          )
         );
       },
     },
@@ -420,7 +456,7 @@ const schemaData = {
                 validators: [validators.required, validators.email],
               },
             ],
-            supervisor
+            supervisor,
           ) &&
           (organization.bulk ||
             validate(
@@ -433,7 +469,7 @@ const schemaData = {
                   validators: [validators.required, validators.postal_code],
                 },
               ],
-              office_address
+              office_address,
             ))
         );
       },
@@ -454,7 +490,7 @@ const schemaData = {
         const { service } = data || {};
         return validate(
           [{ key: "confirmed", validators: [validators.required] }],
-          service
+          service,
         );
       },
     },
@@ -511,7 +547,7 @@ const schemaData = {
                 validators: [validators.required, validators.email],
               },
             ],
-            contact
+            contact,
           ) &&
           validate(
             [
@@ -519,7 +555,7 @@ const schemaData = {
               { key: "milestone", validators: [validators.required] },
               { key: "qualifying_year", validators: [validators.required] },
             ],
-            service
+            service,
           ) &&
           validate(
             [
@@ -529,7 +565,7 @@ const schemaData = {
               },
               { key: "organization", validators: [validators.required] },
             ],
-            data
+            data,
           )
         );
       },

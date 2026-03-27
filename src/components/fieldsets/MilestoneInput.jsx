@@ -42,10 +42,10 @@ export default function MilestoneInput({ type, threshold }) {
     getQualifyingYears()
       .then((qualifyingYears) => {
         const currentYear = qualifyingYears.filter(
-          (years) => years.current == true
+          (years) => years.current == true,
         )[0]?.name;
         const selectableYears = qualifyingYears.filter(
-          (years) => years.name > currentYear - 5
+          (years) => years.name > currentYear - 5,
         );
         setQualifyingYears(selectableYears);
       })
@@ -69,7 +69,7 @@ export default function MilestoneInput({ type, threshold }) {
         Math.abs(curr - serviceYears) < Math.abs(prev - serviceYears) &&
         serviceYears >= curr
           ? curr
-          : prev
+          : prev,
       );
     // set estimated current milestone (service years must be at least >= minimum milestone)
     setValue(`service.milestone`, serviceYears >= min ? estimate : "");
@@ -168,7 +168,20 @@ export default function MilestoneInput({ type, threshold }) {
             <Controller
               name={`service.qualifying_year`}
               control={control}
-              rules={{ required: "Qualifying Year is required." }}
+              rules={{
+                validate: (value) => {
+                  if (
+                    !getValues(`service.service_years`) ||
+                    !currentMilestone
+                  ) {
+                    return "Enter your service years to continue.";
+                  }
+                  if (currentMilestone < threshold) {
+                    return `You need at least ${threshold} years to claim a Long Service Award.`;
+                  }
+                  return value ? true : "Qualifying Year is required.";
+                },
+              }}
               render={({ field, fieldState: { invalid, error } }) => (
                 <>
                   <Dropdown
@@ -188,6 +201,7 @@ export default function MilestoneInput({ type, threshold }) {
                     tooltipOptions={{ position: "top" }}
                     placeholder={`During which year was this milestone reached?`}
                   />
+                  {currentMilestone > 0 && currentMilestone < threshold}
                   {invalid && <p className="error">{error.message}</p>}
                 </>
               )}
