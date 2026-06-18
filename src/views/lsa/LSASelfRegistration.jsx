@@ -93,6 +93,7 @@ export default function LSASelfRegistration() {
       setLoading(true);
       const { service } = data || {};
       const { confirmed } = service || {};
+      data.service.service_pin = false;
       const [error, result] = await saveSelfRegistration(data);
       toast.current.replace(
         formServices.lookup(
