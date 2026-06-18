@@ -252,6 +252,7 @@ CREATE TABLE IF NOT EXISTS public.service_selections
     confirmed boolean NOT NULL DEFAULT 'false',
     ceremony_opt_out boolean NOT NULL DEFAULT 'false',
     survey_opt_in boolean NOT NULL DEFAULT 'false',
+    service_pin boolean,
     created_at timestamp with time zone NOT NULL DEFAULT 'now()',
     updated_at timestamp with time zone NOT NULL DEFAULT 'now()',
     CONSTRAINT service_selection_id PRIMARY KEY (id),
